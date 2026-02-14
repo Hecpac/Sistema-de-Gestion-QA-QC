@@ -29,6 +29,7 @@ sgc-agent --task "Valida trazabilidad documental del SGC"
 Comando de control determinista:
 ```bash
 sgc-build-indexes
+sgc-build-dashboard
 ```
 
 Variables:

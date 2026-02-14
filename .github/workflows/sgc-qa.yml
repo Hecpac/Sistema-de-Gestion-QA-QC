@@ -29,12 +29,14 @@ jobs:
       - name: Run unit tests (P1..P5 + regressions)
         run: pytest -q agent_runtime/tests
 
-      - name: Rebuild control indexes
-        run: sgc-build-indexes --repo-root "$GITHUB_WORKSPACE"
+      - name: Rebuild control indexes and dashboard
+        run: |
+          sgc-build-indexes --repo-root "$GITHUB_WORKSPACE"
+          sgc-build-dashboard --repo-root "$GITHUB_WORKSPACE"
 
       - name: Verify generated artifacts are up to date
         run: |
-          git diff --exit-code -- docs/_control/lmd.yml docs/_control/matriz_registros.yml
+          git diff --exit-code -- docs/_control/lmd.yml docs/_control/matriz_registros.yml docs/_control/dashboard_sgc.html
 
       - name: Run deterministic QA gate
         env:

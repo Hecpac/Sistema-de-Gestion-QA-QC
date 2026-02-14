@@ -19,9 +19,10 @@ pip install -e .
 sgc-agent --task "Genera un borrador de PR-SGC-02 y valida control documental"
 ```
 
-## Rebuild de indices
+## Rebuild de indices y dashboard
 ```bash
 sgc-build-indexes
+sgc-build-dashboard
 ```
 
 ## Diseno

@@ -1,0 +1,480 @@
+<!doctype html>
+<html lang="es">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Dashboard SGC</title>
+  <style>
+    @import url("https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;700&family=IBM+Plex+Mono:wght@400;600&display=swap");
+
+    :root {
+      --bg: #f6f3ea;
+      --panel: #fffef8;
+      --ink: #102a3a;
+      --muted: #5a6771;
+      --line: #d8ddd2;
+      --ok: #0f766e;
+      --warn: #b45309;
+      --bad: #b42318;
+      --accent: #005f73;
+      --accent-soft: #d9f0ec;
+    }
+
+    * { box-sizing: border-box; }
+    body {
+      margin: 0;
+      font-family: "Space Grotesk", sans-serif;
+      color: var(--ink);
+      background: radial-gradient(circle at 12% 8%, #d9f0ec 0, rgba(217,240,236,0) 46%),
+                  radial-gradient(circle at 88% 3%, #ffe3c3 0, rgba(255,227,195,0) 42%),
+                  var(--bg);
+      line-height: 1.4;
+    }
+
+    main {
+      max-width: 1180px;
+      margin: 0 auto;
+      padding: 28px 18px 44px;
+    }
+
+    .hero {
+      background: linear-gradient(120deg, #fffef8 0%, #eef7f5 100%);
+      border: 1px solid var(--line);
+      border-radius: 18px;
+      padding: 22px;
+      box-shadow: 0 18px 38px rgba(16, 42, 58, 0.08);
+      animation: fadeUp .45s ease both;
+    }
+
+    h1 { margin: 0; font-size: clamp(1.5rem, 2.4vw, 2.25rem); }
+    h2 { margin: 3px 0 0; color: var(--muted); font-size: 1rem; font-weight: 500; }
+    h3 { margin: 0 0 14px; font-size: 1.02rem; }
+
+    .meta {
+      margin-top: 14px;
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+      align-items: center;
+      font-family: "IBM Plex Mono", monospace;
+      font-size: .85rem;
+      color: var(--muted);
+    }
+
+    .cards {
+      margin-top: 16px;
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(170px, 1fr));
+      gap: 12px;
+    }
+
+    .card {
+      background: var(--panel);
+      border: 1px solid var(--line);
+      border-radius: 12px;
+      padding: 12px;
+      min-height: 102px;
+      display: grid;
+      align-content: space-between;
+    }
+
+    .card p { margin: 0; color: var(--muted); font-size: .88rem; }
+    .card strong { font-size: 2rem; line-height: 1; }
+    .card.ok strong { color: var(--ok); }
+    .card.warn strong { color: var(--warn); }
+    .card.bad strong { color: var(--bad); }
+
+    .grid {
+      margin-top: 16px;
+      display: grid;
+      grid-template-columns: repeat(12, 1fr);
+      gap: 12px;
+    }
+
+    .panel {
+      background: var(--panel);
+      border: 1px solid var(--line);
+      border-radius: 14px;
+      padding: 14px;
+      box-shadow: 0 10px 24px rgba(16, 42, 58, 0.06);
+    }
+
+    .col-6 { grid-column: span 6; }
+    .col-12 { grid-column: span 12; }
+
+    .dist-row {
+      display: grid;
+      grid-template-columns: 130px 1fr 36px;
+      gap: 10px;
+      align-items: center;
+      margin-bottom: 9px;
+      font-size: .88rem;
+    }
+
+    .dist-label { color: var(--muted); }
+    .dist-track {
+      height: 12px;
+      background: #e9ece3;
+      border-radius: 999px;
+      overflow: hidden;
+    }
+
+    .dist-track span {
+      display: block;
+      height: 100%;
+      background: linear-gradient(90deg, var(--accent) 0%, #22a39f 100%);
+      border-radius: 999px;
+    }
+
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      font-size: .88rem;
+    }
+
+    th, td {
+      border-bottom: 1px solid var(--line);
+      text-align: left;
+      padding: 9px 7px;
+      vertical-align: top;
+    }
+
+    th {
+      color: #334155;
+      background: #f3f7f3;
+      font-weight: 600;
+      position: sticky;
+      top: 0;
+    }
+
+    .badge {
+      display: inline-flex;
+      align-items: center;
+      padding: 3px 8px;
+      border-radius: 999px;
+      font-size: .76rem;
+      font-weight: 700;
+      letter-spacing: .02em;
+      border: 1px solid transparent;
+    }
+
+    .badge.ok { color: var(--ok); border-color: #97d6cb; background: #edf9f6; }
+    .badge.warn { color: var(--warn); border-color: #f4cf9f; background: #fff6e8; }
+    .badge.bad { color: var(--bad); border-color: #f0b4ad; background: #fff0ee; }
+
+    .muted { color: var(--muted); }
+
+    .footer {
+      margin-top: 15px;
+      font-family: "IBM Plex Mono", monospace;
+      font-size: .8rem;
+      color: var(--muted);
+    }
+
+    .stagger-1 { animation: fadeUp .55s ease both; }
+    .stagger-2 { animation: fadeUp .65s ease both; }
+
+    @keyframes fadeUp {
+      from { opacity: 0; transform: translateY(8px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    @media (max-width: 900px) {
+      .col-6 { grid-column: span 12; }
+      .dist-row { grid-template-columns: 1fr; gap: 4px; }
+    }
+  </style>
+</head>
+<body>
+  <main>
+    <section class="hero">
+      <h1>Dashboard SGC</h1>
+      <h2>Control documental + trazabilidad + cumplimiento QA</h2>
+      <div class="meta">
+        <span>QA corte: 2026-02-14</span>
+        <span>Corte dashboard: 2026-02-14</span>
+        <span class="badge ok">Cumplimiento estable</span>
+      </div>
+      <div class="cards">
+        <article class="card ok stagger-1">
+          <p>Documentos controlados</p>
+          <strong>31</strong>
+        </article>
+        
+        <article class="card ok stagger-1">
+          <p>Documentos vigentes</p>
+          <strong>10</strong>
+        </article>
+        
+        <article class="card ok stagger-1">
+          <p>Registros en matriz</p>
+          <strong>16</strong>
+        </article>
+        
+        <article class="card ok stagger-1">
+          <p>Hallazgos QA</p>
+          <strong>0</strong>
+        </article>
+        
+        <article class="card warn stagger-1">
+          <p>Pendientes matriz</p>
+          <strong>16</strong>
+        </article>
+        </div>
+    </section>
+
+    <section class="grid">
+      <div class="col-6">
+    <section class="panel stagger-2">
+      <h3>Distribucion por estado</h3>
+      <div class="dist-grid">
+            <div class="dist-row">
+              <div class="dist-label">BORRADOR</div>
+              <div class="dist-track"><span style="width:67.74%"></span></div>
+              <div class="dist-value">21</div>
+            </div>
+            
+            <div class="dist-row">
+              <div class="dist-label">VIGENTE</div>
+              <div class="dist-track"><span style="width:32.26%"></span></div>
+              <div class="dist-value">10</div>
+            </div>
+            </div>
+    </section>
+    </div>
+      <div class="col-6">
+    <section class="panel stagger-2">
+      <h3>Distribucion por tipo documental</h3>
+      <div class="dist-grid">
+            <div class="dist-row">
+              <div class="dist-label">FOR</div>
+              <div class="dist-track"><span style="width:48.39%"></span></div>
+              <div class="dist-value">15</div>
+            </div>
+            
+            <div class="dist-row">
+              <div class="dist-label">PR</div>
+              <div class="dist-track"><span style="width:25.81%"></span></div>
+              <div class="dist-value">8</div>
+            </div>
+            
+            <div class="dist-row">
+              <div class="dist-label">ESP</div>
+              <div class="dist-track"><span style="width:16.13%"></span></div>
+              <div class="dist-value">5</div>
+            </div>
+            
+            <div class="dist-row">
+              <div class="dist-label">PLAN</div>
+              <div class="dist-track"><span style="width:6.45%"></span></div>
+              <div class="dist-value">2</div>
+            </div>
+            
+            <div class="dist-row">
+              <div class="dist-label">POL</div>
+              <div class="dist-track"><span style="width:3.23%"></span></div>
+              <div class="dist-value">1</div>
+            </div>
+            </div>
+    </section>
+    </div>
+
+      <section class="panel col-6 stagger-2">
+        <h3>Pipeline QA deterministico</h3>
+        
+    <table>
+      <thead>
+        <tr>
+          <th>Chequeo</th>
+          <th>Estado</th>
+          <th>Hallazgos</th>
+        </tr>
+      </thead>
+      <tbody>
+            <tr>
+              <td>auditar_invariantes_de_estado</td>
+              <td><span class="badge ok">OK</span></td>
+              <td>0</td>
+            </tr>
+            
+            <tr>
+              <td>resolver_grafo_documental</td>
+              <td><span class="badge ok">OK</span></td>
+              <td>0</td>
+            </tr>
+            
+            <tr>
+              <td>detectar_formatos_huerfanos</td>
+              <td><span class="badge ok">OK</span></td>
+              <td>0</td>
+            </tr>
+            
+            <tr>
+              <td>validar_trazabilidad (P1..P5)</td>
+              <td><span class="badge ok">OK</span></td>
+              <td>0</td>
+            </tr>
+            </tbody>
+    </table>
+    
+      </section>
+
+      <section class="panel col-6 stagger-2">
+        <h3>Resumen operativo</h3>
+        <p class="muted">Documentos en LMD: <strong>31</strong></p>
+        <p class="muted">Filas en matriz de registros: <strong>16</strong></p>
+        <p class="muted">Hallazgos QA: <strong>0</strong></p>
+        <p class="muted">Este tablero se autogenera. No editar manualmente.</p>
+      </section>
+
+      <section class="panel col-12 stagger-2">
+        <h3>Matriz de registros (calidad de dato)</h3>
+        
+    <table>
+      <thead>
+        <tr>
+          <th>Codigo registro</th>
+          <th>Formato origen</th>
+          <th>Responsable</th>
+          <th>Retencion</th>
+          <th>Calidad de dato</th>
+        </tr>
+      </thead>
+      <tbody>
+            <tr>
+              <td>REG-SGC-CAP</td>
+              <td>FOR-SGC-14</td>
+              <td>&lt;DEFINIR&gt;</td>
+              <td>TODO: Definir</td>
+              <td><span class="badge warn">Pendiente</span></td>
+            </tr>
+            
+            <tr>
+              <td>REG-SGC-CAPA</td>
+              <td>FOR-SGC-03</td>
+              <td>&lt;DEFINIR&gt;</td>
+              <td>TODO: Definir</td>
+              <td><span class="badge warn">Pendiente</span></td>
+            </tr>
+            
+            <tr>
+              <td>REG-SGC-CDC</td>
+              <td>FOR-SGC-01</td>
+              <td>&lt;DEFINIR&gt;</td>
+              <td>TODO: Definir (ej. 3 anos)</td>
+              <td><span class="badge warn">Pendiente</span></td>
+            </tr>
+            
+            <tr>
+              <td>REG-SGC-COM</td>
+              <td>FOR-SGC-01</td>
+              <td>&lt;DEFINIR&gt;</td>
+              <td>TODO: Definir</td>
+              <td><span class="badge warn">Pendiente</span></td>
+            </tr>
+            
+            <tr>
+              <td>REG-SGC-COMP</td>
+              <td>FOR-SGC-13</td>
+              <td>&lt;DEFINIR&gt;</td>
+              <td>TODO: Definir</td>
+              <td><span class="badge warn">Pendiente</span></td>
+            </tr>
+            
+            <tr>
+              <td>REG-SGC-EFI-CAP</td>
+              <td>FOR-SGC-15</td>
+              <td>&lt;DEFINIR&gt;</td>
+              <td>TODO: Definir</td>
+              <td><span class="badge warn">Pendiente</span></td>
+            </tr>
+            
+            <tr>
+              <td>REG-SGC-INF-AUD</td>
+              <td>FOR-SGC-06</td>
+              <td>&lt;DEFINIR&gt;</td>
+              <td>TODO: Definir</td>
+              <td><span class="badge warn">Pendiente</span></td>
+            </tr>
+            
+            <tr>
+              <td>REG-SGC-KPI</td>
+              <td>FOR-SGC-08</td>
+              <td>&lt;DEFINIR&gt;</td>
+              <td>TODO: Definir</td>
+              <td><span class="badge warn">Pendiente</span></td>
+            </tr>
+            
+            <tr>
+              <td>REG-SGC-NC</td>
+              <td>FOR-SGC-02</td>
+              <td>&lt;DEFINIR&gt;</td>
+              <td>TODO: Definir</td>
+              <td><span class="badge warn">Pendiente</span></td>
+            </tr>
+            
+            <tr>
+              <td>REG-SGC-PLAN-AUD</td>
+              <td>FOR-SGC-05</td>
+              <td>&lt;DEFINIR&gt;</td>
+              <td>TODO: Definir</td>
+              <td><span class="badge warn">Pendiente</span></td>
+            </tr>
+            
+            <tr>
+              <td>REG-SGC-PROG-AUD</td>
+              <td>FOR-SGC-04</td>
+              <td>&lt;DEFINIR&gt;</td>
+              <td>TODO: Definir</td>
+              <td><span class="badge warn">Pendiente</span></td>
+            </tr>
+            
+            <tr>
+              <td>REG-SGC-PROV</td>
+              <td>FOR-SGC-12</td>
+              <td>&lt;DEFINIR&gt;</td>
+              <td>TODO: Definir</td>
+              <td><span class="badge warn">Pendiente</span></td>
+            </tr>
+            
+            <tr>
+              <td>REG-SGC-RD</td>
+              <td>FOR-SGC-09</td>
+              <td>&lt;DEFINIR&gt;</td>
+              <td>TODO: Definir</td>
+              <td><span class="badge warn">Pendiente</span></td>
+            </tr>
+            
+            <tr>
+              <td>REG-SGC-RISK</td>
+              <td>FOR-SGC-10</td>
+              <td>&lt;DEFINIR&gt;</td>
+              <td>TODO: Definir</td>
+              <td><span class="badge warn">Pendiente</span></td>
+            </tr>
+            
+            <tr>
+              <td>REG-SGC-RISK-PLAN</td>
+              <td>FOR-SGC-11</td>
+              <td>&lt;DEFINIR&gt;</td>
+              <td>TODO: Definir</td>
+              <td><span class="badge warn">Pendiente</span></td>
+            </tr>
+            
+            <tr>
+              <td>REG-SGC-SEG-AUD</td>
+              <td>FOR-SGC-07</td>
+              <td>&lt;DEFINIR&gt;</td>
+              <td>TODO: Definir</td>
+              <td><span class="badge warn">Pendiente</span></td>
+            </tr>
+            </tbody>
+    </table>
+    
+      </section>
+    </section>
+
+    <p class="footer">Fuente: lmd.yml + matriz_registros.yml + reporte_qa_compliance.md</p>
+  </main>
+</body>
+</html>
