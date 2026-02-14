@@ -1,0 +1,8 @@
+# Project-scoped Codex configuration
+# Codex reads .codex/config.toml when the project is trusted.
+
+model = "gpt-5.2"
+approval_policy = "on-request"
+sandbox_mode = "workspace-write"
+web_search = "cached"
+model_reasoning_effort = "high"

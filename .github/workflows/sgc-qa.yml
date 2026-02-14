@@ -1,0 +1,75 @@
+name: SGC QA Gate
+
+on:
+  pull_request:
+  push:
+    branches:
+      - main
+      - master
+
+jobs:
+  qa:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+
+      - name: Install dependencies
+        run: |
+          python -m pip install --upgrade pip
+          pip install -e ./agent_runtime
+          pip install pytest
+
+      - name: Run unit tests (P1..P5 + regressions)
+        run: pytest -q agent_runtime/tests
+
+      - name: Rebuild control indexes
+        run: sgc-build-indexes --repo-root "$GITHUB_WORKSPACE"
+
+      - name: Verify generated artifacts are up to date
+        run: |
+          git diff --exit-code -- docs/_control/lmd.yml docs/_control/matriz_registros.yml
+
+      - name: Run deterministic QA gate
+        env:
+          PYTHONPATH: agent_runtime
+          SGC_REPO_ROOT: ${{ github.workspace }}
+        run: |
+          python - <<'PY'
+          import sys
+          import yaml
+          from sgc_agents.tools.compliance_tools import (
+              auditar_invariantes_de_estado,
+              resolver_grafo_documental,
+              detectar_formatos_huerfanos,
+              auditar_trazabilidad_registros,
+              generar_reporte_qa_compliance,
+          )
+
+          print(generar_reporte_qa_compliance())
+
+          checks = [
+              yaml.safe_load(auditar_invariantes_de_estado()) or {},
+              yaml.safe_load(resolver_grafo_documental()) or {},
+              yaml.safe_load(detectar_formatos_huerfanos()) or {},
+              yaml.safe_load(auditar_trazabilidad_registros()) or {},
+          ]
+
+          total_findings = 0
+          for check in checks:
+              findings = check.get("hallazgos", [])
+              if isinstance(findings, list):
+                  total_findings += len(findings)
+
+          if total_findings:
+              print(f"QA gate failed. Hallazgos totales: {total_findings}", file=sys.stderr)
+              sys.exit(1)
+
+          print("QA gate passed with 0 hallazgos.")
+          PY

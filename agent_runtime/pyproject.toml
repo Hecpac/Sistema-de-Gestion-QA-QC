@@ -1,0 +1,25 @@
+[build-system]
+requires = ["setuptools>=68", "wheel"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "sgc-agent-runtime"
+version = "0.1.0"
+description = "Runtime de agentes SGC (ISO 9001) basado en OpenAI Agents SDK"
+requires-python = ">=3.11"
+dependencies = [
+  "openai-agents>=0.0.11",
+  "pydantic>=2.8.2",
+  "pyyaml>=6.0.1",
+]
+
+[project.scripts]
+sgc-agent = "sgc_agents.cli:main"
+sgc-build-indexes = "sgc_agents.tools.build_indexes:main"
+
+[tool.setuptools]
+package-dir = {"" = "."}
+
+[tool.setuptools.packages.find]
+where = ["."]
+include = ["sgc_agents*"]

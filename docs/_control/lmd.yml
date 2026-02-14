@@ -1,0 +1,253 @@
+# Lista Maestra de Documentos (LMD)
+# Archivo autogenerado. Fuente de verdad: frontmatter en docs/*.md
+# No editar manualmente. Ejecutar: sgc-build-indexes
+
+documentos:
+- codigo: ESP-SGC-01
+  titulo: Mapa de Procesos del SGC
+  tipo: ESP
+  proceso: SGC
+  version: '1.1'
+  estado: BORRADOR
+  fecha_vigencia: TBD
+  ubicacion: docs/02_mapa_procesos/ESP-SGC-01_Mapa_de_Procesos_del_SGC.md
+- codigo: ESP-SGC-11
+  titulo: 'Ficha de Proceso: Direccion y Planeacion del SGC'
+  tipo: ESP
+  proceso: SGC / Direccion
+  version: '1.1'
+  estado: BORRADOR
+  fecha_vigencia: TBD
+  ubicacion: docs/02_mapa_procesos/fichas_proceso/ESP-SGC-11_Ficha_de_Proceso_Direccion_y_Planeacion_del_SGC.md
+- codigo: ESP-SGC-12
+  titulo: 'Ficha de Proceso: Operacion y Prestacion del Servicio'
+  tipo: ESP
+  proceso: SGC / Operacion
+  version: '1.1'
+  estado: BORRADOR
+  fecha_vigencia: TBD
+  ubicacion: docs/02_mapa_procesos/fichas_proceso/ESP-SGC-12_Ficha_de_Proceso_Operacion_y_Prestacion_del_Servicio.md
+- codigo: ESP-SGC-13
+  titulo: 'Ficha de Proceso: Gestion de Soporte y Recursos'
+  tipo: ESP
+  proceso: SGC / Soporte
+  version: '1.1'
+  estado: BORRADOR
+  fecha_vigencia: TBD
+  ubicacion: docs/02_mapa_procesos/fichas_proceso/ESP-SGC-13_Ficha_de_Proceso_Gestion_de_Soporte_y_Recursos.md
+- codigo: ESP-SGC-14
+  titulo: Reporte de Trazabilidad Documental
+  tipo: ESP
+  proceso: SGC / Control Documental
+  version: '1.0'
+  estado: BORRADOR
+  fecha_vigencia: TBD
+  ubicacion: docs/_control/ESP-SGC-14_Reporte_de_Trazabilidad_Documental.md
+- codigo: FOR-SGC-01
+  titulo: Solicitud de Creación / Cambio Documental
+  tipo: FOR
+  proceso: SGC
+  version: '1.0'
+  estado: VIGENTE
+  fecha_vigencia: '2026-02-09'
+  ubicacion: docs/_control/FOR-SGC-01_Solicitud_de_Creacion_y_Cambio_Documental.md
+- codigo: FOR-SGC-02
+  titulo: Registro de No Conformidad
+  tipo: FOR
+  proceso: SGC / Mejora
+  version: '1.1'
+  estado: VIGENTE
+  fecha_vigencia: '2026-02-09'
+  ubicacion: docs/05_formatos/FOR-SGC-02_Registro_de_No_Conformidad.md
+- codigo: FOR-SGC-03
+  titulo: Plan y Registro CAPA
+  tipo: FOR
+  proceso: SGC / Mejora
+  version: '1.1'
+  estado: VIGENTE
+  fecha_vigencia: '2026-02-09'
+  ubicacion: docs/05_formatos/FOR-SGC-03_Plan_y_Registro_CAPA.md
+- codigo: FOR-SGC-04
+  titulo: Programa Anual de Auditorias
+  tipo: FOR
+  proceso: SGC / Auditoria
+  version: '1.2'
+  estado: VIGENTE
+  fecha_vigencia: '2026-02-09'
+  ubicacion: docs/07_auditorias/FOR-SGC-04_Programa_Anual_de_Auditorias.md
+- codigo: FOR-SGC-05
+  titulo: Plan de Auditoria
+  tipo: FOR
+  proceso: SGC / Auditoria
+  version: '1.2'
+  estado: VIGENTE
+  fecha_vigencia: '2026-02-09'
+  ubicacion: docs/07_auditorias/FOR-SGC-05_Plan_de_Auditoria.md
+- codigo: FOR-SGC-06
+  titulo: Informe de Auditoria
+  tipo: FOR
+  proceso: SGC / Auditoria
+  version: '1.2'
+  estado: VIGENTE
+  fecha_vigencia: '2026-02-09'
+  ubicacion: docs/07_auditorias/FOR-SGC-06_Informe_de_Auditoria.md
+- codigo: FOR-SGC-07
+  titulo: Seguimiento de Acciones de Auditoria
+  tipo: FOR
+  proceso: SGC / Auditoria
+  version: '1.2'
+  estado: VIGENTE
+  fecha_vigencia: '2026-02-09'
+  ubicacion: docs/07_auditorias/FOR-SGC-07_Seguimiento_de_Acciones_de_Auditoria.md
+- codigo: FOR-SGC-08
+  titulo: Matriz de KPI
+  tipo: FOR
+  proceso: SGC / Desempeno
+  version: '1.1'
+  estado: VIGENTE
+  fecha_vigencia: '2026-02-09'
+  ubicacion: docs/05_formatos/FOR-SGC-08_Matriz_de_KPI.md
+- codigo: FOR-SGC-09
+  titulo: Acta de Revision por la Direccion
+  tipo: FOR
+  proceso: SGC / Direccion
+  version: '1.1'
+  estado: VIGENTE
+  fecha_vigencia: '2026-02-09'
+  ubicacion: docs/05_formatos/FOR-SGC-09_Acta_de_Revision_por_la_Direccion.md
+- codigo: FOR-SGC-10
+  titulo: Matriz de Riesgos y Oportunidades
+  tipo: FOR
+  proceso: SGC / Riesgos
+  version: '1.0'
+  estado: BORRADOR
+  fecha_vigencia: TBD
+  ubicacion: docs/08_riesgos/FOR-SGC-10_Matriz_de_Riesgos_y_Oportunidades.md
+- codigo: FOR-SGC-11
+  titulo: Plan de Tratamiento y Seguimiento de Riesgos
+  tipo: FOR
+  proceso: SGC / Riesgos
+  version: '1.0'
+  estado: BORRADOR
+  fecha_vigencia: TBD
+  ubicacion: docs/08_riesgos/FOR-SGC-11_Plan_de_Tratamiento_y_Seguimiento_de_Riesgos.md
+- codigo: FOR-SGC-12
+  titulo: Matriz de Homologacion y Evaluacion de Proveedores
+  tipo: FOR
+  proceso: SGC / Proveedores
+  version: '1.0'
+  estado: BORRADOR
+  fecha_vigencia: TBD
+  ubicacion: docs/09_proveedores/FOR-SGC-12_Matriz_de_Homologacion_y_Evaluacion_de_Proveedores.md
+- codigo: FOR-SGC-13
+  titulo: Matriz de Competencias
+  tipo: FOR
+  proceso: SGC / Talento
+  version: '1.0'
+  estado: BORRADOR
+  fecha_vigencia: TBD
+  ubicacion: docs/10_competencia_formacion/FOR-SGC-13_Matriz_de_Competencias.md
+- codigo: FOR-SGC-14
+  titulo: Plan y Registro de Capacitacion
+  tipo: FOR
+  proceso: SGC / Talento
+  version: '1.0'
+  estado: BORRADOR
+  fecha_vigencia: TBD
+  ubicacion: docs/10_competencia_formacion/FOR-SGC-14_Plan_y_Registro_de_Capacitacion.md
+- codigo: FOR-SGC-15
+  titulo: Evaluacion de Eficacia de Capacitacion
+  tipo: FOR
+  proceso: SGC / Talento
+  version: '1.0'
+  estado: BORRADOR
+  fecha_vigencia: TBD
+  ubicacion: docs/10_competencia_formacion/FOR-SGC-15_Evaluacion_de_Eficacia_de_Capacitacion.md
+- codigo: PLAN-SGC-01
+  titulo: Objetivos de Calidad y Seguimiento
+  tipo: PLAN
+  proceso: SGC / Planeacion
+  version: '1.0'
+  estado: BORRADOR
+  fecha_vigencia: TBD
+  ubicacion: docs/01_politica_objetivos/PLAN-SGC-01_Objetivos_de_Calidad_y_Seguimiento.md
+- codigo: PLAN-SGC-02
+  titulo: Digitalizacion del SGC
+  tipo: PLAN
+  proceso: SGC / Transformacion Digital
+  version: '1.0'
+  estado: BORRADOR
+  fecha_vigencia: TBD
+  ubicacion: docs/03_procedimientos/PLAN-SGC-02_Digitalizacion_del_SGC.md
+- codigo: POL-SGC-01
+  titulo: Política de Calidad
+  tipo: POL
+  proceso: SGC
+  version: '1.0'
+  estado: BORRADOR
+  fecha_vigencia: TBD
+  ubicacion: docs/01_politica_objetivos/POL-SGC-01_Politica_de_Calidad.md
+- codigo: PR-SGC-01
+  titulo: Control de Documentos y Registros
+  tipo: PR
+  proceso: SGC
+  version: '1.0'
+  estado: VIGENTE
+  fecha_vigencia: '2026-02-09'
+  ubicacion: docs/03_procedimientos/PR-SGC-01_Control_de_Documentos_y_Registros.md
+- codigo: PR-SGC-02
+  titulo: Control de No Conformidades y CAPA
+  tipo: PR
+  proceso: SGC / Mejora
+  version: '1.1'
+  estado: BORRADOR
+  fecha_vigencia: TBD
+  ubicacion: docs/03_procedimientos/PR-SGC-02_Control_de_No_Conformidades_y_CAPA.md
+- codigo: PR-SGC-03
+  titulo: Auditorias Internas
+  tipo: PR
+  proceso: SGC / Auditoria
+  version: '1.2'
+  estado: BORRADOR
+  fecha_vigencia: TBD
+  ubicacion: docs/07_auditorias/PR-SGC-03_Auditorias_Internas.md
+- codigo: PR-SGC-04
+  titulo: Gestion de Indicadores y Analisis de Datos
+  tipo: PR
+  proceso: SGC / Desempeno
+  version: '1.1'
+  estado: BORRADOR
+  fecha_vigencia: TBD
+  ubicacion: docs/03_procedimientos/PR-SGC-04_Gestion_de_Indicadores_y_Analisis_de_Datos.md
+- codigo: PR-SGC-05
+  titulo: Revision por la Direccion
+  tipo: PR
+  proceso: SGC / Direccion
+  version: '1.1'
+  estado: BORRADOR
+  fecha_vigencia: TBD
+  ubicacion: docs/03_procedimientos/PR-SGC-05_Revision_por_la_Direccion.md
+- codigo: PR-SGC-06
+  titulo: Gestion de Riesgos y Oportunidades
+  tipo: PR
+  proceso: SGC / Riesgos
+  version: '1.0'
+  estado: BORRADOR
+  fecha_vigencia: TBD
+  ubicacion: docs/08_riesgos/PR-SGC-06_Gestion_de_Riesgos_y_Oportunidades.md
+- codigo: PR-SGC-07
+  titulo: Evaluacion y Reevaluacion de Proveedores
+  tipo: PR
+  proceso: SGC / Proveedores
+  version: '1.0'
+  estado: BORRADOR
+  fecha_vigencia: TBD
+  ubicacion: docs/09_proveedores/PR-SGC-07_Evaluacion_y_Reevaluacion_de_Proveedores.md
+- codigo: PR-SGC-08
+  titulo: Competencia y Formacion
+  tipo: PR
+  proceso: SGC / Talento
+  version: '1.0'
+  estado: BORRADOR
+  fecha_vigencia: TBD
+  ubicacion: docs/10_competencia_formacion/PR-SGC-08_Competencia_y_Formacion.md
