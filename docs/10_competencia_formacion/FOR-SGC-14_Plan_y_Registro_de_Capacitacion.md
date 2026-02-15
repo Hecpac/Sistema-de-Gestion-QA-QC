@@ -2,13 +2,13 @@
 codigo: "FOR-SGC-14"
 titulo: "Plan y Registro de Capacitacion"
 tipo: "FOR"
-version: "1.0"
-estado: "BORRADOR"
-fecha_emision: "2026-02-09"
+version: "1.1"
+estado: "VIGENTE"
+fecha_emision: "2026-02-15"
 proceso: "SGC / Talento"
-elaboro: "<NOMBRE>"
-reviso: "<NOMBRE>"
-aprobo: "<NOMBRE>"
+elaboro: "Coordinacion de Calidad"
+reviso: "Gerencia de Operaciones"
+aprobo: "Direccion General"
 ---
 
 # FOR-SGC-14 Plan y Registro de Capacitacion
@@ -27,7 +27,7 @@ Aplica a actividades formativas internas y externas del personal.
 - Capacitacion externa.
 
 ## 5. Responsabilidades
-- <AREA> de Talento: programar y registrar.
+- Area de Talento Humano: programar y registrar.
 - Duenos de Proceso: validar asistencia y aplicacion.
 
 ## 6. Desarrollo / Metodologia
@@ -43,8 +43,9 @@ Aplica a actividades formativas internas y externas del personal.
 | Version | Fecha | Descripcion del cambio | Elaboro | Aprobo |
 |---|---:|---|---|---|
 | 1.0 | 2026-02-09 | Emision inicial | | |
+| 1.1 | 2026-02-15 | Emision como formato vigente del SGC | Coordinacion de Calidad | Direccion General |
 
 ## 9. Formato de llenado
 | Tema | Fecha | Participantes | Instructor | Evidencia | Estado |
 |---|---|---|---|---|---|
-| TODO | TODO | TODO | TODO | TODO | Planificada/Ejecutada |
+| Competencia tecnica SGC | 2026-03-20 | Personal objetivo | Instructor asignado | Lista de asistencia y material | Planificada |

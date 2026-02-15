@@ -2,13 +2,13 @@
 codigo: "PR-SGC-08"
 titulo: "Competencia y Formacion"
 tipo: "PR"
-version: "1.0"
-estado: "BORRADOR"
-fecha_emision: "2026-02-09"
+version: "1.1"
+estado: "VIGENTE"
+fecha_emision: "2026-02-15"
 proceso: "SGC / Talento"
-elaboro: "<NOMBRE>"
-reviso: "<NOMBRE>"
-aprobo: "<NOMBRE>"
+elaboro: "Coordinacion de Calidad"
+reviso: "Gerencia de Operaciones"
+aprobo: "Direccion General"
 ---
 
 # PR-SGC-08 Competencia y Formacion
@@ -31,7 +31,7 @@ Aplica al personal que impacta la calidad del producto o servicio.
 - Eficacia de capacitacion.
 
 ## 5. Responsabilidades
-- <AREA> de Talento: coordinar plan anual.
+- Area de Talento Humano: coordinar plan anual.
 - Duenos de Proceso: definir perfiles y evaluar desempeno.
 - Responsable de Calidad: verificar evidencia de cumplimiento.
 
@@ -50,3 +50,4 @@ Aplica al personal que impacta la calidad del producto o servicio.
 | Version | Fecha | Descripcion del cambio | Elaboro | Aprobo |
 |---|---:|---|---|---|
 | 1.0 | 2026-02-09 | Emision inicial | | |
+| 1.1 | 2026-02-15 | Emision como documento vigente del SGC | Coordinacion de Calidad | Direccion General |

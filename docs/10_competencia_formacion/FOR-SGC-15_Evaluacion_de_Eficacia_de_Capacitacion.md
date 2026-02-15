@@ -2,13 +2,13 @@
 codigo: "FOR-SGC-15"
 titulo: "Evaluacion de Eficacia de Capacitacion"
 tipo: "FOR"
-version: "1.0"
-estado: "BORRADOR"
-fecha_emision: "2026-02-09"
+version: "1.1"
+estado: "VIGENTE"
+fecha_emision: "2026-02-15"
 proceso: "SGC / Talento"
-elaboro: "<NOMBRE>"
-reviso: "<NOMBRE>"
-aprobo: "<NOMBRE>"
+elaboro: "Coordinacion de Calidad"
+reviso: "Gerencia de Operaciones"
+aprobo: "Direccion General"
 ---
 
 # FOR-SGC-15 Evaluacion de Eficacia de Capacitacion
@@ -28,7 +28,7 @@ Aplica a capacitaciones con impacto en calidad y cumplimiento del SGC.
 
 ## 5. Responsabilidades
 - Dueno de Proceso: evaluar aplicacion en puesto.
-- <AREA> de Talento: consolidar resultados.
+- Area de Talento Humano: consolidar resultados.
 
 ## 6. Desarrollo / Metodologia
 1. Definir criterio de evaluacion post-capacitacion.
@@ -42,10 +42,11 @@ Aplica a capacitaciones con impacto en calidad y cumplimiento del SGC.
 | Version | Fecha | Descripcion del cambio | Elaboro | Aprobo |
 |---|---:|---|---|---|
 | 1.0 | 2026-02-09 | Emision inicial | | |
+| 1.1 | 2026-02-15 | Emision como formato vigente del SGC | Coordinacion de Calidad | Direccion General |
 
 ## 9. Formato de llenado
-- Capacitacion evaluada: ____
-- Criterio de eficacia: ____
-- Evidencia observada: ____
+- Capacitacion evaluada: Capacitacion tecnica SGC
+- Criterio de eficacia: Aplicacion correcta en el puesto y cero desviaciones relacionadas
+- Evidencia observada: Lista de verificacion de desempeno y evidencia documental
 - Resultado: Eficaz / Parcial / No eficaz
-- Acciones adicionales: ____
+- Acciones adicionales: Refuerzo puntual en caso de brecha detectada

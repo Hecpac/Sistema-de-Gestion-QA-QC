@@ -143,25 +143,25 @@ documentos:
   titulo: Matriz de Competencias
   tipo: FOR
   proceso: SGC / Talento
-  version: '1.0'
-  estado: BORRADOR
-  fecha_vigencia: TBD
+  version: '1.1'
+  estado: VIGENTE
+  fecha_vigencia: '2026-02-15'
   ubicacion: docs/10_competencia_formacion/FOR-SGC-13_Matriz_de_Competencias.md
 - codigo: FOR-SGC-14
   titulo: Plan y Registro de Capacitacion
   tipo: FOR
   proceso: SGC / Talento
-  version: '1.0'
-  estado: BORRADOR
-  fecha_vigencia: TBD
+  version: '1.1'
+  estado: VIGENTE
+  fecha_vigencia: '2026-02-15'
   ubicacion: docs/10_competencia_formacion/FOR-SGC-14_Plan_y_Registro_de_Capacitacion.md
 - codigo: FOR-SGC-15
   titulo: Evaluacion de Eficacia de Capacitacion
   tipo: FOR
   proceso: SGC / Talento
-  version: '1.0'
-  estado: BORRADOR
-  fecha_vigencia: TBD
+  version: '1.1'
+  estado: VIGENTE
+  fecha_vigencia: '2026-02-15'
   ubicacion: docs/10_competencia_formacion/FOR-SGC-15_Evaluacion_de_Eficacia_de_Capacitacion.md
 - codigo: PLAN-SGC-01
   titulo: Objetivos de Calidad y Seguimiento
@@ -247,7 +247,7 @@ documentos:
   titulo: Competencia y Formacion
   tipo: PR
   proceso: SGC / Talento
-  version: '1.0'
-  estado: BORRADOR
-  fecha_vigencia: TBD
+  version: '1.1'
+  estado: VIGENTE
+  fecha_vigencia: '2026-02-15'
   ubicacion: docs/10_competencia_formacion/PR-SGC-08_Competencia_y_Formacion.md
