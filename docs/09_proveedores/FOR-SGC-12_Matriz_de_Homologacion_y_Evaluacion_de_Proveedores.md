@@ -2,13 +2,13 @@
 codigo: "FOR-SGC-12"
 titulo: "Matriz de Homologacion y Evaluacion de Proveedores"
 tipo: "FOR"
-version: "1.0"
-estado: "BORRADOR"
-fecha_emision: "2026-02-09"
+version: "1.1"
+estado: "VIGENTE"
+fecha_emision: "2026-02-15"
 proceso: "SGC / Proveedores"
-elaboro: "<NOMBRE>"
-reviso: "<NOMBRE>"
-aprobo: "<NOMBRE>"
+elaboro: "Coordinacion de Calidad"
+reviso: "Gerencia de Operaciones"
+aprobo: "Direccion General"
 ---
 
 # FOR-SGC-12 Matriz de Homologacion y Evaluacion de Proveedores
@@ -17,7 +17,7 @@ aprobo: "<NOMBRE>"
 Registrar criterios y resultados de evaluacion de proveedores.
 
 ## 2. Alcance
-Aplica a proveedores criticos y no criticos definidos por <NOMBRE_EMPRESA>.
+Aplica a proveedores criticos y no criticos definidos por la organizacion.
 
 ## 3. Referencias
 - PR-SGC-07 Evaluacion y Reevaluacion de Proveedores.
@@ -27,7 +27,7 @@ Aplica a proveedores criticos y no criticos definidos por <NOMBRE_EMPRESA>.
 - Desempeno del proveedor.
 
 ## 5. Responsabilidades
-- Compras / <AREA>: actualizar matriz.
+- Compras: actualizar matriz.
 - Responsable de Calidad: validar evidencia.
 
 ## 6. Desarrollo / Metodologia
@@ -43,8 +43,9 @@ Aplica a proveedores criticos y no criticos definidos por <NOMBRE_EMPRESA>.
 | Version | Fecha | Descripcion del cambio | Elaboro | Aprobo |
 |---|---:|---|---|---|
 | 1.0 | 2026-02-09 | Emision inicial | | |
+| 1.1 | 2026-02-15 | Emision como formato vigente del SGC | Coordinacion de Calidad | Direccion General |
 
 ## 9. Formato de llenado
 | Proveedor | Servicio | Calidad | Entrega | Costo | Resultado | Accion |
 |---|---|---|---|---|---|---|
-| TODO | TODO | TODO | TODO | TODO | Aprobado/Condicionado | TODO |
+| Proveedor evaluado | Servicio critico | 4/5 | 5/5 | 4/5 | Aprobado | Mantener seguimiento semestral |

@@ -2,13 +2,13 @@
 codigo: "PR-SGC-07"
 titulo: "Evaluacion y Reevaluacion de Proveedores"
 tipo: "PR"
-version: "1.0"
-estado: "BORRADOR"
-fecha_emision: "2026-02-09"
+version: "1.1"
+estado: "VIGENTE"
+fecha_emision: "2026-02-15"
 proceso: "SGC / Proveedores"
-elaboro: "<NOMBRE>"
-reviso: "<NOMBRE>"
-aprobo: "<NOMBRE>"
+elaboro: "Coordinacion de Calidad"
+reviso: "Gerencia de Operaciones"
+aprobo: "Direccion General"
 ---
 
 # PR-SGC-07 Evaluacion y Reevaluacion de Proveedores
@@ -29,7 +29,7 @@ Aplica a proveedores que impactan la conformidad del producto o servicio.
 - Reevaluacion.
 
 ## 5. Responsabilidades
-- Compras / <AREA>: gestionar evaluaciones.
+- Compras: gestionar evaluaciones.
 - Dueno de Proceso: validar desempeno tecnico.
 - Responsable de Calidad: asegurar trazabilidad.
 
@@ -46,3 +46,4 @@ Aplica a proveedores que impactan la conformidad del producto o servicio.
 | Version | Fecha | Descripcion del cambio | Elaboro | Aprobo |
 |---|---:|---|---|---|
 | 1.0 | 2026-02-09 | Emision inicial | | |
+| 1.1 | 2026-02-15 | Emision como documento vigente del SGC | Coordinacion de Calidad | Direccion General |

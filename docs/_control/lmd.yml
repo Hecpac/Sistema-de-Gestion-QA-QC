@@ -135,9 +135,9 @@ documentos:
   titulo: Matriz de Homologacion y Evaluacion de Proveedores
   tipo: FOR
   proceso: SGC / Proveedores
-  version: '1.0'
-  estado: BORRADOR
-  fecha_vigencia: TBD
+  version: '1.1'
+  estado: VIGENTE
+  fecha_vigencia: '2026-02-15'
   ubicacion: docs/09_proveedores/FOR-SGC-12_Matriz_de_Homologacion_y_Evaluacion_de_Proveedores.md
 - codigo: FOR-SGC-13
   titulo: Matriz de Competencias
@@ -239,9 +239,9 @@ documentos:
   titulo: Evaluacion y Reevaluacion de Proveedores
   tipo: PR
   proceso: SGC / Proveedores
-  version: '1.0'
-  estado: BORRADOR
-  fecha_vigencia: TBD
+  version: '1.1'
+  estado: VIGENTE
+  fecha_vigencia: '2026-02-15'
   ubicacion: docs/09_proveedores/PR-SGC-07_Evaluacion_y_Reevaluacion_de_Proveedores.md
 - codigo: PR-SGC-08
   titulo: Competencia y Formacion
