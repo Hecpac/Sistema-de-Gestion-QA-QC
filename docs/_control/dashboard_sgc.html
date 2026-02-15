@@ -216,6 +216,11 @@
           <strong>0</strong>
         </article>
         
+        <article class="card warn stagger-1">
+          <p>Racha QA OK</p>
+          <strong>1</strong>
+        </article>
+        
         <article class="card ok stagger-1">
           <p>Pendientes matriz</p>
           <strong>0</strong>
@@ -318,7 +323,32 @@
         <p class="muted">Documentos en LMD: <strong>31</strong></p>
         <p class="muted">Filas en matriz de registros: <strong>16</strong></p>
         <p class="muted">Hallazgos QA: <strong>0</strong></p>
+        <p class="muted">Racha QA OK: <strong>1</strong></p>
         <p class="muted">Este tablero se autogenera. No editar manualmente.</p>
+      </section>
+
+      <section class="panel col-12 stagger-2">
+        <h3>Tendencia monitor QA (ultimas corridas)</h3>
+        
+    <table>
+      <thead>
+        <tr>
+          <th>Fecha</th>
+          <th>Origen</th>
+          <th>Estado</th>
+          <th>Hallazgos</th>
+        </tr>
+      </thead>
+      <tbody>
+            <tr>
+              <td>2026-02-15</td>
+              <td>local</td>
+              <td><span class="badge ok">OK</span></td>
+              <td>0</td>
+            </tr>
+            </tbody>
+    </table>
+    
       </section>
 
       <section class="panel col-12 stagger-2">
@@ -468,7 +498,7 @@
       </section>
     </section>
 
-    <p class="footer">Fuente: lmd.yml + matriz_registros.yml + reporte_qa_compliance.md</p>
+    <p class="footer">Fuente: lmd.yml + matriz_registros.yml + reporte_qa_compliance.md + qa_monitor_history.yml</p>
   </main>
 </body>
 </html>

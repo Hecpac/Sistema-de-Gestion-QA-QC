@@ -1,0 +1,9 @@
+# Historial de monitor QA del SGC
+# Archivo autogenerado por run_qa_monitor.sh
+# No editar manualmente
+
+runs:
+- timestamp: '2026-02-15T02:45:49Z'
+  date: '2026-02-15'
+  hallazgos: 0
+  source: local

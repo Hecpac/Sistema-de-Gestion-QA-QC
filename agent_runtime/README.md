@@ -33,6 +33,7 @@ bash /Users/hector/Projects/SGC/agent_runtime/scripts/run_qa_monitor.sh
 
 Salida:
 - Log: `docs/_control/logs/qa-monitor-YYYY-MM-DD.log`
+- Historial: `docs/_control/qa_monitor_history.yml`
 - Artefactos actualizados: `lmd.yml`, `matriz_registros.yml`, `dashboard_sgc.html`, `reporte_qa_compliance.md`
 
 ## Monitor QA semanal (GitHub Actions)

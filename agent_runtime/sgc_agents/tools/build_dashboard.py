@@ -16,6 +16,7 @@ from ..config import repo_root
 LMD_PATH = Path("docs/_control/lmd.yml")
 MATRIX_PATH = Path("docs/_control/matriz_registros.yml")
 QA_REPORT_PATH = Path("docs/_control/reporte_qa_compliance.md")
+QA_HISTORY_PATH = Path("docs/_control/qa_monitor_history.yml")
 DASHBOARD_PATH = Path("docs/_control/dashboard_sgc.html")
 
 QA_SECTION_RE = re.compile(r"##\s+\d+\.\s+([^\n]+)\n```yaml\n(.*?)\n```", re.DOTALL)
@@ -85,10 +86,47 @@ def _parse_qa_report(path: Path) -> dict[str, Any]:
     }
 
 
+def _parse_qa_history(path: Path, limit: int = 12) -> list[dict[str, Any]]:
+    if not path.exists():
+        return []
+
+    payload = _load_yaml(path)
+    runs = payload.get("runs", [])
+    if not isinstance(runs, list):
+        return []
+
+    normalized: list[dict[str, Any]] = []
+    for row in runs:
+        if not isinstance(row, dict):
+            continue
+        normalized.append(
+            {
+                "timestamp": str(row.get("timestamp", "")).strip(),
+                "date": str(row.get("date", "")).strip(),
+                "hallazgos": int(row.get("hallazgos", 0) or 0),
+                "source": str(row.get("source", "desconocido")).strip() or "desconocido",
+            }
+        )
+
+    normalized.sort(key=lambda r: (r["timestamp"], r["date"]))
+    return normalized[-limit:]
+
+
+def _qa_ok_streak(history_runs: list[dict[str, Any]]) -> int:
+    streak = 0
+    for row in reversed(history_runs):
+        if int(row.get("hallazgos", 0) or 0) == 0:
+            streak += 1
+            continue
+        break
+    return streak
+
+
 def _metric_cards(
     lmd_docs: list[dict[str, Any]],
     matrix_rows: list[dict[str, Any]],
     qa: dict[str, Any],
+    qa_history: list[dict[str, Any]],
 ) -> list[dict[str, Any]]:
     total_docs = len(lmd_docs)
     by_status = Counter(str(row.get("estado", "")).strip() for row in lmd_docs)
@@ -103,6 +141,8 @@ def _metric_cards(
             or _is_pending(row.get("acceso"))
         ):
             pending_matrix += 1
+
+    qa_streak = _qa_ok_streak(qa_history)
 
     return [
         {
@@ -124,6 +164,11 @@ def _metric_cards(
             "label": "Hallazgos QA",
             "value": qa.get("hallazgos_totales", 0),
             "tone": "ok" if qa.get("hallazgos_totales", 0) == 0 else "bad",
+        },
+        {
+            "label": "Racha QA OK",
+            "value": qa_streak,
+            "tone": "ok" if qa_streak >= 4 else "warn" if qa_streak else "bad",
         },
         {
             "label": "Pendientes matriz",
@@ -195,6 +240,47 @@ def _render_checks_table(checks: list[dict[str, Any]]) -> str:
     """.format(rows="".join(rows))
 
 
+def _render_history_table(history_runs: list[dict[str, Any]]) -> str:
+    if not history_runs:
+        return '<p class="muted">Sin corridas historicas de monitor QA.</p>'
+
+    rows: list[str] = []
+    for run in reversed(history_runs):
+        hallazgos = int(run.get("hallazgos", 0) or 0)
+        cls = "ok" if hallazgos == 0 else "bad"
+        status = "OK" if hallazgos == 0 else "Falla"
+        rows.append(
+            """
+            <tr>
+              <td>{date}</td>
+              <td>{source}</td>
+              <td><span class=\"badge {cls}\">{status}</span></td>
+              <td>{hallazgos}</td>
+            </tr>
+            """.format(
+                date=_esc(run.get("date") or run.get("timestamp") or "N/A"),
+                source=_esc(run.get("source", "desconocido")),
+                cls=cls,
+                status=status,
+                hallazgos=hallazgos,
+            )
+        )
+
+    return """
+    <table>
+      <thead>
+        <tr>
+          <th>Fecha</th>
+          <th>Origen</th>
+          <th>Estado</th>
+          <th>Hallazgos</th>
+        </tr>
+      </thead>
+      <tbody>{rows}</tbody>
+    </table>
+    """.format(rows="".join(rows))
+
+
 def _render_records_table(matrix_rows: list[dict[str, Any]]) -> str:
     if not matrix_rows:
         return "<p class=\"muted\">No hay filas en matriz_registros.yml.</p>"
@@ -247,6 +333,7 @@ def render_dashboard_html(data: dict[str, Any]) -> str:
     docs = data["docs"]
     matrix_rows = data["matrix_rows"]
     qa = data["qa"]
+    qa_history = data.get("qa_history", [])
     generated_at = str(qa.get("fecha", "N/A"))
 
     status_counts = Counter(str(row.get("estado", "")).strip() for row in docs)
@@ -481,7 +568,13 @@ def render_dashboard_html(data: dict[str, Any]) -> str:
         <p class="muted">Documentos en LMD: <strong>$docs_total</strong></p>
         <p class="muted">Filas en matriz de registros: <strong>$matrix_total</strong></p>
         <p class="muted">Hallazgos QA: <strong>$qa_findings</strong></p>
+        <p class="muted">Racha QA OK: <strong>$qa_streak</strong></p>
         <p class="muted">Este tablero se autogenera. No editar manualmente.</p>
+      </section>
+
+      <section class="panel col-12 stagger-2">
+        <h3>Tendencia monitor QA (ultimas corridas)</h3>
+        $history_table
       </section>
 
       <section class="panel col-12 stagger-2">
@@ -490,7 +583,7 @@ def render_dashboard_html(data: dict[str, Any]) -> str:
       </section>
     </section>
 
-    <p class="footer">Fuente: lmd.yml + matriz_registros.yml + reporte_qa_compliance.md</p>
+    <p class="footer">Fuente: lmd.yml + matriz_registros.yml + reporte_qa_compliance.md + qa_monitor_history.yml</p>
   </main>
 </body>
 </html>
@@ -509,6 +602,8 @@ def render_dashboard_html(data: dict[str, Any]) -> str:
         docs_total=_esc(len(docs)),
         matrix_total=_esc(len(matrix_rows)),
         qa_findings=_esc(qa.get("hallazgos_totales", 0)),
+        qa_streak=_esc(_qa_ok_streak(qa_history)),
+        history_table=_render_history_table(qa_history),
         records_table=_render_records_table(matrix_rows),
     )
 
@@ -520,6 +615,7 @@ def build_dashboard(root: Path | None = None, output: Path | None = None) -> Pat
     lmd = _load_yaml(resolved_root / LMD_PATH)
     matrix = _load_yaml(resolved_root / MATRIX_PATH)
     qa = _parse_qa_report(resolved_root / QA_REPORT_PATH)
+    qa_history = _parse_qa_history(resolved_root / QA_HISTORY_PATH)
 
     docs = lmd.get("documentos", [])
     matrix_rows = matrix.get("registros", [])
@@ -530,7 +626,8 @@ def build_dashboard(root: Path | None = None, output: Path | None = None) -> Pat
         "docs": docs,
         "matrix_rows": matrix_rows,
         "qa": qa,
-        "cards": _metric_cards(docs, matrix_rows, qa),
+        "qa_history": qa_history,
+        "cards": _metric_cards(docs, matrix_rows, qa, qa_history),
     }
 
     html_content = render_dashboard_html(dashboard_data)
