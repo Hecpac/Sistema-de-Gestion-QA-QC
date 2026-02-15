@@ -25,6 +25,22 @@ sgc-build-indexes
 sgc-build-dashboard
 ```
 
+## Monitor QA proactivo (local)
+Script:
+```bash
+bash /Users/hector/Projects/SGC/agent_runtime/scripts/run_qa_monitor.sh
+```
+
+Salida:
+- Log: `docs/_control/logs/qa-monitor-YYYY-MM-DD.log`
+- Artefactos actualizados: `lmd.yml`, `matriz_registros.yml`, `dashboard_sgc.html`, `reporte_qa_compliance.md`
+
+## Monitor QA semanal (GitHub Actions)
+Workflow: `.github/workflows/sgc-weekly-monitor.yml`
+- Corre cada lunes (UTC)
+- Publica artifacts del monitor
+- Crea issue automatico si hay falla
+
 ## Diseno
 - Agente orquestador: enruta al especialista adecuado.
 - Agente writer: crea/actualiza documentos controlados.

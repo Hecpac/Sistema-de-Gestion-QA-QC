@@ -7,175 +7,191 @@ registros:
   codigo: REG-SGC-CAP
   codigo_formato: FOR-SGC-14
   proceso: SGC / Talento
-  responsable: <DEFINIR>
+  responsable: Jefatura de Talento Humano
   medio: Digital
   ubicacion: docs/06_registros/competencia/capacitaciones/
-  retencion: 'TODO: Definir'
-  disposicion_final: 'TODO: Definir'
+  retencion: 3 anos
+  disposicion_final: Archivo digital historico y eliminacion controlada al vencer
+    retencion
   acceso: Calidad / Talento
   proteccion: Control de acceso + respaldos
 - nombre: Plan y Registro CAPA
   codigo: REG-SGC-CAPA
   codigo_formato: FOR-SGC-03
   proceso: SGC / Mejora
-  responsable: <DEFINIR>
+  responsable: Coordinacion de Calidad
   medio: Digital
   ubicacion: docs/06_registros/capa/
-  retencion: 'TODO: Definir'
-  disposicion_final: 'TODO: Definir'
+  retencion: 5 anos
+  disposicion_final: Archivo digital historico y eliminacion controlada al vencer
+    retencion
   acceso: Calidad / Duenos de Proceso
   proteccion: Control de acceso + respaldos
 - nombre: Solicitud de Creacion/Cambio Documental (llenada)
   codigo: REG-SGC-CDC
   codigo_formato: FOR-SGC-01
   proceso: SGC
-  responsable: <DEFINIR>
+  responsable: Coordinacion de Calidad
   medio: Digital
   ubicacion: docs/06_registros/cambios_documentales/
-  retencion: 'TODO: Definir (ej. 3 anos)'
-  disposicion_final: 'TODO: Definir (eliminar/archivar/destruir)'
+  retencion: 3 anos
+  disposicion_final: Archivo digital historico y eliminacion controlada al vencer
+    retencion
   acceso: Calidad / Direccion (segun corresponda)
   proteccion: Control de acceso + respaldos
 - nombre: Evidencia de distribucion/comunicacion de documentos
   codigo: REG-SGC-COM
   codigo_formato: FOR-SGC-01
   proceso: SGC
-  responsable: <DEFINIR>
+  responsable: Coordinacion de Calidad
   medio: Digital
   ubicacion: docs/06_registros/comunicaciones_documentales/
-  retencion: 'TODO: Definir'
-  disposicion_final: 'TODO: Definir'
+  retencion: 3 anos
+  disposicion_final: Archivo digital historico y eliminacion controlada al vencer
+    retencion
   acceso: Calidad / Auditores
   proteccion: Control de acceso + respaldos
 - nombre: Matriz de competencias
   codigo: REG-SGC-COMP
   codigo_formato: FOR-SGC-13
   proceso: SGC / Talento
-  responsable: <DEFINIR>
+  responsable: Jefatura de Talento Humano
   medio: Digital
   ubicacion: docs/06_registros/competencia/matriz/
-  retencion: 'TODO: Definir'
-  disposicion_final: 'TODO: Definir'
+  retencion: 3 anos
+  disposicion_final: Archivo digital historico y eliminacion controlada al vencer
+    retencion
   acceso: Calidad / Talento
   proteccion: Control de acceso + respaldos
 - nombre: Evaluacion de eficacia de capacitacion
   codigo: REG-SGC-EFI-CAP
   codigo_formato: FOR-SGC-15
   proceso: SGC / Talento
-  responsable: <DEFINIR>
+  responsable: Jefatura de Talento Humano
   medio: Digital
   ubicacion: docs/06_registros/competencia/eficacia_capacitacion/
-  retencion: 'TODO: Definir'
-  disposicion_final: 'TODO: Definir'
+  retencion: 3 anos
+  disposicion_final: Archivo digital historico y eliminacion controlada al vencer
+    retencion
   acceso: Calidad / Talento
   proteccion: Control de acceso + respaldos
 - nombre: Informe de auditoria
   codigo: REG-SGC-INF-AUD
   codigo_formato: FOR-SGC-06
   proceso: SGC / Auditoria
-  responsable: <DEFINIR>
+  responsable: Coordinacion de Calidad
   medio: Digital
   ubicacion: docs/06_registros/auditorias/informes/
-  retencion: 'TODO: Definir'
-  disposicion_final: 'TODO: Definir'
+  retencion: 5 anos
+  disposicion_final: Archivo digital historico y eliminacion controlada al vencer
+    retencion
   acceso: Calidad / Direccion
   proteccion: Control de acceso + respaldos
 - nombre: Matriz de KPI
   codigo: REG-SGC-KPI
   codigo_formato: FOR-SGC-08
   proceso: SGC / Desempeno
-  responsable: <DEFINIR>
+  responsable: Coordinacion de Calidad
   medio: Digital
   ubicacion: docs/06_registros/indicadores/
-  retencion: 'TODO: Definir'
-  disposicion_final: 'TODO: Definir'
+  retencion: 5 anos
+  disposicion_final: Archivo digital historico y eliminacion controlada al vencer
+    retencion
   acceso: Calidad / Direccion
   proteccion: Control de acceso + respaldos
 - nombre: Registro de No Conformidad
   codigo: REG-SGC-NC
   codigo_formato: FOR-SGC-02
   proceso: SGC / Mejora
-  responsable: <DEFINIR>
+  responsable: Coordinacion de Calidad
   medio: Digital
   ubicacion: docs/06_registros/no_conformidades/
-  retencion: 'TODO: Definir'
-  disposicion_final: 'TODO: Definir'
+  retencion: 5 anos
+  disposicion_final: Archivo digital historico y eliminacion controlada al vencer
+    retencion
   acceso: Calidad / Duenos de Proceso
   proteccion: Control de acceso + respaldos
 - nombre: Plan de auditoria
   codigo: REG-SGC-PLAN-AUD
   codigo_formato: FOR-SGC-05
   proceso: SGC / Auditoria
-  responsable: <DEFINIR>
+  responsable: Coordinacion de Calidad
   medio: Digital
   ubicacion: docs/06_registros/auditorias/planes/
-  retencion: 'TODO: Definir'
-  disposicion_final: 'TODO: Definir'
+  retencion: 5 anos
+  disposicion_final: Archivo digital historico y eliminacion controlada al vencer
+    retencion
   acceso: Calidad / Auditores
   proteccion: Control de acceso + respaldos
 - nombre: Programa anual de auditorias
   codigo: REG-SGC-PROG-AUD
   codigo_formato: FOR-SGC-04
   proceso: SGC / Auditoria
-  responsable: <DEFINIR>
+  responsable: Coordinacion de Calidad
   medio: Digital
   ubicacion: docs/06_registros/auditorias/programa_anual/
-  retencion: 'TODO: Definir'
-  disposicion_final: 'TODO: Definir'
+  retencion: 5 anos
+  disposicion_final: Archivo digital historico y eliminacion controlada al vencer
+    retencion
   acceso: Calidad / Auditores
   proteccion: Control de acceso + respaldos
 - nombre: Matriz de homologacion y evaluacion de proveedores
   codigo: REG-SGC-PROV
   codigo_formato: FOR-SGC-12
   proceso: SGC / Proveedores
-  responsable: <DEFINIR>
+  responsable: Jefatura de Compras
   medio: Digital
   ubicacion: docs/06_registros/proveedores/evaluaciones/
-  retencion: 'TODO: Definir'
-  disposicion_final: 'TODO: Definir'
+  retencion: 3 anos
+  disposicion_final: Archivo digital historico y eliminacion controlada al vencer
+    retencion
   acceso: Calidad / Compras
   proteccion: Control de acceso + respaldos
 - nombre: Acta de revision por la direccion
   codigo: REG-SGC-RD
   codigo_formato: FOR-SGC-09
   proceso: SGC / Direccion
-  responsable: <DEFINIR>
+  responsable: Direccion General
   medio: Digital
   ubicacion: docs/06_registros/revision_direccion/
-  retencion: 'TODO: Definir'
-  disposicion_final: 'TODO: Definir'
+  retencion: 5 anos
+  disposicion_final: Archivo digital historico y eliminacion controlada al vencer
+    retencion
   acceso: Calidad / Direccion
   proteccion: Control de acceso + respaldos
 - nombre: Matriz de riesgos y oportunidades
   codigo: REG-SGC-RISK
   codigo_formato: FOR-SGC-10
   proceso: SGC / Riesgos
-  responsable: <DEFINIR>
+  responsable: Coordinacion de Calidad
   medio: Digital
   ubicacion: docs/06_registros/riesgos/matriz/
-  retencion: 'TODO: Definir'
-  disposicion_final: 'TODO: Definir'
+  retencion: 5 anos
+  disposicion_final: Archivo digital historico y eliminacion controlada al vencer
+    retencion
   acceso: Calidad / Duenos de Proceso
   proteccion: Control de acceso + respaldos
 - nombre: Plan de tratamiento y seguimiento de riesgos
   codigo: REG-SGC-RISK-PLAN
   codigo_formato: FOR-SGC-11
   proceso: SGC / Riesgos
-  responsable: <DEFINIR>
+  responsable: Coordinacion de Calidad
   medio: Digital
   ubicacion: docs/06_registros/riesgos/planes_tratamiento/
-  retencion: 'TODO: Definir'
-  disposicion_final: 'TODO: Definir'
+  retencion: 5 anos
+  disposicion_final: Archivo digital historico y eliminacion controlada al vencer
+    retencion
   acceso: Calidad / Duenos de Proceso
   proteccion: Control de acceso + respaldos
 - nombre: Seguimiento de acciones de auditoria
   codigo: REG-SGC-SEG-AUD
   codigo_formato: FOR-SGC-07
   proceso: SGC / Auditoria
-  responsable: <DEFINIR>
+  responsable: Coordinacion de Calidad
   medio: Digital
   ubicacion: docs/06_registros/auditorias/seguimiento_acciones/
-  retencion: 'TODO: Definir'
-  disposicion_final: 'TODO: Definir'
+  retencion: 5 anos
+  disposicion_final: Archivo digital historico y eliminacion controlada al vencer
+    retencion
   acceso: Calidad / Duenos de Proceso
   proteccion: Control de acceso + respaldos
