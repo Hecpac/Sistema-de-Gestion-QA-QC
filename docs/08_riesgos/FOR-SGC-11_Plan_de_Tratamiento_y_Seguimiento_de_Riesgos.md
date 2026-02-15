@@ -2,13 +2,13 @@
 codigo: "FOR-SGC-11"
 titulo: "Plan de Tratamiento y Seguimiento de Riesgos"
 tipo: "FOR"
-version: "1.0"
-estado: "BORRADOR"
-fecha_emision: "2026-02-09"
+version: "1.1"
+estado: "VIGENTE"
+fecha_emision: "2026-02-15"
 proceso: "SGC / Riesgos"
-elaboro: "<NOMBRE>"
-reviso: "<NOMBRE>"
-aprobo: "<NOMBRE>"
+elaboro: "Coordinacion de Calidad"
+reviso: "Gerencia de Operaciones"
+aprobo: "Direccion General"
 ---
 
 # FOR-SGC-11 Plan de Tratamiento y Seguimiento de Riesgos
@@ -44,8 +44,9 @@ Aplica a riesgos con prioridad media y alta definidos en la matriz.
 | Version | Fecha | Descripcion del cambio | Elaboro | Aprobo |
 |---|---:|---|---|---|
 | 1.0 | 2026-02-09 | Emision inicial | | |
+| 1.1 | 2026-02-15 | Emision como formato vigente del SGC | Coordinacion de Calidad | Direccion General |
 
 ## 9. Formato de llenado
 | Riesgo | Accion | Responsable | Fecha objetivo | Estado | Riesgo residual |
 |---|---|---|---|---|---|
-| TODO | TODO | <PUESTO> | TODO | Abierta | TODO |
+| Riesgo priorizado | Accion de mitigacion definida | Dueno del proceso | 2026-03-15 | Abierta | Nivel residual estimado |

@@ -2,13 +2,13 @@
 codigo: "PR-SGC-06"
 titulo: "Gestion de Riesgos y Oportunidades"
 tipo: "PR"
-version: "1.0"
-estado: "BORRADOR"
-fecha_emision: "2026-02-09"
+version: "1.1"
+estado: "VIGENTE"
+fecha_emision: "2026-02-15"
 proceso: "SGC / Riesgos"
-elaboro: "<NOMBRE>"
-reviso: "<NOMBRE>"
-aprobo: "<NOMBRE>"
+elaboro: "Coordinacion de Calidad"
+reviso: "Gerencia de Operaciones"
+aprobo: "Direccion General"
 ---
 
 # PR-SGC-06 Gestion de Riesgos y Oportunidades
@@ -49,3 +49,4 @@ Aplica a todos los procesos del SGC y a cambios relevantes del contexto.
 | Version | Fecha | Descripcion del cambio | Elaboro | Aprobo |
 |---|---:|---|---|---|
 | 1.0 | 2026-02-09 | Emision inicial | | |
+| 1.1 | 2026-02-15 | Emision como documento vigente del SGC | Coordinacion de Calidad | Direccion General |

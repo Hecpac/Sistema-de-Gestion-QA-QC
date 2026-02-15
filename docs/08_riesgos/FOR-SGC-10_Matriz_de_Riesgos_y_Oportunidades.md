@@ -2,13 +2,13 @@
 codigo: "FOR-SGC-10"
 titulo: "Matriz de Riesgos y Oportunidades"
 tipo: "FOR"
-version: "1.0"
-estado: "BORRADOR"
-fecha_emision: "2026-02-09"
+version: "1.1"
+estado: "VIGENTE"
+fecha_emision: "2026-02-15"
 proceso: "SGC / Riesgos"
-elaboro: "<NOMBRE>"
-reviso: "<NOMBRE>"
-aprobo: "<NOMBRE>"
+elaboro: "Coordinacion de Calidad"
+reviso: "Gerencia de Operaciones"
+aprobo: "Direccion General"
 ---
 
 # FOR-SGC-10 Matriz de Riesgos y Oportunidades
@@ -44,8 +44,9 @@ Aplica a evaluaciones de riesgos por proceso del SGC.
 | Version | Fecha | Descripcion del cambio | Elaboro | Aprobo |
 |---|---:|---|---|---|
 | 1.0 | 2026-02-09 | Emision inicial | | |
+| 1.1 | 2026-02-15 | Emision como formato vigente del SGC | Coordinacion de Calidad | Direccion General |
 
 ## 9. Formato de llenado
 | Proceso | Riesgo/Oportunidad | Probabilidad | Impacto | Nivel | Control actual |
 |---|---|---|---|---|---|
-| TODO | TODO | TODO | TODO | TODO | TODO |
+| Proceso evaluado | Riesgo identificado | Media | Alto | 12 | Control definido y documentado |

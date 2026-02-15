@@ -119,17 +119,17 @@ documentos:
   titulo: Matriz de Riesgos y Oportunidades
   tipo: FOR
   proceso: SGC / Riesgos
-  version: '1.0'
-  estado: BORRADOR
-  fecha_vigencia: TBD
+  version: '1.1'
+  estado: VIGENTE
+  fecha_vigencia: '2026-02-15'
   ubicacion: docs/08_riesgos/FOR-SGC-10_Matriz_de_Riesgos_y_Oportunidades.md
 - codigo: FOR-SGC-11
   titulo: Plan de Tratamiento y Seguimiento de Riesgos
   tipo: FOR
   proceso: SGC / Riesgos
-  version: '1.0'
-  estado: BORRADOR
-  fecha_vigencia: TBD
+  version: '1.1'
+  estado: VIGENTE
+  fecha_vigencia: '2026-02-15'
   ubicacion: docs/08_riesgos/FOR-SGC-11_Plan_de_Tratamiento_y_Seguimiento_de_Riesgos.md
 - codigo: FOR-SGC-12
   titulo: Matriz de Homologacion y Evaluacion de Proveedores
@@ -231,9 +231,9 @@ documentos:
   titulo: Gestion de Riesgos y Oportunidades
   tipo: PR
   proceso: SGC / Riesgos
-  version: '1.0'
-  estado: BORRADOR
-  fecha_vigencia: TBD
+  version: '1.1'
+  estado: VIGENTE
+  fecha_vigencia: '2026-02-15'
   ubicacion: docs/08_riesgos/PR-SGC-06_Gestion_de_Riesgos_y_Oportunidades.md
 - codigo: PR-SGC-07
   titulo: Evaluacion y Reevaluacion de Proveedores
