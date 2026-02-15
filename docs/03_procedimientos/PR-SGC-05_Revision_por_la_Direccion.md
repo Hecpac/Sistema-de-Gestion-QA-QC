@@ -2,9 +2,9 @@
 codigo: "PR-SGC-05"
 titulo: "Revision por la Direccion"
 tipo: "PR"
-version: "1.1"
-estado: "BORRADOR"
-fecha_emision: "2026-02-09"
+version: "1.2"
+estado: "VIGENTE"
+fecha_emision: "2026-02-15"
 proceso: "SGC / Direccion"
 elaboro: "Coordinacion de Calidad"
 reviso: "Gerencia de Operaciones"
@@ -19,7 +19,7 @@ aprobo: "Direccion General"
 Definir el proceso para revisar periodicamente el desempeno del SGC y establecer decisiones de mejora con seguimiento verificable.
 
 ## 2. Alcance
-Aplica a las reuniones formales de revision por la direccion de <NOMBRE_EMPRESA>.
+Aplica a las reuniones formales de revision por la direccion de la organizacion.
 
 ## 3. Referencias
 - ISO 9001:2015, clausula 9.3 Revision por la direccion.
@@ -54,7 +54,7 @@ Aplica a las reuniones formales de revision por la direccion de <NOMBRE_EMPRESA>
 La sesion es valida si participan:
 - Direccion General (obligatorio).
 - Responsable de Calidad (obligatorio).
-- >= 80% de Duenos de Proceso convocados.
+- mayor o igual a 80% de Duenos de Proceso convocados.
 
 ### 6.4 Evaluacion y toma de decisiones
 1. Revisar desempeno vs metas.
@@ -79,8 +79,8 @@ La sesion es valida si participan:
 | Indicador | Formula | Meta sintetica |
 |---|---|---|
 | Cumplimiento de sesiones programadas | Sesiones realizadas / sesiones planificadas x 100 | 100% |
-| Cierre en plazo de acuerdos | Acuerdos cerrados en plazo / acuerdos totales x 100 | >= 90% |
-| Oportunidad de emision de acta | Actas emitidas <= 3 dias habiles / actas totales x 100 | >= 95% |
+| Cierre en plazo de acuerdos | Acuerdos cerrados en plazo / acuerdos totales x 100 | mayor o igual a 90% |
+| Oportunidad de emision de acta | Actas emitidas menor o igual a 3 dias habiles / actas totales x 100 | mayor o igual a 95% |
 
 ## 7. Registros asociados
 - REG-SGC-RD - Acta de revision por la direccion.
@@ -90,3 +90,4 @@ La sesion es valida si participan:
 |---|---:|---|---|---|
 | 1.0 | 2026-02-09 | Emision inicial | | |
 | 1.1 | 2026-02-09 | Se agregan criterios de frecuencia, quorum, priorizacion y seguimiento de acuerdos | Coordinacion de Calidad | Direccion General |
+| 1.2 | 2026-02-15 | Emision como documento vigente del SGC | Coordinacion de Calidad | Direccion General |

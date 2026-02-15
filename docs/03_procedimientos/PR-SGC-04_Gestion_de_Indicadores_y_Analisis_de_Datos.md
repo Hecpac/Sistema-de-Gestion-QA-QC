@@ -2,9 +2,9 @@
 codigo: "PR-SGC-04"
 titulo: "Gestion de Indicadores y Analisis de Datos"
 tipo: "PR"
-version: "1.1"
-estado: "BORRADOR"
-fecha_emision: "2026-02-09"
+version: "1.2"
+estado: "VIGENTE"
+fecha_emision: "2026-02-15"
 proceso: "SGC / Desempeno"
 elaboro: "Coordinacion de Calidad"
 reviso: "Gerencia de Operaciones"
@@ -54,7 +54,7 @@ Todo KPI debe incluir como minimo:
 - Cualquier dato fuera de corte debe marcarse como ajuste tardio.
 
 ### 6.3 Validacion de calidad de datos
-- Completitud minima: >= 98% de campos obligatorios.
+- Completitud minima: mayor o igual a 98% de campos obligatorios.
 - Consistencia: 0 errores criticos de formula.
 - Trazabilidad: 100% de KPI con fuente documentada.
 
@@ -65,9 +65,9 @@ Calculo de cumplimiento:
 - Cumplimiento (%) = Resultado / Meta x 100
 
 Semaforo sintetico:
-- Verde: >= 100%
-- Amarillo: >= 95% y < 100%
-- Rojo: < 95%
+- Verde: mayor o igual a 100%
+- Amarillo: mayor o igual a 95% y menor a 100%
+- Rojo: menor a 95%
 
 ### 6.5 Gestion de desviaciones
 1. Todo KPI en rojo requiere accion correctiva en maximo 10 dias habiles.
@@ -82,8 +82,8 @@ Semaforo sintetico:
 ### 6.7 Indicadores del proceso de medicion
 | Indicador | Formula | Meta sintetica |
 |---|---|---|
-| Entrega oportuna de reportes KPI | Reportes entregados en fecha / reportes programados x 100 | >= 95% |
-| Calidad de dato | KPI validados / KPI reportados x 100 | >= 98% |
+| Entrega oportuna de reportes KPI | Reportes entregados en fecha / reportes programados x 100 | mayor o igual a 95% |
+| Calidad de dato | KPI validados / KPI reportados x 100 | mayor o igual a 98% |
 | KPI con accion definida (cuando rojo) | KPI rojos con accion / KPI rojos totales x 100 | 100% |
 
 ## 7. Registros asociados
@@ -95,3 +95,4 @@ Semaforo sintetico:
 |---|---:|---|---|---|
 | 1.0 | 2026-02-09 | Emision inicial | | |
 | 1.1 | 2026-02-09 | Se agregan criterios medibles de corte, validacion, semaforo y gestion de desviaciones | Coordinacion de Calidad | Direccion General |
+| 1.2 | 2026-02-15 | Emision como documento vigente del SGC | Coordinacion de Calidad | Direccion General |

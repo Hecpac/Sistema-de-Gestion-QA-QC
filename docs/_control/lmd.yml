@@ -167,9 +167,9 @@ documentos:
   titulo: Objetivos de Calidad y Seguimiento
   tipo: PLAN
   proceso: SGC / Planeacion
-  version: '1.0'
-  estado: BORRADOR
-  fecha_vigencia: TBD
+  version: '1.1'
+  estado: VIGENTE
+  fecha_vigencia: '2026-02-15'
   ubicacion: docs/01_politica_objetivos/PLAN-SGC-01_Objetivos_de_Calidad_y_Seguimiento.md
 - codigo: PLAN-SGC-02
   titulo: Digitalizacion del SGC
@@ -183,9 +183,9 @@ documentos:
   titulo: Política de Calidad
   tipo: POL
   proceso: SGC
-  version: '1.0'
-  estado: BORRADOR
-  fecha_vigencia: TBD
+  version: '1.1'
+  estado: VIGENTE
+  fecha_vigencia: '2026-02-15'
   ubicacion: docs/01_politica_objetivos/POL-SGC-01_Politica_de_Calidad.md
 - codigo: PR-SGC-01
   titulo: Control de Documentos y Registros
@@ -199,33 +199,33 @@ documentos:
   titulo: Control de No Conformidades y CAPA
   tipo: PR
   proceso: SGC / Mejora
-  version: '1.1'
-  estado: BORRADOR
-  fecha_vigencia: TBD
+  version: '1.2'
+  estado: VIGENTE
+  fecha_vigencia: '2026-02-15'
   ubicacion: docs/03_procedimientos/PR-SGC-02_Control_de_No_Conformidades_y_CAPA.md
 - codigo: PR-SGC-03
   titulo: Auditorias Internas
   tipo: PR
   proceso: SGC / Auditoria
-  version: '1.2'
-  estado: BORRADOR
-  fecha_vigencia: TBD
+  version: '1.3'
+  estado: VIGENTE
+  fecha_vigencia: '2026-02-15'
   ubicacion: docs/07_auditorias/PR-SGC-03_Auditorias_Internas.md
 - codigo: PR-SGC-04
   titulo: Gestion de Indicadores y Analisis de Datos
   tipo: PR
   proceso: SGC / Desempeno
-  version: '1.1'
-  estado: BORRADOR
-  fecha_vigencia: TBD
+  version: '1.2'
+  estado: VIGENTE
+  fecha_vigencia: '2026-02-15'
   ubicacion: docs/03_procedimientos/PR-SGC-04_Gestion_de_Indicadores_y_Analisis_de_Datos.md
 - codigo: PR-SGC-05
   titulo: Revision por la Direccion
   tipo: PR
   proceso: SGC / Direccion
-  version: '1.1'
-  estado: BORRADOR
-  fecha_vigencia: TBD
+  version: '1.2'
+  estado: VIGENTE
+  fecha_vigencia: '2026-02-15'
   ubicacion: docs/03_procedimientos/PR-SGC-05_Revision_por_la_Direccion.md
 - codigo: PR-SGC-06
   titulo: Gestion de Riesgos y Oportunidades

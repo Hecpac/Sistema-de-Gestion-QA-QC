@@ -2,9 +2,9 @@
 codigo: "PR-SGC-02"
 titulo: "Control de No Conformidades y CAPA"
 tipo: "PR"
-version: "1.1"
-estado: "BORRADOR"
-fecha_emision: "2026-02-09"
+version: "1.2"
+estado: "VIGENTE"
+fecha_emision: "2026-02-15"
 proceso: "SGC / Mejora"
 elaboro: "Coordinacion de Calidad"
 reviso: "Gerencia de Operaciones"
@@ -62,9 +62,9 @@ Clasificacion:
 ### 6.3 Definicion de CAPA y tiempos objetivo
 | Severidad | Contencion | Plan CAPA aprobado | Cierre objetivo |
 |---|---|---|---|
-| Alta | <= 24 horas | <= 5 dias habiles | <= 30 dias naturales |
-| Media | <= 3 dias habiles | <= 10 dias habiles | <= 45 dias naturales |
-| Baja | <= 5 dias habiles | <= 15 dias habiles | <= 60 dias naturales |
+| Alta | menor o igual a 24 horas | menor o igual a 5 dias habiles | menor o igual a 30 dias naturales |
+| Media | menor o igual a 3 dias habiles | menor o igual a 10 dias habiles | menor o igual a 45 dias naturales |
+| Baja | menor o igual a 5 dias habiles | menor o igual a 15 dias habiles | menor o igual a 60 dias naturales |
 
 Reglas:
 1. Toda accion CAPA debe tener responsable, fecha compromiso y evidencia esperada.
@@ -84,9 +84,9 @@ Reglas:
 ### 6.6 Indicadores de control del proceso
 | Indicador | Formula | Meta sintetica |
 |---|---|---|
-| Cierre en plazo de NC | NC cerradas en plazo / NC cerradas x 100 | >= 90% |
-| Eficacia CAPA | CAPA eficaces / CAPA verificadas x 100 | >= 85% |
-| Recurrencia | NC repetidas (90 dias) / NC totales x 100 | <= 10% |
+| Cierre en plazo de NC | NC cerradas en plazo / NC cerradas x 100 | mayor o igual a 90% |
+| Eficacia CAPA | CAPA eficaces / CAPA verificadas x 100 | mayor o igual a 85% |
+| Recurrencia | NC repetidas (90 dias) / NC totales x 100 | menor o igual a 10% |
 
 ## 7. Registros asociados
 - REG-SGC-NC - Registro de No Conformidad.
@@ -97,3 +97,4 @@ Reglas:
 |---|---:|---|---|---|
 | 1.0 | 2026-02-09 | Emision inicial | | |
 | 1.1 | 2026-02-09 | Se agregan criterios medibles de severidad, causa raiz, eficacia y frecuencias | Coordinacion de Calidad | Direccion General |
+| 1.2 | 2026-02-15 | Emision como documento vigente del SGC | Coordinacion de Calidad | Direccion General |

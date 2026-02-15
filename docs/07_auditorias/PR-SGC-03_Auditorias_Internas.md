@@ -2,9 +2,9 @@
 codigo: "PR-SGC-03"
 titulo: "Auditorias Internas"
 tipo: "PR"
-version: "1.2"
-estado: "BORRADOR"
-fecha_emision: "2026-02-09"
+version: "1.3"
+estado: "VIGENTE"
+fecha_emision: "2026-02-15"
 proceso: "SGC / Auditoria"
 elaboro: "Coordinacion de Calidad"
 reviso: "Gerencia de Operaciones"
@@ -59,8 +59,8 @@ Frecuencia minima por criticidad del proceso:
 4. Confirmar independencia del auditor (no auditar su propio proceso).
 5. Definir codigos de registros de auditoria:
 - Programa: `REG-SGC-PROG-AUD-AAAA`.
-- Plan: `REG-SGC-PLAN-AUD-AAAA-<PROCESO>`.
-- Informe: `REG-SGC-INF-AUD-AAAA-<PROCESO>`.
+- Plan: `REG-SGC-PLAN-AUD-AAAA-PROCESO`.
+- Informe: `REG-SGC-INF-AUD-AAAA-PROCESO`.
 
 ### 6.3 Ejecucion y clasificacion de hallazgos
 1. Recopilar evidencia objetiva y trazable.
@@ -82,9 +82,9 @@ Frecuencia minima por criticidad del proceso:
 ### 6.5 Tiempos objetivo de gestion
 | Tipo de hallazgo | Emision de informe | Apertura NC | Plan de accion | Cierre objetivo |
 |---|---|---|---|---|
-| Mayor | <= 3 dias habiles | <= 24 h habiles | <= 5 dias habiles | <= 30 dias naturales |
-| Menor | <= 3 dias habiles | <= 24 h habiles | <= 10 dias habiles | <= 45 dias naturales |
-| Observacion | <= 3 dias habiles | N/A | <= 15 dias habiles (si aplica) | <= 60 dias naturales |
+| Mayor | menor o igual a 3 dias habiles | menor o igual a 24 h habiles | menor o igual a 5 dias habiles | menor o igual a 30 dias naturales |
+| Menor | menor o igual a 3 dias habiles | menor o igual a 24 h habiles | menor o igual a 10 dias habiles | menor o igual a 45 dias naturales |
+| Observacion | menor o igual a 3 dias habiles | N/A | menor o igual a 15 dias habiles (si aplica) | menor o igual a 60 dias naturales |
 
 ### 6.6 Seguimiento de acciones
 - Seguimiento semanal de hallazgos abiertos.
@@ -95,9 +95,9 @@ Frecuencia minima por criticidad del proceso:
 ### 6.7 Indicadores de desempeno de auditoria
 | Indicador | Formula | Meta sintetica |
 |---|---|---|
-| Cumplimiento del programa | Auditorias ejecutadas / auditorias programadas x 100 | >= 90% |
-| Emision oportuna de informes | Informes emitidos <= 3 dias / informes totales x 100 | >= 95% |
-| Cierre en plazo de hallazgos | Hallazgos cerrados en plazo / hallazgos totales x 100 | >= 90% |
+| Cumplimiento del programa | Auditorias ejecutadas / auditorias programadas x 100 | mayor o igual a 90% |
+| Emision oportuna de informes | Informes emitidos menor o igual a 3 dias / informes totales x 100 | mayor o igual a 95% |
+| Cierre en plazo de hallazgos | Hallazgos cerrados en plazo / hallazgos totales x 100 | mayor o igual a 90% |
 | Trazabilidad hallazgo-NC-CAPA | Hallazgos mayor/menor con NC y CAPA (si aplica) / hallazgos mayor/menor x 100 | = 100% |
 
 ## 7. Registros asociados
@@ -114,3 +114,4 @@ Frecuencia minima por criticidad del proceso:
 | 1.0 | 2026-02-09 | Emision inicial | | |
 | 1.1 | 2026-02-09 | Se agregan criterios medibles de frecuencia, muestreo, clasificacion y plazos de cierre | Coordinacion de Calidad | Direccion General |
 | 1.2 | 2026-02-09 | Se agrega trazabilidad obligatoria de hallazgos hacia NC/CAPA, codificacion de hallazgos y control de tiempos de apertura NC | Coordinacion de Calidad | Direccion General |
+| 1.3 | 2026-02-15 | Emision como documento vigente del SGC | Coordinacion de Calidad | Direccion General |

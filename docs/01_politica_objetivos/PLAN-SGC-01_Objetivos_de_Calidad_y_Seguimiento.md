@@ -2,19 +2,19 @@
 codigo: "PLAN-SGC-01"
 titulo: "Objetivos de Calidad y Seguimiento"
 tipo: "PLAN"
-version: "1.0"
-estado: "BORRADOR"
-fecha_emision: "2026-02-09"
+version: "1.1"
+estado: "VIGENTE"
+fecha_emision: "2026-02-15"
 proceso: "SGC / Planeacion"
-elaboro: "<NOMBRE>"
-reviso: "<NOMBRE>"
-aprobo: "<NOMBRE>"
+elaboro: "Coordinacion de Calidad"
+reviso: "Gerencia de Operaciones"
+aprobo: "Direccion General"
 ---
 
 # PLAN-SGC-01 Objetivos de Calidad y Seguimiento
 
 ## 1. Objetivo
-Definir objetivos de calidad medibles, su metodo de seguimiento, responsables y frecuencia de revision para <NOMBRE_EMPRESA>.
+Definir objetivos de calidad medibles, su metodo de seguimiento, responsables y frecuencia de revision para la organizacion.
 
 ## 2. Alcance
 Aplica a todos los procesos del SGC que deben medir desempeno y demostrar mejora continua.
@@ -49,3 +49,4 @@ Aplica a todos los procesos del SGC que deben medir desempeno y demostrar mejora
 | Version | Fecha | Descripcion del cambio | Elaboro | Aprobo |
 |---|---:|---|---|---|
 | 1.0 | 2026-02-09 | Emision inicial | | |
+| 1.1 | 2026-02-15 | Emision como documento vigente del SGC | Coordinacion de Calidad | Direccion General |
