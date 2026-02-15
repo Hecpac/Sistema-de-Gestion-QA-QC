@@ -2,13 +2,13 @@
 codigo: "ESP-SGC-14"
 titulo: "Reporte de Trazabilidad Documental"
 tipo: "ESP"
-version: "1.0"
-estado: "BORRADOR"
-fecha_emision: "2026-02-09"
+version: "1.1"
+estado: "VIGENTE"
+fecha_emision: "2026-02-15"
 proceso: "SGC / Control Documental"
 elaboro: "Coordinacion de Calidad"
-reviso: "TODO: <PUESTO>"
-aprobo: "TODO: <PUESTO>"
+reviso: "Gerencia de Operaciones"
+aprobo: "Direccion General"
 ---
 
 # ESP-SGC-14 Reporte de Trazabilidad Documental
@@ -61,7 +61,7 @@ Aplica a los documentos listados en `docs/_control/lmd.yml`, a los registros def
 
 ### 6.4 Acciones sugeridas (siguientes pasos del roadmap)
 1. Priorizar aprobaciones para migrar documentos criticos de `BORRADOR` a `VIGENTE` segun flujo de PR-SGC-01.
-2. Completar campos pendientes de retencion/disposicion marcados como `TODO` en la matriz de registros.
+2. Completar campos pendientes de retencion/disposicion en la matriz de registros segun responsables definidos.
 3. Ejecutar esta validacion de trazabilidad con frecuencia mensual o antes de auditorias internas/externas.
 
 ## 7. Registros asociados
@@ -71,4 +71,5 @@ Aplica a los documentos listados en `docs/_control/lmd.yml`, a los registros def
 ## 8. Control de cambios
 | Version | Fecha | Descripcion del cambio | Elaboro | Aprobo |
 |---|---:|---|---|---|
-| 1.0 | 2026-02-09 | Emision inicial del reporte de trazabilidad documental | Coordinacion de Calidad | TODO: <PUESTO> |
+| 1.0 | 2026-02-09 | Emision inicial del reporte de trazabilidad documental | Coordinacion de Calidad | Direccion General |
+| 1.1 | 2026-02-15 | Emision como especificacion vigente del SGC y actualizacion de recomendaciones | Coordinacion de Calidad | Direccion General |

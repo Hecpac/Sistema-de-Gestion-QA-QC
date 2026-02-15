@@ -2,9 +2,9 @@
 codigo: "ESP-SGC-13"
 titulo: "Ficha de Proceso: Gestion de Soporte y Recursos"
 tipo: "ESP"
-version: "1.1"
-estado: "BORRADOR"
-fecha_emision: "2026-02-09"
+version: "1.2"
+estado: "VIGENTE"
+fecha_emision: "2026-02-15"
 proceso: "SGC / Soporte"
 elaboro: "Coordinacion de Calidad"
 reviso: "Gerencia Administrativa"
@@ -64,9 +64,9 @@ Aplica a actividades de formacion, infraestructura, TI, compras y soporte docume
 ### 6.4 Indicadores (KPI) sinteticos
 | Indicador | Formula | Meta sintetica | Frecuencia |
 |---|---|---|---|
-| Cobertura de competencias criticas | Puestos criticos cubiertos / puestos criticos totales x 100 | >= 90% | Trimestral |
-| Cumplimiento de mantenimiento preventivo TI | Mantenimientos ejecutados / mantenimientos planificados x 100 | >= 95% | Mensual |
-| Disponibilidad de repositorio documental | Horas disponibles / horas totales planificadas x 100 | >= 99% | Mensual |
+| Cobertura de competencias criticas | Puestos criticos cubiertos / puestos criticos totales x 100 | mayor o igual a 90% | Trimestral |
+| Cumplimiento de mantenimiento preventivo TI | Mantenimientos ejecutados / mantenimientos planificados x 100 | mayor o igual a 95% | Mensual |
+| Disponibilidad de repositorio documental | Horas disponibles / horas totales planificadas x 100 | mayor o igual a 99% | Mensual |
 
 ### 6.5 Riesgos y oportunidades sinteticos
 | Tipo | Descripcion | Prob. | Impacto | Control/accion |
@@ -87,3 +87,4 @@ Aplica a actividades de formacion, infraestructura, TI, compras y soporte docume
 |---|---:|---|---|---|
 | 1.0 | 2026-02-09 | Emision inicial | | |
 | 1.1 | 2026-02-09 | Carga de entradas/salidas, KPI y riesgos sinteticos | Coordinacion de Calidad | Direccion General |
+| 1.2 | 2026-02-15 | Emision como especificacion vigente del SGC | Coordinacion de Calidad | Direccion General |

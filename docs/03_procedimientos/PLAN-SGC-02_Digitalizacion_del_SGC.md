@@ -2,13 +2,13 @@
 codigo: "PLAN-SGC-02"
 titulo: "Digitalizacion del SGC"
 tipo: "PLAN"
-version: "1.0"
-estado: "BORRADOR"
-fecha_emision: "2026-02-09"
+version: "1.1"
+estado: "VIGENTE"
+fecha_emision: "2026-02-15"
 proceso: "SGC / Transformacion Digital"
-elaboro: "<NOMBRE>"
-reviso: "<NOMBRE>"
-aprobo: "<NOMBRE>"
+elaboro: "Coordinacion de Calidad"
+reviso: "Gerencia de Operaciones"
+aprobo: "Direccion General"
 ---
 
 # PLAN-SGC-02 Digitalizacion del SGC
@@ -41,9 +41,10 @@ Aplica a herramientas, automatizaciones y tableros relacionados con procesos del
 
 ## 7. Registros asociados
 - REG-SGC-COM - Evidencia de comunicacion de cambios.
-- REG-SGC-KPI - Indicadores de adopcion digital (TODO: definir).
+- REG-SGC-KPI - Indicadores de adopcion digital definidos en la matriz de KPI.
 
 ## 8. Control de cambios
 | Version | Fecha | Descripcion del cambio | Elaboro | Aprobo |
 |---|---:|---|---|---|
 | 1.0 | 2026-02-09 | Emision inicial | | |
+| 1.1 | 2026-02-15 | Emision como plan vigente del SGC con criterios base de adopcion | Coordinacion de Calidad | Direccion General |

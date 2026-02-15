@@ -2,9 +2,9 @@
 codigo: "ESP-SGC-12"
 titulo: "Ficha de Proceso: Operacion y Prestacion del Servicio"
 tipo: "ESP"
-version: "1.1"
-estado: "BORRADOR"
-fecha_emision: "2026-02-09"
+version: "1.2"
+estado: "VIGENTE"
+fecha_emision: "2026-02-15"
 proceso: "SGC / Operacion"
 elaboro: "Jefatura Operativa"
 reviso: "Gerencia de Operaciones"
@@ -63,9 +63,9 @@ Aplica desde la recepcion de requisitos del cliente hasta la entrega del servici
 ### 6.4 Indicadores (KPI) sinteticos
 | Indicador | Formula | Meta sintetica | Frecuencia |
 |---|---|---|---|
-| Entregas a tiempo (OTD) | Servicios entregados en fecha / servicios programados x 100 | >= 92% | Mensual |
-| Conformidad a la primera | Servicios sin retrabajo / servicios auditados x 100 | >= 90% | Mensual |
-| Incidencias por servicio | Incidencias reportadas / servicios ejecutados x 100 | <= 5% | Mensual |
+| Entregas a tiempo (OTD) | Servicios entregados en fecha / servicios programados x 100 | mayor o igual a 92% | Mensual |
+| Conformidad a la primera | Servicios sin retrabajo / servicios auditados x 100 | mayor o igual a 90% | Mensual |
+| Incidencias por servicio | Incidencias reportadas / servicios ejecutados x 100 | menor o igual a 5% | Mensual |
 
 ### 6.5 Riesgos y oportunidades sinteticos
 | Tipo | Descripcion | Prob. | Impacto | Control/accion |
@@ -85,3 +85,4 @@ Aplica desde la recepcion de requisitos del cliente hasta la entrega del servici
 |---|---:|---|---|---|
 | 1.0 | 2026-02-09 | Emision inicial | | |
 | 1.1 | 2026-02-09 | Carga de entradas/salidas, KPI y riesgos sinteticos | Jefatura Operativa | Direccion General |
+| 1.2 | 2026-02-15 | Emision como especificacion vigente del SGC | Jefatura Operativa | Direccion General |

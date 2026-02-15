@@ -2,9 +2,9 @@
 codigo: "ESP-SGC-01"
 titulo: "Mapa de Procesos del SGC"
 tipo: "ESP"
-version: "1.1"
-estado: "BORRADOR"
-fecha_emision: "2026-02-09"
+version: "1.2"
+estado: "VIGENTE"
+fecha_emision: "2026-02-15"
 proceso: "SGC"
 elaboro: "Coordinacion de Calidad"
 reviso: "Gerencia de Operaciones"
@@ -88,12 +88,12 @@ Aplica a todos los procesos de una empresa modelo de servicios tecnicos B2B util
 ### 6.5 KPI sinteticos de referencia
 | Proceso | Indicador | Formula | Meta sintetica | Frecuencia | Fuente |
 |---|---|---|---|---|---|
-| O-01 Gestion comercial | Cumplimiento de requisitos completos | Solicitudes con requisitos completos / solicitudes totales x 100 | >= 95% | Mensual | Registro comercial |
-| O-03 Prestacion del servicio | Entregas a tiempo | Servicios entregados en fecha / servicios programados x 100 | >= 92% | Mensual | Bitacora operativa |
-| O-04 Control de calidad | Tasa de conformidad a la primera | Servicios conformes sin retrabajo / servicios auditados x 100 | >= 90% | Mensual | Checklist de liberacion |
-| O-05 Posventa | Satisfaccion del cliente | Promedio encuesta de satisfaccion (1-5) | >= 4.3 | Mensual | Encuestas de cliente |
-| S-02 Competencia | Cobertura de competencias criticas | Puestos con competencia completa / puestos criticos x 100 | >= 90% | Trimestral | Matriz de competencias |
-| E-02 Revision direccion | Cumplimiento de acciones de direccion | Acciones cerradas en plazo / acciones totales x 100 | >= 90% | Trimestral | Acta de revision |
+| O-01 Gestion comercial | Cumplimiento de requisitos completos | Solicitudes con requisitos completos / solicitudes totales x 100 | mayor o igual a 95% | Mensual | Registro comercial |
+| O-03 Prestacion del servicio | Entregas a tiempo | Servicios entregados en fecha / servicios programados x 100 | mayor o igual a 92% | Mensual | Bitacora operativa |
+| O-04 Control de calidad | Tasa de conformidad a la primera | Servicios conformes sin retrabajo / servicios auditados x 100 | mayor o igual a 90% | Mensual | Checklist de liberacion |
+| O-05 Posventa | Satisfaccion del cliente | Promedio encuesta de satisfaccion (1-5) | mayor o igual a 4.3 | Mensual | Encuestas de cliente |
+| S-02 Competencia | Cobertura de competencias criticas | Puestos con competencia completa / puestos criticos x 100 | mayor o igual a 90% | Trimestral | Matriz de competencias |
+| E-02 Revision direccion | Cumplimiento de acciones de direccion | Acciones cerradas en plazo / acciones totales x 100 | mayor o igual a 90% | Trimestral | Acta de revision |
 
 ### 6.6 Riesgos sinteticos de referencia
 | Proceso | Riesgo | Probabilidad (1-5) | Impacto (1-5) | Nivel | Control actual |
@@ -115,3 +115,4 @@ Aplica a todos los procesos de una empresa modelo de servicios tecnicos B2B util
 |---|---:|---|---|---|
 | 1.0 | 2026-02-09 | Borrador estructurado conforme AGENTS.md | | |
 | 1.1 | 2026-02-09 | Carga de datos sinteticos para cierre de Fase 2 | Coordinacion de Calidad | Direccion General |
+| 1.2 | 2026-02-15 | Emision como especificacion vigente del SGC | Coordinacion de Calidad | Direccion General |

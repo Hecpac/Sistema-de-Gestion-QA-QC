@@ -6,7 +6,7 @@
 ## 1. auditar_invariantes_de_estado
 ```yaml
 skill: auditar_invariantes_de_estado
-documentos_vigentes: 25
+documentos_vigentes: 31
 valido: true
 hallazgos: []
 ```

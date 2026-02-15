@@ -7,41 +7,41 @@ documentos:
   titulo: Mapa de Procesos del SGC
   tipo: ESP
   proceso: SGC
-  version: '1.1'
-  estado: BORRADOR
-  fecha_vigencia: TBD
+  version: '1.2'
+  estado: VIGENTE
+  fecha_vigencia: '2026-02-15'
   ubicacion: docs/02_mapa_procesos/ESP-SGC-01_Mapa_de_Procesos_del_SGC.md
 - codigo: ESP-SGC-11
   titulo: 'Ficha de Proceso: Direccion y Planeacion del SGC'
   tipo: ESP
   proceso: SGC / Direccion
-  version: '1.1'
-  estado: BORRADOR
-  fecha_vigencia: TBD
+  version: '1.2'
+  estado: VIGENTE
+  fecha_vigencia: '2026-02-15'
   ubicacion: docs/02_mapa_procesos/fichas_proceso/ESP-SGC-11_Ficha_de_Proceso_Direccion_y_Planeacion_del_SGC.md
 - codigo: ESP-SGC-12
   titulo: 'Ficha de Proceso: Operacion y Prestacion del Servicio'
   tipo: ESP
   proceso: SGC / Operacion
-  version: '1.1'
-  estado: BORRADOR
-  fecha_vigencia: TBD
+  version: '1.2'
+  estado: VIGENTE
+  fecha_vigencia: '2026-02-15'
   ubicacion: docs/02_mapa_procesos/fichas_proceso/ESP-SGC-12_Ficha_de_Proceso_Operacion_y_Prestacion_del_Servicio.md
 - codigo: ESP-SGC-13
   titulo: 'Ficha de Proceso: Gestion de Soporte y Recursos'
   tipo: ESP
   proceso: SGC / Soporte
-  version: '1.1'
-  estado: BORRADOR
-  fecha_vigencia: TBD
+  version: '1.2'
+  estado: VIGENTE
+  fecha_vigencia: '2026-02-15'
   ubicacion: docs/02_mapa_procesos/fichas_proceso/ESP-SGC-13_Ficha_de_Proceso_Gestion_de_Soporte_y_Recursos.md
 - codigo: ESP-SGC-14
   titulo: Reporte de Trazabilidad Documental
   tipo: ESP
   proceso: SGC / Control Documental
-  version: '1.0'
-  estado: BORRADOR
-  fecha_vigencia: TBD
+  version: '1.1'
+  estado: VIGENTE
+  fecha_vigencia: '2026-02-15'
   ubicacion: docs/_control/ESP-SGC-14_Reporte_de_Trazabilidad_Documental.md
 - codigo: FOR-SGC-01
   titulo: Solicitud de Creación / Cambio Documental
@@ -175,9 +175,9 @@ documentos:
   titulo: Digitalizacion del SGC
   tipo: PLAN
   proceso: SGC / Transformacion Digital
-  version: '1.0'
-  estado: BORRADOR
-  fecha_vigencia: TBD
+  version: '1.1'
+  estado: VIGENTE
+  fecha_vigencia: '2026-02-15'
   ubicacion: docs/03_procedimientos/PLAN-SGC-02_Digitalizacion_del_SGC.md
 - codigo: POL-SGC-01
   titulo: Política de Calidad

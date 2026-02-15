@@ -2,9 +2,9 @@
 codigo: "ESP-SGC-11"
 titulo: "Ficha de Proceso: Direccion y Planeacion del SGC"
 tipo: "ESP"
-version: "1.1"
-estado: "BORRADOR"
-fecha_emision: "2026-02-09"
+version: "1.2"
+estado: "VIGENTE"
+fecha_emision: "2026-02-15"
 proceso: "SGC / Direccion"
 elaboro: "Coordinacion de Calidad"
 reviso: "Gerencia de Operaciones"
@@ -60,9 +60,9 @@ Aplica a la alta direccion y responsables de proceso en el ciclo anual de gestio
 ### 6.4 Indicadores (KPI) sinteticos
 | Indicador | Formula | Meta sintetica | Frecuencia |
 |---|---|---|---|
-| Cumplimiento de acciones de direccion | Acciones cerradas en plazo / acciones totales x 100 | >= 90% | Mensual |
-| Cumplimiento global de objetivos de calidad | Objetivos cumplidos / objetivos totales x 100 | >= 85% | Trimestral |
-| Oportunidad de cierre de acuerdos de revision | Acuerdos cerrados <= 30 dias / acuerdos totales x 100 | >= 90% | Trimestral |
+| Cumplimiento de acciones de direccion | Acciones cerradas en plazo / acciones totales x 100 | mayor o igual a 90% | Mensual |
+| Cumplimiento global de objetivos de calidad | Objetivos cumplidos / objetivos totales x 100 | mayor o igual a 85% | Trimestral |
+| Oportunidad de cierre de acuerdos de revision | Acuerdos cerrados menor o igual a 30 dias / acuerdos totales x 100 | mayor o igual a 90% | Trimestral |
 
 ### 6.5 Riesgos y oportunidades sinteticos
 | Tipo | Descripcion | Prob. | Impacto | Control/accion |
@@ -80,3 +80,4 @@ Aplica a la alta direccion y responsables de proceso en el ciclo anual de gestio
 |---|---:|---|---|---|
 | 1.0 | 2026-02-09 | Emision inicial | | |
 | 1.1 | 2026-02-09 | Carga de entradas/salidas, KPI y riesgos sinteticos | Coordinacion de Calidad | Direccion General |
+| 1.2 | 2026-02-15 | Emision como especificacion vigente del SGC | Coordinacion de Calidad | Direccion General |
