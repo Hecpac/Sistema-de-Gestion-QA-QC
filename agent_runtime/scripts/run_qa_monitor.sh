@@ -27,12 +27,9 @@ echo "[SGC-MONITOR] Rebuild de artefactos de control..."
 PYTHONPATH="$RUNTIME_DIR" python -m sgc_agents.tools.build_indexes --repo-root "$REPO_ROOT"
 
 echo "[SGC-MONITOR] QA deterministico..."
-TMPDIR="$(mktemp -d)"
-trap 'rm -rf "$TMPDIR"' EXIT
-printf 'def function_tool(fn):\n    return fn\n' > "$TMPDIR/agents.py"
 
 qa_exit=0
-PYTHONPATH="$TMPDIR:$RUNTIME_DIR" SGC_REPO_ROOT="$REPO_ROOT" HISTORY_FILE="$HISTORY_FILE" python - <<'PY' || qa_exit=$?
+PYTHONPATH="$RUNTIME_DIR" SGC_REPO_ROOT="$REPO_ROOT" HISTORY_FILE="$HISTORY_FILE" python - <<'PY' || qa_exit=$?
 from __future__ import annotations
 
 import os

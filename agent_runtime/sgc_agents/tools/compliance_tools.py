@@ -220,7 +220,6 @@ def _iter_record_files(relative_subfolder: str = "") -> list[Path]:
     return files
 
 
-@function_tool
 def auditar_invariantes_de_estado() -> str:
     """Valida invariantes en documentos VIGENTE: sin TODO/placeholders/TBD."""
     findings: list[dict[str, Any]] = []
@@ -257,7 +256,6 @@ def auditar_invariantes_de_estado() -> str:
     return _dump(payload)
 
 
-@function_tool
 def resolver_grafo_documental() -> str:
     """Resuelve referencias PR -> FOR y detecta enlaces rotos documentales."""
     format_codes = set(_format_docs_by_code().keys())
@@ -286,7 +284,6 @@ def resolver_grafo_documental() -> str:
     return _dump(payload)
 
 
-@function_tool
 def detectar_formatos_huerfanos() -> str:
     """Detecta formatos FOR sin uso por PR o sin alta en matriz de registros."""
     procedure_refs: set[str] = set()
@@ -321,7 +318,6 @@ def detectar_formatos_huerfanos() -> str:
     return _dump(payload)
 
 
-@function_tool
 def validar_trazabilidad_registro(ruta_registro: str) -> str:
     """Evalua axiomas P1..P5 para un registro bajo docs/06_registros/."""
     record_path = (repo_root() / "docs/06_registros" / ruta_registro).resolve()
@@ -335,7 +331,6 @@ def validar_trazabilidad_registro(ruta_registro: str) -> str:
     return _dump(_validate_traceability_for_path(record_path))
 
 
-@function_tool
 def auditar_trazabilidad_registros(subcarpeta: str = "") -> str:
     """Audita trazabilidad de todos los registros Markdown en docs/06_registros/."""
     records = _iter_record_files(subcarpeta)
@@ -354,7 +349,6 @@ def auditar_trazabilidad_registros(subcarpeta: str = "") -> str:
     return _dump(payload)
 
 
-@function_tool
 def generar_reporte_qa_compliance(
     salida: str = "docs/_control/reporte_qa_compliance.md",
 ) -> str:
@@ -418,12 +412,20 @@ def generar_reporte_qa_compliance(
     return f"OK: reporte generado en {output_path}"
 
 
+auditar_invariantes_de_estado_tool = function_tool(auditar_invariantes_de_estado)
+resolver_grafo_documental_tool = function_tool(resolver_grafo_documental)
+detectar_formatos_huerfanos_tool = function_tool(detectar_formatos_huerfanos)
+validar_trazabilidad_registro_tool = function_tool(validar_trazabilidad_registro)
+auditar_trazabilidad_registros_tool = function_tool(auditar_trazabilidad_registros)
+generar_reporte_qa_compliance_tool = function_tool(generar_reporte_qa_compliance)
+
+
 def compliance_tools() -> list[Any]:
     return [
-        auditar_invariantes_de_estado,
-        resolver_grafo_documental,
-        detectar_formatos_huerfanos,
-        validar_trazabilidad_registro,
-        auditar_trazabilidad_registros,
-        generar_reporte_qa_compliance,
+        auditar_invariantes_de_estado_tool,
+        resolver_grafo_documental_tool,
+        detectar_formatos_huerfanos_tool,
+        validar_trazabilidad_registro_tool,
+        auditar_trazabilidad_registros_tool,
+        generar_reporte_qa_compliance_tool,
     ]
