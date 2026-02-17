@@ -3,7 +3,7 @@ codigo: "IT-SGC-01"
 titulo: "Instructivo: Configuracion de GitHub para Gobierno del SGC"
 tipo: "IT"
 version: "1.0"
-estado: "BORRADOR"
+estado: "VIGENTE"
 fecha_emision: "2026-02-17"
 proceso: "SGC / Control Documental"
 elaboro: "Coordinacion de Calidad"
@@ -25,7 +25,7 @@ Aplica al repositorio GitHub del SGC y a su operacion diaria:
 
 Excluye la redaccion/actualizacion de documentos controlados (ver PR-SGC-01) y el control de cambios del runtime/automatizaciones (ver PR-SGC-09).
 
-## 3. Responsables
+## 3. Responsabilidades
 - Administracion del repositorio SGC: configura GitHub (branch protection, permisos, CODEOWNERS) y mantiene operativos los workflows.
 - Coordinacion de Calidad: define criterios de aceptacion documental, revisa hallazgos y autoriza baselines para auditoria.
 - Direccion General: aprueba cambios mayores de gobierno del repositorio y autoriza baselines.
@@ -34,7 +34,7 @@ Excluye la redaccion/actualizacion de documentos controlados (ver PR-SGC-01) y e
 - Acceso de administracion al repositorio GitHub.
 - Navegador web (GitHub UI) o GitHub CLI (opcional).
 
-## 5. Instrucciones paso a paso
+## 5. Desarrollo / Instrucciones paso a paso
 
 ### 5.1 Reglas de acceso (permisos)
 1. Definir roles:
@@ -91,4 +91,4 @@ Configurar Branch Protection para `main` con, como minimo:
 ## 8. Control de cambios
 | Version | Fecha | Descripcion del cambio | Elaboro | Aprobo |
 |---|---:|---|---|---|
-| 1.0 | 2026-02-17 | Emision inicial (borrador) del instructivo de gobierno GitHub para el SGC | Coordinacion de Calidad | Direccion General |
+| 1.0 | 2026-02-17 | Emision inicial y liberacion vigente del instructivo de gobierno GitHub para el SGC | Coordinacion de Calidad | Direccion General |
