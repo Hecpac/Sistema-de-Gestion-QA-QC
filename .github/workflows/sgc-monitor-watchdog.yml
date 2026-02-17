@@ -34,7 +34,7 @@ jobs:
                 per_page: 50,
               });
 
-              const already = (existing.data || []).some(i => (i.title || "").startsWith("[SGC Watchdog]"));
+              const already = (existing.data || []).some(i => (i.title || "") === title);
               if (already) {
                 core.warning("Ya existe un issue abierto del watchdog con labels sgc,monitor. No se crea uno nuevo.");
                 return false;
@@ -70,12 +70,17 @@ jobs:
                 `Accion recomendada: ejecutar el workflow manualmente y confirmar que el schedule quede activo.`,
               ].join("\n");
 
-              const created = await createWatchdogIssue(title, body);
-              core.setFailed(
-                created
-                  ? `No hay runs para ${workflowFile}. Se creo issue del watchdog.`
-                  : `No hay runs para ${workflowFile}. Ya existe issue watchdog abierto.`
-              );
+              try {
+                const created = await createWatchdogIssue(title, body);
+                core.setFailed(
+                  created
+                    ? `No hay runs para ${workflowFile}. Se creo issue del watchdog.`
+                    : `No hay runs para ${workflowFile}. Ya existe issue watchdog abierto.`
+                );
+              } catch (error) {
+                core.error(error);
+                core.setFailed(`No hay runs para ${workflowFile} y fallo la creacion de issue watchdog: ${error.message}`);
+              }
               return;
             }
 
@@ -109,9 +114,14 @@ jobs:
               `Si el problema es que no hay ejecuciones recientes, verificar que el schedule de Actions este habilitado.`,
             ].join("\n");
 
-            const created = await createWatchdogIssue(title, body);
-            core.setFailed(
-              created
-                ? "Watchdog detecto problema y creo issue."
-                : "Watchdog detecto problema (issue existente)."
-            );
+            try {
+              const created = await createWatchdogIssue(title, body);
+              core.setFailed(
+                created
+                  ? "Watchdog detecto problema y creo issue."
+                  : "Watchdog detecto problema (issue existente)."
+              );
+            } catch (error) {
+              core.error(error);
+              core.setFailed(`Watchdog detecto problema y fallo la creacion de issue: ${error.message}`);
+            }
