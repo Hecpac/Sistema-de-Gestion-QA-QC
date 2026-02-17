@@ -1,0 +1,41 @@
+name: Incidente QA/Monitor SGC
+description: Reportar falla de gate QA, monitor semanal o drift de artefactos generados.
+title: "[SGC] Incidente QA - <resumen>"
+labels: ["qa", "sgc", "incidente"]
+body:
+  - type: textarea
+    id: contexto
+    attributes:
+      label: Contexto
+      description: Que paso y en que flujo (PR gate, baseline gate, monitor semanal).
+    validations:
+      required: true
+  - type: input
+    id: run_url
+    attributes:
+      label: URL del run
+      description: Enlace al workflow run (GitHub Actions).
+      placeholder: "https://github.com/<org>/<repo>/actions/runs/<id>"
+    validations:
+      required: false
+  - type: textarea
+    id: hallazgos
+    attributes:
+      label: Hallazgos / logs
+      description: Pega el resumen (hallazgos_totales, checks que fallan) o adjunta excerpts.
+    validations:
+      required: true
+  - type: textarea
+    id: impacto
+    attributes:
+      label: Impacto y urgencia
+      description: Impacto operacional / auditoria y plazo requerido.
+    validations:
+      required: true
+  - type: textarea
+    id: acciones
+    attributes:
+      label: Accion correctiva propuesta
+      description: Cambios sugeridos y plan de verificacion.
+    validations:
+      required: false

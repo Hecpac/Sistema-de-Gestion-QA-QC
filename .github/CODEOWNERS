@@ -1,0 +1,14 @@
+# CODEOWNERS para el repositorio SGC
+# Nota: Requiere que Branch Protection tenga habilitado "Require review from Code Owners".
+# Ajustar owners segun tu estructura real de equipos.
+
+# Default owner (fallback)
+* @Hecpac
+
+# Rutas criticas del mecanismo de control (QA, build, gobernanza)
+.github/ @Hecpac
+agent_runtime/ @Hecpac
+.agents/ @Hecpac
+AGENTS.md @Hecpac
+docs/AGENTS.md @Hecpac
+docs/_control/ @Hecpac

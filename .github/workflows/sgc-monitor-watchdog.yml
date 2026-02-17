@@ -1,0 +1,88 @@
+name: SGC Monitor Watchdog
+
+on:
+  schedule:
+    - cron: "0 15 * * *" # Daily 15:00 UTC
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  actions: read
+  issues: write
+
+jobs:
+  watchdog:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Check last weekly monitor run
+        uses: actions/github-script@v7
+        with:
+          script: |
+            const workflowFile = "sgc-weekly-monitor.yml";
+            const maxAgeDays = 8;
+
+            const { owner, repo } = context.repo;
+            const now = new Date();
+
+            const runsResp = await github.rest.actions.listWorkflowRuns({
+              owner,
+              repo,
+              workflow_id: workflowFile,
+              per_page: 5,
+            });
+
+            const runs = runsResp.data.workflow_runs || [];
+            if (!runs.length) {
+              core.setFailed(`No hay runs para ${workflowFile}. Verifica que Actions este habilitado.`);
+            }
+
+            const last = runs[0];
+            const lastTime = new Date(last.created_at);
+            const ageMs = now - lastTime;
+            const ageDays = ageMs / (1000 * 60 * 60 * 24);
+
+            const ok = last.conclusion === "success" && ageDays <= maxAgeDays;
+            if (ok) {
+              core.info(`OK: ultimo run ${workflowFile} (${last.id}) conclusion=${last.conclusion} ageDays=${ageDays.toFixed(2)}`);
+              return;
+            }
+
+            const title = `[SGC Watchdog] Weekly monitor stale/failing - ${now.toISOString().slice(0,10)}`;
+            const body = [
+              `El watchdog detecto que el monitor semanal no esta saludable.`,
+              ``,
+              `- Workflow: ${workflowFile}`,
+              `- Ultimo run: ${last.html_url}`,
+              `- Conclusion: ${last.conclusion}`,
+              `- Creado: ${last.created_at}`,
+              `- Umbral maxAgeDays: ${maxAgeDays}`,
+              ``,
+              `Accion recomendada: revisar el run, artifacts y ejecutar monitor localmente si aplica.`,
+              `Si el problema es que no hay ejecuciones recientes, verificar que el schedule de Actions este habilitado.`,
+            ].join("\n");
+
+            const existing = await github.rest.issues.listForRepo({
+              owner,
+              repo,
+              state: "open",
+              labels: "sgc,monitor",
+              per_page: 50,
+            });
+
+            const already = (existing.data || []).some(i => (i.title || "").startsWith("[SGC Watchdog] Weekly monitor"));
+            if (already) {
+              core.warning("Ya existe un issue abierto del watchdog con labels sgc,monitor. No se crea uno nuevo.");
+              core.setFailed("Watchdog detecto problema (issue existente).");
+              return;
+            }
+
+            await github.rest.issues.create({
+              owner,
+              repo,
+              title,
+              body,
+              labels: ["sgc", "monitor", "qa"],
+            });
+
+            core.setFailed("Watchdog detecto problema y creo issue.");
