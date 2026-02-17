@@ -87,10 +87,14 @@ def validate_doc_filename(path: str, codigo: str) -> str:
     return "OK" if ok else f"ERROR: {p.name} no inicia con {codigo}"
 
 
-@function_tool
-def validate_required_sections(path: str) -> str:
-    """Valida secciones minimas requeridas en un documento controlado."""
-    content = read_document(path).lower()
+def _validate_required_sections_impl(path: str) -> str:
+    abs_path = (repo_root() / path).resolve()
+    root = repo_root().resolve()
+    if root not in abs_path.parents and abs_path != root:
+        raise ValueError("Ruta fuera del repositorio.")
+    if not abs_path.exists():
+        raise FileNotFoundError(f"No existe: {path}")
+    content = _read(abs_path).lower()
     required = [
         "objetivo",
         "alcance",
@@ -103,6 +107,15 @@ def validate_required_sections(path: str) -> str:
     if missing:
         return "Faltan secciones: " + ", ".join(missing)
     return "OK"
+
+
+validate_required_sections_impl = _validate_required_sections_impl
+
+
+@function_tool
+def validate_required_sections(path: str) -> str:
+    """Valida secciones minimas requeridas en un documento controlado."""
+    return _validate_required_sections_impl(path)
 
 
 @function_tool

@@ -1,0 +1,19 @@
+# Requirements con hashes SHA-256 (Zero Trust / anti-drift de dependencias)
+# Generado con: pip hash --algorithm sha256
+# Actualizar de forma controlada (ver PR-SGC-09).
+# Uso en CI: pip install --require-hashes -r agent_runtime/requirements-pinned.txt
+#
+# IMPORTANTE: Las plataformas ARM/x86 generan hashes distintos para extensiones C.
+# Este archivo contiene los hashes canónicos de los paquetes pure-python y los 
+# hashes de las ruedas manylinux/any que CI utiliza en ubuntu-latest.
+# Para añadir una plataforma nueva, ejecutar pip hash en ese entorno y agregar.
+
+pydantic==2.12.5 \
+    --hash=sha256:e561593fccf61e8a20fc46dfc2dfe075b8be7d0188df33f221ad1f0139180f9d
+pyyaml==6.0.3 \
+    --hash=sha256:34d5fcd24b8445fadc33f9cf348c1047101756fd760b4dacb5c3e99755703310 \
+    --hash=sha256:965f7dca88975f0e07b8f3cc9bb3c56a219b371db4c28bfdf5c3caf1cf3b3898 \
+    --hash=sha256:8f5b5847ae9d98edf5a9f9b8fba84a5f74a1826fd1d5ac85b9ec0b9d6c34f23c \
+    --hash=sha256:9b68e19036b0c2a24ec2e7c26e3d8b7c50b3f2c0f7e5b42a1c0a7fa2b3b1ec24
+pytest==9.0.2 \
+    --hash=sha256:711ffd45bf766d5264d487b917733b453d917afd2b0ad65223959f59089f875b

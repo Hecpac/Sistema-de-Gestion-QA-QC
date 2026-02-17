@@ -1,5 +1,6 @@
 from __future__ import annotations
 
+import os
 import re
 from datetime import date
 from pathlib import Path
@@ -48,6 +49,8 @@ ALLOWED_RECORD_FRONTMATTER_KEYS = {
     "formato_origen",
     "codigo_registro",
     "fecha_registro",
+    "ubicacion_externa_url",
+    "ubicacion_fisica",
 }
 
 
@@ -197,19 +200,21 @@ def _validate_traceability_for_path(record_path: Path) -> dict[str, Any]:
     }
 
     content = _read(record_path)
-    meta, body = _split_body(content)
+    meta, _ = _split_body(content)
 
     parsed_meta: RecordFrontmatter | None = None
+    raw_origin = ""
     if isinstance(meta, dict):
+        raw_origin = str(meta.get("formato_origen", "")).strip()
         try:
             parsed_meta = RecordFrontmatter.model_validate(meta)
         except Exception:
             parsed_meta = None
 
-    origin = parsed_meta.formato_origen if parsed_meta else ""
+    origin = parsed_meta.formato_origen if parsed_meta else raw_origin
     if not origin:
         findings.append(
-            "[P1] El registro es huerfano (frontmatter invalido o falta 'formato_origen')."
+            "[P1] El registro wrapper es invalido o no declara formato_origen."
         )
         return {
             "registro": record_path.as_posix(),
@@ -249,17 +254,12 @@ def _validate_traceability_for_path(record_path: Path) -> dict[str, Any]:
             f"[P4] El formato '{origin}' no esta habilitado en la Matriz de Registros."
         )
 
-    _, format_body = _split_body(format_doc.content)
-    format_headers = _extract_fillable_headers(format_body)
-    record_headers = _extract_headers(body)
-    missing_headers = sorted(format_headers - record_headers)
-    if missing_headers:
-        findings.append(
-            "[P5] El registro altero el molde oficial. "
-            f"Faltan secciones: {missing_headers}"
-        )
-    else:
+    if parsed_meta and (parsed_meta.ubicacion_externa_url or parsed_meta.ubicacion_fisica):
         axioms["P5_isomorfismo_estructural"] = True
+    else:
+        findings.append(
+            "[P5] El registro no declara ubicacion_externa_url ni ubicacion_fisica."
+        )
 
     valid = len(findings) == 0
     return {
@@ -477,6 +477,12 @@ def auditar_pendientes_matriz_registros() -> str:
         for key in ("responsable", "retencion", "disposicion_final", "acceso", "ubicacion"):
             if _is_pending_value(row.get(key)):
                 pending_fields.append(key)
+
+        if _is_pending_value(row.get("ubicacion_externa_url")) and _is_pending_value(
+            row.get("ubicacion_fisica")
+        ):
+            pending_fields.append("ubicacion_externa_url|ubicacion_fisica")
+
         if pending_fields:
             findings.append(
                 {
@@ -541,6 +547,11 @@ def auditar_catalogo_registros() -> str:
         ):
             if _is_pending_value(row.get(key)):
                 pending_fields.append(key)
+
+        if _is_pending_value(row.get("ubicacion_externa_url")) and _is_pending_value(
+            row.get("ubicacion_fisica")
+        ):
+            pending_fields.append("ubicacion_externa_url|ubicacion_fisica")
 
         if pending_fields:
             findings.append(

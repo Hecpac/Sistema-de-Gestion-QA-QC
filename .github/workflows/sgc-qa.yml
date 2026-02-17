@@ -21,13 +21,13 @@ jobs:
         with:
           python-version: "3.11"
 
-      - name: Install dependencies
+      - name: Install dependencies (pinned)
         run: |
           python -m pip install --upgrade pip
           pip install -c ./agent_runtime/constraints-ci.txt -e ./agent_runtime
           pip install -c ./agent_runtime/constraints-ci.txt pytest
 
-      - name: Run unit tests (P1..P5 + regressions)
+      - name: Run unit tests (P1..P5 + regressions + zero-trust)
         run: pytest -q agent_runtime/tests
 
       - name: Rebuild control indexes and dashboard
@@ -35,9 +35,37 @@ jobs:
           sgc-build-indexes --repo-root "$GITHUB_WORKSPACE"
           sgc-build-dashboard --repo-root "$GITHUB_WORKSPACE"
 
-      - name: Verify generated artifacts are up to date
+      - name: Anti-drift check (artefactos generados no deben tener drift)
         run: |
           git diff --exit-code -- docs/_control/lmd.yml docs/_control/matriz_registros.yml docs/_control/dashboard_sgc.html
+
+      - name: Validate required sections in controlled docs (PR blocker)
+        env:
+          PYTHONPATH: agent_runtime
+          SGC_REPO_ROOT: ${{ github.workspace }}
+        run: |
+          python - <<'PY'
+          import sys
+          from sgc_agents.tools.build_indexes import discover_controlled_documents
+          from sgc_agents.tools.document_tools import validate_required_sections_impl
+          from sgc_agents.config import repo_root
+
+          errors = []
+          for doc in discover_controlled_documents(repo_root().resolve()):
+              if doc.frontmatter.estado != "VIGENTE":
+                  continue
+              result = validate_required_sections_impl(doc.relative_path)
+              if result != "OK":
+                  errors.append(f"{doc.frontmatter.codigo} ({doc.relative_path}): {result}")
+
+          if errors:
+              print("ERROR: Documentos VIGENTE sin secciones obligatorias:", file=sys.stderr)
+              for e in errors:
+                  print(f"  - {e}", file=sys.stderr)
+              sys.exit(1)
+
+          print(f"OK: secciones minimas verificadas en {len([d for d in discover_controlled_documents(repo_root().resolve()) if d.frontmatter.estado == 'VIGENTE'])} docs VIGENTE.")
+          PY
 
       - name: Run deterministic QA gate
         env:

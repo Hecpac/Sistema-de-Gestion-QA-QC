@@ -3,6 +3,7 @@ from __future__ import annotations
 import re
 from datetime import date
 from typing import Literal
+from urllib.parse import urlparse
 
 from pydantic import BaseModel, ConfigDict, Field, field_validator, model_validator
 
@@ -11,10 +12,18 @@ DOC_CODE_PATTERN = re.compile(r"^[A-Z]+-[A-Z0-9]+-[0-9]+$")
 DOC_VERSION_PATTERN = re.compile(r"^[0-9]+\.[0-9]+$")
 REG_CODE_PATTERN = re.compile(r"^REG-[A-Z0-9]+(?:-[A-Z0-9]+)*$")
 FORMAT_CODE_PATTERN = re.compile(r"^FOR-[A-Z0-9]+-[0-9]+$")
+EXTERNAL_LOCATION_SCHEMES = {
+    "http",
+    "https",
+    "s3",
+    "gs",
+    "jira",
+    "sap",
+}
 
 
 class DocumentFrontmatter(BaseModel):
-    model_config = ConfigDict(extra="ignore", str_strip_whitespace=True)
+    model_config = ConfigDict(extra="forbid", str_strip_whitespace=True)
 
     codigo: str = Field(min_length=5)
     titulo: str = Field(min_length=3)
@@ -60,11 +69,13 @@ class DocumentFrontmatter(BaseModel):
 
 
 class RecordFrontmatter(BaseModel):
-    model_config = ConfigDict(extra="ignore", str_strip_whitespace=True)
+    model_config = ConfigDict(extra="forbid", str_strip_whitespace=True)
 
     formato_origen: str
     codigo_registro: str | None = None
     fecha_registro: str | None = None
+    ubicacion_externa_url: str | None = None
+    ubicacion_fisica: str | None = None
 
     @field_validator("formato_origen")
     @classmethod
@@ -84,9 +95,57 @@ class RecordFrontmatter(BaseModel):
             raise ValueError("fecha_registro debe usar YYYY-MM-DD o TBD") from exc
         return value
 
+    @field_validator("ubicacion_externa_url")
+    @classmethod
+    def validate_ubicacion_externa_url(cls, value: str | None) -> str | None:
+        if value in (None, ""):
+            return None
+
+        parsed = urlparse(value)
+        if parsed.scheme not in EXTERNAL_LOCATION_SCHEMES:
+            raise ValueError(
+                "ubicacion_externa_url debe usar esquema permitido "
+                "(http/https/s3/gs/jira/sap)"
+            )
+
+        if parsed.scheme in {"http", "https"} and not parsed.netloc:
+            raise ValueError("ubicacion_externa_url debe incluir host valido")
+
+        if parsed.scheme in {"s3", "gs"} and not parsed.netloc:
+            raise ValueError("ubicacion_externa_url debe incluir bucket valido")
+
+        if parsed.scheme in {"jira", "sap"} and not (parsed.netloc or parsed.path.strip("/")):
+            raise ValueError("ubicacion_externa_url debe incluir identificador valido")
+
+        return value
+
+    @field_validator("ubicacion_fisica")
+    @classmethod
+    def validate_ubicacion_fisica(cls, value: str | None) -> str | None:
+        if value in (None, ""):
+            return None
+
+        text = value.strip()
+        upper = text.upper()
+        if upper in {"TBD", "TODO", "N/A", "NA"} or "<DEFINIR>" in upper:
+            raise ValueError("ubicacion_fisica no puede ser pendiente/TBD")
+
+        if len(text) < 4:
+            raise ValueError("ubicacion_fisica debe incluir ubicacion descriptiva")
+
+        return text
+
+    @model_validator(mode="after")
+    def validate_location_pointer(self) -> "RecordFrontmatter":
+        if not self.ubicacion_externa_url and not self.ubicacion_fisica:
+            raise ValueError(
+                "El registro wrapper debe declarar ubicacion_externa_url o ubicacion_fisica"
+            )
+        return self
+
 
 class LmdEntry(BaseModel):
-    model_config = ConfigDict(extra="ignore", str_strip_whitespace=True)
+    model_config = ConfigDict(extra="forbid", str_strip_whitespace=True)
 
     codigo: str
     titulo: str
@@ -113,7 +172,7 @@ class LmdEntry(BaseModel):
 
 
 class MatrixRecordEntry(BaseModel):
-    model_config = ConfigDict(extra="ignore", str_strip_whitespace=True)
+    model_config = ConfigDict(extra="forbid", str_strip_whitespace=True)
 
     nombre: str = Field(min_length=3)
     codigo: str
@@ -122,6 +181,8 @@ class MatrixRecordEntry(BaseModel):
     responsable: str = "<DEFINIR>"
     medio: str = "Digital"
     ubicacion: str = "docs/06_registros/"
+    ubicacion_externa_url: str | None = None
+    ubicacion_fisica: str | None = None
     retencion: str = "TBD"
     disposicion_final: str = "TODO: Definir (eliminar/archivar/destruir)"
     acceso: str = "TODO: Definir"

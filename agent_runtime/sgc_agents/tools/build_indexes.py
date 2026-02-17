@@ -356,13 +356,35 @@ def _default_record_location(code: str) -> str:
         return "docs/06_registros/competencia/"
     return "docs/06_registros/"
 
+def _is_pending_policy_value(value: Any) -> bool:
+    text = str(value or "").strip().upper()
+    if not text:
+        return True
+    return "TODO" in text or "TBD" in text or "<DEFINIR>" in text
+
+
+def _enforce_retention_policy_for_vigente(code: str, payload: dict[str, Any], referenced_by_vigente: bool) -> None:
+    if not referenced_by_vigente:
+        return
+
+    pending_fields: list[str] = []
+    for key in ("retencion", "disposicion_final"):
+        if _is_pending_policy_value(payload.get(key)):
+            pending_fields.append(key)
+
+    if pending_fields:
+        raise ValueError(
+            "Politica de retencion incompleta para registro referenciado por documento VIGENTE "
+            f"({code}): campos pendientes={pending_fields}"
+        )
+
 
 def build_matrix_payload(
     documents: list[ControlledDocument],
     existing_by_code: dict[str, dict[str, Any]],
     catalog_by_code: dict[str, dict[str, Any]] | None = None,
 ) -> dict[str, Any]:
-    discovered: dict[str, dict[str, str]] = {}
+    discovered: dict[str, dict[str, Any]] = {}
 
     for doc in documents:
         for code, name in _extract_record_refs(doc.content):
@@ -371,8 +393,11 @@ def build_matrix_payload(
                 {
                     "nombre": "",
                     "proceso": doc.frontmatter.proceso,
+                    "referenciado_por_vigente": doc.frontmatter.estado == "VIGENTE",
                 },
             )
+            if doc.frontmatter.estado == "VIGENTE":
+                row["referenciado_por_vigente"] = True
             if name and len(name) > len(row.get("nombre", "")):
                 row["nombre"] = name
 
@@ -401,12 +426,21 @@ def build_matrix_payload(
             "responsable": catalog.get("responsable") or existing.get("responsable", "<DEFINIR>"),
             "medio": catalog.get("medio") or existing.get("medio", "Digital"),
             "ubicacion": catalog.get("ubicacion") or existing.get("ubicacion", _default_record_location(code)),
+            "ubicacion_externa_url": catalog.get("ubicacion_externa_url") or existing.get("ubicacion_externa_url"),
+            "ubicacion_fisica": catalog.get("ubicacion_fisica") or existing.get("ubicacion_fisica"),
             "retencion": catalog.get("retencion") or existing.get("retencion", "TBD"),
             "disposicion_final": catalog.get("disposicion_final")
             or existing.get("disposicion_final", "TODO: Definir (eliminar/archivar/destruir)"),
             "acceso": catalog.get("acceso") or existing.get("acceso", "TODO: Definir"),
             "proteccion": catalog.get("proteccion") or existing.get("proteccion", "Control de acceso + respaldos"),
         }
+
+        _enforce_retention_policy_for_vigente(
+            code,
+            payload,
+            bool(discovered_row.get("referenciado_por_vigente", False)),
+        )
+
         record = MatrixRecordEntry.model_validate(payload)
         records.append(record.model_dump(exclude_none=True))
 
