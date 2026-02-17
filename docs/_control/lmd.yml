@@ -43,6 +43,14 @@ documentos:
   estado: VIGENTE
   fecha_vigencia: '2026-02-15'
   ubicacion: docs/_control/ESP-SGC-14_Reporte_de_Trazabilidad_Documental.md
+- codigo: ESP-SGC-15
+  titulo: Resumen Ejecutivo del Repositorio SGC
+  tipo: ESP
+  proceso: SGC / Control Documental
+  version: '1.0'
+  estado: VIGENTE
+  fecha_vigencia: '2026-02-17'
+  ubicacion: docs/_control/ESP-SGC-15_Resumen_Ejecutivo_del_Repositorio_SGC.md
 - codigo: FOR-SGC-01
   titulo: Solicitud de Creación / Cambio Documental
   tipo: FOR
