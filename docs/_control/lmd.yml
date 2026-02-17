@@ -259,3 +259,11 @@ documentos:
   estado: VIGENTE
   fecha_vigencia: '2026-02-15'
   ubicacion: docs/10_competencia_formacion/PR-SGC-08_Competencia_y_Formacion.md
+- codigo: PR-SGC-09
+  titulo: Control de Cambios del Runtime y Automatizaciones QA
+  tipo: PR
+  proceso: SGC / Control Documental
+  version: '1.0'
+  estado: BORRADOR
+  fecha_vigencia: TBD
+  ubicacion: docs/03_procedimientos/PR-SGC-09_Control_de_Cambios_del_Runtime_y_Automatizaciones_QA.md
