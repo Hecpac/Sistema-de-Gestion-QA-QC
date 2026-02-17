@@ -2,31 +2,22 @@
 formato_origen: "FOR-SGC-03"
 codigo_registro: "REG-SGC-CAPA-2026-001"
 fecha_registro: "2026-02-10"
+ubicacion_externa_url: "s3://sgc-registros/docs/06_registros/capa/REG-SGC-CAPA-2026-001.json"
 ---
 
-# REG-SGC-CAPA-2026-001 (Piloto sintetico)
+# REG-SGC-CAPA-2026-001 (Wrapper de metadatos)
 
-## 9. Formato de llenado
+## 1. Naturaleza del registro
+Este archivo actua como indice de metadatos del registro oficial.
+El contenido transaccional vive fuera del repositorio documental SGC.
 
-- Codigo CAPA: CAPA-2026-001
-- Codigo NC asociada: NC-2026-001
-- Clasificacion NC: Media
-- Metodo causa raiz: 5 Porques
-- Causa raiz validada: Falta de control de bloqueo en cierre operativo y entrenamiento no uniforme en turno nocturno.
+## 2. Referencia transaccional
+- formato_origen: `FOR-SGC-03`
+- codigo_registro: `REG-SGC-CAPA-2026-001`
+- fecha_registro: `2026-02-10`
+- ubicacion_externa_url: `s3://sgc-registros/docs/06_registros/capa/REG-SGC-CAPA-2026-001.json`
 
-### Plan de accion
-| Accion | Responsable | Fecha objetivo | Evidencia |
-|---|---|---|---|
-| Implementar validacion obligatoria de checklist en cierre | Coordinacion TI | 2026-02-18 | Captura de regla activa en sistema |
-| Reentrenar supervisores de turno nocturno | Jefatura Operativa | 2026-02-20 | Lista de asistencia y evaluacion |
-| Auditar 20 ordenes post-cambio | Calidad | 2026-03-05 | Resultado de muestreo |
-
-### Verificacion de eficacia
-- Indicador: % de ordenes cerradas con checklist completo.
-- Meta: 100% en muestra de verificacion.
-- Ventana observacion: 60 dias.
-- Resultado eficacia: Eficaz.
-- Fecha verificacion: 2026-04-30.
-- Fecha cierre: 2026-04-30.
-
-> Registro sintetico para simulacion del flujo NC/CAPA.
+## 3. Criterios de control
+- El registro original se gestiona en el sistema externo declarado.
+- Este wrapper solo mantiene trazabilidad documental para auditoria.
+- Cualquier actualizacion operativa debe conservar el mismo codigo_registro.

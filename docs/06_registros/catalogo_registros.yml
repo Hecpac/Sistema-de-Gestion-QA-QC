@@ -14,6 +14,7 @@ registros:
   responsable: Jefatura de Talento Humano
   medio: Digital
   ubicacion: docs/06_registros/competencia/capacitaciones/
+  ubicacion_externa_url: s3://sgc-registros/catalogo/REG-SGC-CAP.json
   retencion: 3 anos
   disposicion_final: Archivo digital historico y eliminacion controlada al vencer retencion
   acceso: Calidad / Talento
@@ -25,6 +26,7 @@ registros:
   responsable: Coordinacion de Calidad
   medio: Digital
   ubicacion: docs/06_registros/capa/
+  ubicacion_externa_url: s3://sgc-registros/catalogo/REG-SGC-CAPA.json
   retencion: 5 anos
   disposicion_final: Archivo digital historico y eliminacion controlada al vencer retencion
   acceso: Calidad / Duenos de Proceso
@@ -36,6 +38,7 @@ registros:
   responsable: Coordinacion de Calidad
   medio: Digital
   ubicacion: docs/06_registros/cambios_documentales/
+  ubicacion_externa_url: s3://sgc-registros/catalogo/REG-SGC-CDC.json
   retencion: 3 anos
   disposicion_final: Archivo digital historico y eliminacion controlada al vencer retencion
   acceso: Calidad / Direccion (segun corresponda)
@@ -47,6 +50,7 @@ registros:
   responsable: Coordinacion de Calidad
   medio: Digital
   ubicacion: docs/06_registros/comunicaciones_documentales/
+  ubicacion_externa_url: s3://sgc-registros/catalogo/REG-SGC-COM.json
   retencion: 3 anos
   disposicion_final: Archivo digital historico y eliminacion controlada al vencer retencion
   acceso: Calidad / Auditores
@@ -58,6 +62,7 @@ registros:
   responsable: Jefatura de Talento Humano
   medio: Digital
   ubicacion: docs/06_registros/competencia/matriz/
+  ubicacion_externa_url: s3://sgc-registros/catalogo/REG-SGC-COMP.json
   retencion: 3 anos
   disposicion_final: Archivo digital historico y eliminacion controlada al vencer retencion
   acceso: Calidad / Talento
@@ -69,6 +74,7 @@ registros:
   responsable: Jefatura de Talento Humano
   medio: Digital
   ubicacion: docs/06_registros/competencia/eficacia_capacitacion/
+  ubicacion_externa_url: s3://sgc-registros/catalogo/REG-SGC-EFI-CAP.json
   retencion: 3 anos
   disposicion_final: Archivo digital historico y eliminacion controlada al vencer retencion
   acceso: Calidad / Talento
@@ -80,6 +86,7 @@ registros:
   responsable: Coordinacion de Calidad
   medio: Digital
   ubicacion: docs/06_registros/auditorias/informes/
+  ubicacion_externa_url: s3://sgc-registros/catalogo/REG-SGC-INF-AUD.json
   retencion: 5 anos
   disposicion_final: Archivo digital historico y eliminacion controlada al vencer retencion
   acceso: Calidad / Direccion
@@ -91,6 +98,7 @@ registros:
   responsable: Coordinacion de Calidad
   medio: Digital
   ubicacion: docs/06_registros/indicadores/
+  ubicacion_externa_url: s3://sgc-registros/catalogo/REG-SGC-KPI.json
   retencion: 5 anos
   disposicion_final: Archivo digital historico y eliminacion controlada al vencer retencion
   acceso: Calidad / Direccion
@@ -102,6 +110,7 @@ registros:
   responsable: Coordinacion de Calidad
   medio: Digital
   ubicacion: docs/06_registros/no_conformidades/
+  ubicacion_externa_url: s3://sgc-registros/catalogo/REG-SGC-NC.json
   retencion: 5 anos
   disposicion_final: Archivo digital historico y eliminacion controlada al vencer retencion
   acceso: Calidad / Duenos de Proceso
@@ -113,6 +122,7 @@ registros:
   responsable: Coordinacion de Calidad
   medio: Digital
   ubicacion: docs/06_registros/auditorias/planes/
+  ubicacion_externa_url: s3://sgc-registros/catalogo/REG-SGC-PLAN-AUD.json
   retencion: 5 anos
   disposicion_final: Archivo digital historico y eliminacion controlada al vencer retencion
   acceso: Calidad / Auditores
@@ -124,6 +134,7 @@ registros:
   responsable: Coordinacion de Calidad
   medio: Digital
   ubicacion: docs/06_registros/auditorias/programa_anual/
+  ubicacion_externa_url: s3://sgc-registros/catalogo/REG-SGC-PROG-AUD.json
   retencion: 5 anos
   disposicion_final: Archivo digital historico y eliminacion controlada al vencer retencion
   acceso: Calidad / Auditores
@@ -135,6 +146,7 @@ registros:
   responsable: Jefatura de Compras
   medio: Digital
   ubicacion: docs/06_registros/proveedores/evaluaciones/
+  ubicacion_externa_url: s3://sgc-registros/catalogo/REG-SGC-PROV.json
   retencion: 3 anos
   disposicion_final: Archivo digital historico y eliminacion controlada al vencer retencion
   acceso: Calidad / Compras
@@ -146,6 +158,7 @@ registros:
   responsable: Direccion General
   medio: Digital
   ubicacion: docs/06_registros/revision_direccion/
+  ubicacion_externa_url: s3://sgc-registros/catalogo/REG-SGC-RD.json
   retencion: 5 anos
   disposicion_final: Archivo digital historico y eliminacion controlada al vencer retencion
   acceso: Calidad / Direccion
@@ -157,6 +170,7 @@ registros:
   responsable: Coordinacion de Calidad
   medio: Digital
   ubicacion: docs/06_registros/riesgos/matriz/
+  ubicacion_externa_url: s3://sgc-registros/catalogo/REG-SGC-RISK.json
   retencion: 5 anos
   disposicion_final: Archivo digital historico y eliminacion controlada al vencer retencion
   acceso: Calidad / Duenos de Proceso
@@ -168,6 +182,7 @@ registros:
   responsable: Coordinacion de Calidad
   medio: Digital
   ubicacion: docs/06_registros/riesgos/planes_tratamiento/
+  ubicacion_externa_url: s3://sgc-registros/catalogo/REG-SGC-RISK-PLAN.json
   retencion: 5 anos
   disposicion_final: Archivo digital historico y eliminacion controlada al vencer retencion
   acceso: Calidad / Duenos de Proceso
@@ -179,6 +194,7 @@ registros:
   responsable: Coordinacion de Calidad
   medio: Digital
   ubicacion: docs/06_registros/auditorias/seguimiento_acciones/
+  ubicacion_externa_url: s3://sgc-registros/catalogo/REG-SGC-SEG-AUD.json
   retencion: 5 anos
   disposicion_final: Archivo digital historico y eliminacion controlada al vencer retencion
   acceso: Calidad / Duenos de Proceso

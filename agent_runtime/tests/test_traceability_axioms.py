@@ -12,8 +12,7 @@ def _write(path: Path, content: str) -> None:
     path.write_text(content, encoding="utf-8")
 
 
-def _format_doc(estado: str = "VIGENTE", include_extra_heading: bool = False) -> str:
-    extra = "\n### 9.2 Evidencia" if include_extra_heading else ""
+def _format_doc(estado: str = "VIGENTE") -> str:
     return f"""---
 codigo: "FOR-SGC-02"
 titulo: "Registro de No Conformidad"
@@ -31,32 +30,35 @@ aprobo: "Direccion"
 
 ## 1. Objetivo
 Controlar no conformidades.
-
-## 9. Formato de llenado
-### 9.1 Datos basicos{extra}
 """
 
 
-def _record_doc(formato: str, include_frontmatter: bool = True, include_fill_heading: bool = True) -> str:
+def _record_doc(
+    formato: str,
+    include_frontmatter: bool = True,
+    include_location_pointer: bool = True,
+) -> str:
     frontmatter = ""
     if include_frontmatter:
-        frontmatter = f"""---
+        location_line = (
+            'ubicacion_externa_url: "s3://sgc-registros/tests/REG-SGC-NC-2026-001.json"\n'
+            if include_location_pointer
+            else ""
+        )
+        frontmatter = (
+            f"""---
 formato_origen: "{formato}"
 codigo_registro: "REG-SGC-NC-2026-001"
 fecha_registro: "2026-02-09"
----
+{location_line}---
 
 """
-
-    fill_section = ""
-    if include_fill_heading:
-        fill_section = "## 9. Formato de llenado\n### 9.1 Datos basicos\n"
+        )
 
     return (
         frontmatter
-        + "# REG-SGC-NC-2026-001\n\n"
-        + fill_section
-        + "- Codigo NC: NC-2026-001\n"
+        + "# REG-SGC-NC-2026-001 (Wrapper de metadatos)\n\n"
+        + "Este archivo referencia un sistema externo de registros.\n"
     )
 
 
@@ -69,6 +71,12 @@ def _write_matrix(repo: Path, include_mapping: bool = True) -> None:
                     "codigo": "REG-SGC-NC",
                     "codigo_formato": "FOR-SGC-02",
                     "nombre": "Registro NC",
+                    "responsable": "Calidad",
+                    "retencion": "5 anos",
+                    "disposicion_final": "Archivo historico",
+                    "acceso": "Calidad",
+                    "ubicacion": "docs/06_registros/no_conformidades/",
+                    "ubicacion_externa_url": "s3://sgc-registros/catalogo/REG-SGC-NC.json",
                 }
             ]
         }
@@ -150,19 +158,20 @@ def test_p4_fails_when_format_is_not_in_matrix(tmp_path, monkeypatch) -> None:
     assert any("[P4]" in item for item in result["hallazgos"])
 
 
-def test_p5_fails_when_fillable_structure_is_incomplete(tmp_path, monkeypatch) -> None:
+def test_p5_fails_when_wrapper_has_no_external_or_physical_pointer(tmp_path, monkeypatch) -> None:
     repo = _setup_repo(tmp_path, monkeypatch)
 
-    _write(
-        repo / "docs/05_formatos/FOR-SGC-02_Registro.md",
-        _format_doc(include_extra_heading=True),
-    )
+    _write(repo / "docs/05_formatos/FOR-SGC-02_Registro.md", _format_doc())
     record_path = repo / "docs/06_registros/no_conformidades/REG-SGC-NC-2026-001.md"
-    _write(record_path, _record_doc("FOR-SGC-02", include_fill_heading=True))
+    _write(
+        record_path,
+        _record_doc("FOR-SGC-02", include_frontmatter=True, include_location_pointer=False),
+    )
 
     result = _validate_traceability_for_path(record_path)
 
     assert result["valido"] is False
+    assert result["axiomas"]["P1_procedencia"] is True
     assert result["axiomas"]["P5_isomorfismo_estructural"] is False
     assert any("[P5]" in item for item in result["hallazgos"])
 

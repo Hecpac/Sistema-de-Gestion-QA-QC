@@ -2,16 +2,22 @@
 formato_origen: "FOR-SGC-07"
 codigo_registro: "REG-SGC-SEG-AUD-2026-Q1-O03"
 fecha_registro: "2026-02-12"
+ubicacion_externa_url: "s3://sgc-registros/docs/06_registros/auditorias/seguimiento_acciones/REG-SGC-SEG-AUD-2026-Q1-O03.json"
 ---
 
-# REG-SGC-SEG-AUD-2026-Q1-O03 (Piloto sintetico)
+# REG-SGC-SEG-AUD-2026-Q1-O03 (Wrapper de metadatos)
 
-## 9. Formato de llenado
+## 1. Naturaleza del registro
+Este archivo actua como indice de metadatos del registro oficial.
+El contenido transaccional vive fuera del repositorio documental SGC.
 
-| Codigo informe | Codigo hallazgo | Tipo hallazgo | Codigo NC | Codigo CAPA | Accion | Responsable | Fecha compromiso | Dias abiertos | Estado semaforo | Evidencia de cierre | Fecha verificacion eficacia | Resultado eficacia | Estado |
-|---|---|---|---|---|---|---|---|---:|---|---|---|---|---|
-| REG-SGC-INF-AUD-2026-Q1-O03 | H-AUD-2026-001 | Menor | NC-2026-001 | CAPA-2026-001 | Activar validacion obligatoria de checklist en cierre | Coordinacion TI | 2026-02-18 | 9 | Verde | Regla activa en sistema | 2026-04-30 | Eficaz | Cerrada |
-| REG-SGC-INF-AUD-2026-Q1-O03 | H-AUD-2026-001 | Menor | NC-2026-001 | CAPA-2026-001 | Reentrenar supervisores de turno nocturno | Jefatura Operativa | 2026-02-20 | 11 | Verde | Lista de asistencia | 2026-04-30 | Eficaz | Cerrada |
-| REG-SGC-INF-AUD-2026-Q1-O03 | H-AUD-2026-002 | Observacion | N/A | N/A | Homologar criterio de cierre entre turnos | Calidad + Operaciones | 2026-03-10 | 30 | Amarillo | Minuta de estandarizacion | 2026-04-15 | Eficaz | Cerrada |
+## 2. Referencia transaccional
+- formato_origen: `FOR-SGC-07`
+- codigo_registro: `REG-SGC-SEG-AUD-2026-Q1-O03`
+- fecha_registro: `2026-02-12`
+- ubicacion_externa_url: `s3://sgc-registros/docs/06_registros/auditorias/seguimiento_acciones/REG-SGC-SEG-AUD-2026-Q1-O03.json`
 
-> Registro sintetico para simulacion de seguimiento de hallazgos.
+## 3. Criterios de control
+- El registro original se gestiona en el sistema externo declarado.
+- Este wrapper solo mantiene trazabilidad documental para auditoria.
+- Cualquier actualizacion operativa debe conservar el mismo codigo_registro.
