@@ -171,6 +171,14 @@ documentos:
   estado: VIGENTE
   fecha_vigencia: '2026-02-15'
   ubicacion: docs/10_competencia_formacion/FOR-SGC-15_Evaluacion_de_Eficacia_de_Capacitacion.md
+- codigo: IT-SGC-01
+  titulo: 'Instructivo: Configuracion de GitHub para Gobierno del SGC'
+  tipo: IT
+  proceso: SGC / Control Documental
+  version: '1.0'
+  estado: BORRADOR
+  fecha_vigencia: TBD
+  ubicacion: docs/04_instructivos/IT-SGC-01_Configuracion_de_GitHub_para_Gobierno_del_SGC.md
 - codigo: PLAN-SGC-01
   titulo: Objetivos de Calidad y Seguimiento
   tipo: PLAN
