@@ -244,6 +244,23 @@ def _existing_matrix_by_code(root: Path) -> dict[str, dict[str, Any]]:
     return by_code
 
 
+def _record_catalog_by_code(root: Path) -> dict[str, dict[str, Any]]:
+    path = root / "docs/06_registros/catalogo_registros.yml"
+    data = _load_yaml(path)
+    items = data.get("registros", [])
+    if not isinstance(items, list):
+        return {}
+
+    by_code: dict[str, dict[str, Any]] = {}
+    for item in items:
+        if not isinstance(item, dict):
+            continue
+        code = str(item.get("codigo", "")).strip()
+        if code:
+            by_code[code] = item
+    return by_code
+
+
 def _compute_fecha_vigencia(
     doc: ControlledDocument, existing_entry: dict[str, Any] | None
 ) -> str:
@@ -343,6 +360,7 @@ def _default_record_location(code: str) -> str:
 def build_matrix_payload(
     documents: list[ControlledDocument],
     existing_by_code: dict[str, dict[str, Any]],
+    catalog_by_code: dict[str, dict[str, Any]] | None = None,
 ) -> dict[str, Any]:
     discovered: dict[str, dict[str, str]] = {}
 
@@ -362,31 +380,32 @@ def build_matrix_payload(
     for code in sorted(discovered):
         discovered_row = discovered[code]
         existing = existing_by_code.get(code, {})
+        catalog = catalog_by_code.get(code, {}) if catalog_by_code else {}
 
         existing_format = str(existing.get("codigo_formato", "")).strip()
+        catalog_format = str(catalog.get("codigo_formato", "")).strip()
 
         payload = {
-            "nombre": RECORD_NAME_HINTS.get(code)
+            "nombre": catalog.get("nombre")
+            or RECORD_NAME_HINTS.get(code)
             or existing.get("nombre")
             or discovered_row.get("nombre")
             or code,
             "codigo": code,
-            "codigo_formato": existing_format or RECORD_FORMAT_HINTS.get(code),
-            "proceso": RECORD_PROCESS_HINTS.get(code)
+            "codigo_formato": catalog_format or existing_format or RECORD_FORMAT_HINTS.get(code),
+            "proceso": catalog.get("proceso")
+            or RECORD_PROCESS_HINTS.get(code)
             or existing.get("proceso")
             or discovered_row.get("proceso")
             or "SGC",
-            "responsable": existing.get("responsable", "<DEFINIR>"),
-            "medio": existing.get("medio", "Digital"),
-            "ubicacion": existing.get("ubicacion", _default_record_location(code)),
-            "retencion": existing.get("retencion", "TBD"),
-            "disposicion_final": existing.get(
-                "disposicion_final", "TODO: Definir (eliminar/archivar/destruir)"
-            ),
-            "acceso": existing.get("acceso", "TODO: Definir"),
-            "proteccion": existing.get(
-                "proteccion", "Control de acceso + respaldos"
-            ),
+            "responsable": catalog.get("responsable") or existing.get("responsable", "<DEFINIR>"),
+            "medio": catalog.get("medio") or existing.get("medio", "Digital"),
+            "ubicacion": catalog.get("ubicacion") or existing.get("ubicacion", _default_record_location(code)),
+            "retencion": catalog.get("retencion") or existing.get("retencion", "TBD"),
+            "disposicion_final": catalog.get("disposicion_final")
+            or existing.get("disposicion_final", "TODO: Definir (eliminar/archivar/destruir)"),
+            "acceso": catalog.get("acceso") or existing.get("acceso", "TODO: Definir"),
+            "proteccion": catalog.get("proteccion") or existing.get("proteccion", "Control de acceso + respaldos"),
         }
         record = MatrixRecordEntry.model_validate(payload)
         records.append(record.model_dump(exclude_none=True))
@@ -400,7 +419,11 @@ def build_indexes(root: Path | None = None) -> BuildIndexesSummary:
     documents = discover_controlled_documents(resolved_root)
 
     lmd_payload = build_lmd_payload(documents, _existing_lmd_by_code(resolved_root))
-    matrix_payload = build_matrix_payload(documents, _existing_matrix_by_code(resolved_root))
+    matrix_payload = build_matrix_payload(
+        documents,
+        _existing_matrix_by_code(resolved_root),
+        _record_catalog_by_code(resolved_root),
+    )
 
     lmd_path = resolved_root / "docs/_control/lmd.yml"
     matrix_path = resolved_root / "docs/_control/matriz_registros.yml"

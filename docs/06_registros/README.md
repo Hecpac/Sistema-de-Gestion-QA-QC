@@ -27,3 +27,9 @@ fecha_registro: "YYYY-MM-DD"
 - El formato origen debe estar habilitado en `docs/_control/matriz_registros.yml` mediante `codigo_formato`.
 
 > Regla: si un procedimiento requiere un registro, debe existir en `docs/_control/matriz_registros.yml` con su ubicacion, retencion y formato origen.
+
+## Catalogo de registros (SSOT)
+La fuente de verdad para metadatos operativos de registros (responsable, ubicacion, retencion, acceso, etc.) es:
+- `docs/06_registros/catalogo_registros.yml`
+
+`sgc-build-indexes` usa este catalogo para generar deterministamente `docs/_control/matriz_registros.yml`.
