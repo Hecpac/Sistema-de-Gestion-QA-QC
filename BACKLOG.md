@@ -43,7 +43,7 @@
 
 ## 5) Sprint 1 multidisciplina (Civil / Mecanica / Electrica)
 - [ ] Publicar taxonomia oficial por disciplina y subdisciplina.
-- [ ] Definir campos tecnicos minimos de metadatos (`disciplina`, `criticidad_tecnica`, `norma_aplicable`, `proyecto_referencia`).
+- [ ] Definir campos tecnicos minimos de metadatos (`disciplina`, `subdisciplina`, `criticidad_tecnica`, `norma_aplicable`, `proyecto_referencia`).
 - [ ] Crear plantillas por disciplina:
   - [ ] `templates/TEMPLATE_Ficha_Tecnica_Disciplina.md`
   - [ ] `templates/TEMPLATE_ITP_Disciplina.md`
