@@ -60,7 +60,7 @@ jobs:
 
             const runs = runsResp.data.workflow_runs || [];
             if (!runs.length) {
-              const title = `[SGC Watchdog] Weekly monitor sin runs - ${now.toISOString().slice(0,10)}`;
+              const title = `[SGC Watchdog] Weekly monitor sin runs`;
               const body = [
                 `El watchdog detecto que ${workflowFile} no tiene ejecuciones registradas.`,
                 ``,
@@ -100,11 +100,12 @@ jobs:
               return;
             }
 
-            const title = `[SGC Watchdog] Weekly monitor stale/failing - ${now.toISOString().slice(0,10)}`;
+            const title = `[SGC Watchdog] Weekly monitor stale/failing`;
             const body = [
               `El watchdog detecto que el monitor semanal no esta saludable.`,
               ``,
               `- Workflow: ${workflowFile}`,
+              `- Fecha deteccion: ${now.toISOString()}`,
               `- Ultimo run: ${last.html_url}`,
               `- Conclusion: ${last.conclusion}`,
               `- Creado: ${last.created_at}`,
