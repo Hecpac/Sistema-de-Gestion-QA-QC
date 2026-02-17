@@ -121,6 +121,9 @@ PY
 echo "[SGC-MONITOR] Rebuild dashboard final (incluye tendencia)..."
 PYTHONPATH="$RUNTIME_DIR" python -m sgc_agents.tools.build_dashboard --repo-root "$REPO_ROOT"
 
+echo "[SGC-MONITOR] Generar snapshot de instrumentacion..."
+PYTHONPATH="$RUNTIME_DIR" python -m sgc_agents.tools.build_instrumentation_snapshot --repo-root "$REPO_ROOT"
+
 if [[ "$qa_exit" -ne 0 ]]; then
   echo "[SGC-MONITOR] FALLA: hay hallazgos QA"
   exit "$qa_exit"
