@@ -9,6 +9,7 @@ on:
 
 jobs:
   qa:
+    name: SGC QA Gate
     runs-on: ubuntu-latest
 
     steps:
