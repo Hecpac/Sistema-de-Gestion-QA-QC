@@ -179,6 +179,30 @@ documentos:
   estado: VIGENTE
   fecha_vigencia: '2026-02-17'
   ubicacion: docs/04_instructivos/IT-SGC-01_Configuracion_de_GitHub_para_Gobierno_del_SGC.md
+- codigo: IT-SGC-02
+  titulo: Instructivo de Inspeccion y Liberacion de Obra Civil
+  tipo: IT
+  proceso: SGC / Disciplina Civil
+  version: '1.0'
+  estado: VIGENTE
+  fecha_vigencia: '2026-02-17'
+  ubicacion: docs/04_instructivos/IT-SGC-02_Instructivo_Inspeccion_y_Liberacion_Civil.md
+- codigo: IT-SGC-03
+  titulo: Instructivo de Control de Calidad Mecanica
+  tipo: IT
+  proceso: SGC / Disciplina Mecanica
+  version: '1.0'
+  estado: VIGENTE
+  fecha_vigencia: '2026-02-17'
+  ubicacion: docs/04_instructivos/IT-SGC-03_Instructivo_Control_de_Calidad_Mecanica.md
+- codigo: IT-SGC-04
+  titulo: Instructivo de Verificacion Electrica Preenergizacion
+  tipo: IT
+  proceso: SGC / Disciplina Electrica
+  version: '1.0'
+  estado: VIGENTE
+  fecha_vigencia: '2026-02-17'
+  ubicacion: docs/04_instructivos/IT-SGC-04_Instructivo_Verificacion_Electrica_Preenergizacion.md
 - codigo: PLAN-SGC-01
   titulo: Objetivos de Calidad y Seguimiento
   tipo: PLAN

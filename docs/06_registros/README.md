@@ -19,10 +19,12 @@ Todo archivo Markdown en `docs/06_registros/` debe incluir frontmatter YAML con:
 formato_origen: "FOR-SGC-XX"
 codigo_registro: "REG-SGC-..."
 fecha_registro: "YYYY-MM-DD"
+ubicacion_externa_url: "s3://.../registro.json"   # o ubicacion_fisica
 ---
 ```
 
 - `formato_origen` es obligatorio y debe apuntar a un formato canonico existente.
+- Debe declararse `ubicacion_externa_url` o `ubicacion_fisica` (patron wrapper).
 - El formato origen debe estar en estado `VIGENTE`.
 - El formato origen debe estar habilitado en `docs/_control/matriz_registros.yml` mediante `codigo_formato`.
 
