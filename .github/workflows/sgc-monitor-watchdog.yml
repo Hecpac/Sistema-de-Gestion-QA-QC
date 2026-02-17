@@ -25,6 +25,32 @@ jobs:
             const { owner, repo } = context.repo;
             const now = new Date();
 
+            async function createWatchdogIssue(title, body) {
+              const existing = await github.rest.issues.listForRepo({
+                owner,
+                repo,
+                state: "open",
+                labels: "sgc,monitor",
+                per_page: 50,
+              });
+
+              const already = (existing.data || []).some(i => (i.title || "").startsWith("[SGC Watchdog]"));
+              if (already) {
+                core.warning("Ya existe un issue abierto del watchdog con labels sgc,monitor. No se crea uno nuevo.");
+                return false;
+              }
+
+              await github.rest.issues.create({
+                owner,
+                repo,
+                title,
+                body,
+                labels: ["sgc", "monitor", "qa"],
+              });
+
+              return true;
+            }
+
             const runsResp = await github.rest.actions.listWorkflowRuns({
               owner,
               repo,
@@ -34,10 +60,31 @@ jobs:
 
             const runs = runsResp.data.workflow_runs || [];
             if (!runs.length) {
-              core.setFailed(`No hay runs para ${workflowFile}. Verifica que Actions este habilitado.`);
+              const title = `[SGC Watchdog] Weekly monitor sin runs - ${now.toISOString().slice(0,10)}`;
+              const body = [
+                `El watchdog detecto que ${workflowFile} no tiene ejecuciones registradas.`,
+                ``,
+                `- Workflow: ${workflowFile}`,
+                `- Fecha deteccion: ${now.toISOString()}`,
+                ``,
+                `Accion recomendada: ejecutar el workflow manualmente y confirmar que el schedule quede activo.`,
+              ].join("\n");
+
+              const created = await createWatchdogIssue(title, body);
+              core.setFailed(
+                created
+                  ? `No hay runs para ${workflowFile}. Se creo issue del watchdog.`
+                  : `No hay runs para ${workflowFile}. Ya existe issue watchdog abierto.`
+              );
+              return;
             }
 
             const last = runs[0];
+            if (!last || !last.created_at) {
+              core.setFailed(`Respuesta inesperada de GitHub Actions para ${workflowFile}.`);
+              return;
+            }
+
             const lastTime = new Date(last.created_at);
             const ageMs = now - lastTime;
             const ageDays = ageMs / (1000 * 60 * 60 * 24);
@@ -62,27 +109,9 @@ jobs:
               `Si el problema es que no hay ejecuciones recientes, verificar que el schedule de Actions este habilitado.`,
             ].join("\n");
 
-            const existing = await github.rest.issues.listForRepo({
-              owner,
-              repo,
-              state: "open",
-              labels: "sgc,monitor",
-              per_page: 50,
-            });
-
-            const already = (existing.data || []).some(i => (i.title || "").startsWith("[SGC Watchdog] Weekly monitor"));
-            if (already) {
-              core.warning("Ya existe un issue abierto del watchdog con labels sgc,monitor. No se crea uno nuevo.");
-              core.setFailed("Watchdog detecto problema (issue existente).");
-              return;
-            }
-
-            await github.rest.issues.create({
-              owner,
-              repo,
-              title,
-              body,
-              labels: ["sgc", "monitor", "qa"],
-            });
-
-            core.setFailed("Watchdog detecto problema y creo issue.");
+            const created = await createWatchdogIssue(title, body);
+            core.setFailed(
+              created
+                ? "Watchdog detecto problema y creo issue."
+                : "Watchdog detecto problema (issue existente)."
+            );
