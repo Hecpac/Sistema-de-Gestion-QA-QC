@@ -1,0 +1,13 @@
+# Configuracion de auditoria de enlaces para CI (lychee)
+# Objetivo: validar el 100% de hipervinculos Markdown en modo fail-fast.
+
+max_concurrency = 8
+timeout = 20
+max_retries = 2
+retry_wait_time = 2
+
+include_fragments = true
+exclude_mail = true
+
+# 429 se trata como aceptable para evitar falsos negativos por rate limiting temporal.
+accept = [200, 204, 206, 301, 302, 429]

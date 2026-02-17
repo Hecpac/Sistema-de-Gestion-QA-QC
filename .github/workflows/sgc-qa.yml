@@ -39,6 +39,14 @@ jobs:
         run: |
           git diff --exit-code -- docs/_control/lmd.yml docs/_control/matriz_registros.yml docs/_control/dashboard_sgc.html
 
+      - name: Link integrity audit (AST) with lychee
+        uses: lycheeverse/lychee-action@v2
+        with:
+          args: --config ./.lychee.toml --verbose --no-progress "./**/*.md"
+          fail: true
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
       - name: Validate required sections in controlled docs (PR blocker)
         env:
           PYTHONPATH: agent_runtime
