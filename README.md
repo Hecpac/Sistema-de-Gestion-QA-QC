@@ -32,6 +32,13 @@ sgc-build-indexes
 sgc-build-dashboard
 ```
 
+Preflight de release/producción (checklist automatizado):
+```bash
+./scripts/release_preflight.sh
+# o, si ya tienes entorno listo:
+./scripts/release_preflight.sh --skip-install
+```
+
 Variables:
 - `OPENAI_API_KEY` (obligatoria)
 - `OPENAI_MODEL` (opcional, default `gpt-4.1-mini`)
