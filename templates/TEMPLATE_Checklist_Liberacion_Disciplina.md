@@ -1,5 +1,5 @@
 ---
-codigo: "FOR-TEC-CHK-XXX"
+codigo: "FOR-TEC-XXX"
 titulo: "Checklist de Liberacion Tecnica"
 tipo: "FOR"
 version: "1.0"
