@@ -35,9 +35,13 @@ jobs:
           sgc-build-indexes --repo-root "$GITHUB_WORKSPACE"
           sgc-build-dashboard --repo-root "$GITHUB_WORKSPACE"
 
+      - name: Generate instrumentation snapshot
+        run: |
+          sgc-build-instrumentation --repo-root "$GITHUB_WORKSPACE"
+
       - name: Anti-drift check (artefactos generados no deben tener drift)
         run: |
-          git diff --exit-code -- docs/_control/lmd.yml docs/_control/matriz_registros.yml docs/_control/dashboard_sgc.html
+          git diff --exit-code -- docs/_control/lmd.yml docs/_control/matriz_registros.yml docs/_control/dashboard_sgc.html docs/_control/instrumentacion_sgc.json
 
       - name: Link integrity audit (AST) with lychee
         uses: lycheeverse/lychee-action@v2

@@ -1,0 +1,116 @@
+{
+  "audits": {
+    "auditar_catalogo_registros": {
+      "hallazgos": 0,
+      "valido": true
+    },
+    "auditar_claves_frontmatter_desconocidas": {
+      "hallazgos": 0,
+      "valido": true
+    },
+    "auditar_enlaces_markdown": {
+      "hallazgos": 0,
+      "valido": true
+    },
+    "auditar_invariantes_de_estado": {
+      "hallazgos": 0,
+      "valido": true
+    },
+    "auditar_pendientes_matriz_registros": {
+      "hallazgos": 0,
+      "valido": true
+    },
+    "auditar_secciones_minimas": {
+      "hallazgos": 0,
+      "valido": true
+    },
+    "auditar_trazabilidad_registros": {
+      "hallazgos": 0,
+      "valido": true
+    },
+    "detectar_formatos_huerfanos": {
+      "hallazgos": 0,
+      "valido": true
+    },
+    "resolver_grafo_documental": {
+      "hallazgos": 0,
+      "valido": true
+    }
+  },
+  "baseline": {
+    "documents_borrador": 0,
+    "documents_total": 37,
+    "documents_vigente": 37,
+    "hallazgos_total": 0,
+    "records_total": 16
+  },
+  "distribution": {
+    "by_estado": {
+      "VIGENTE": 37
+    },
+    "by_proceso": {
+      "SGC": 4,
+      "SGC / Auditoria": 5,
+      "SGC / Control Documental": 4,
+      "SGC / Desempeno": 2,
+      "SGC / Direccion": 3,
+      "SGC / Disciplina Civil": 1,
+      "SGC / Disciplina Electrica": 1,
+      "SGC / Disciplina Mecanica": 1,
+      "SGC / Mejora": 3,
+      "SGC / Operacion": 1,
+      "SGC / Planeacion": 1,
+      "SGC / Proveedores": 2,
+      "SGC / Riesgos": 3,
+      "SGC / Soporte": 1,
+      "SGC / Talento": 4,
+      "SGC / Transformacion Digital": 1
+    },
+    "by_tipo": {
+      "ESP": 6,
+      "FOR": 15,
+      "IT": 4,
+      "PLAN": 2,
+      "POL": 1,
+      "PR": 9
+    }
+  },
+  "multidisciplina": {
+    "pilot_ready": true,
+    "required_docs": {
+      "IT-SGC-02": {
+        "exists": true
+      },
+      "IT-SGC-03": {
+        "exists": true
+      },
+      "IT-SGC-04": {
+        "exists": true
+      }
+    },
+    "required_records": {
+      "REG-SGC-CIV-2026-001": {
+        "error": null,
+        "exists": true,
+        "path": "docs/06_registros/pilotos_multidisciplina/REG-SGC-CIV-2026-001.md",
+        "pointer_ok": true
+      },
+      "REG-SGC-ELE-2026-001": {
+        "error": null,
+        "exists": true,
+        "path": "docs/06_registros/pilotos_multidisciplina/REG-SGC-ELE-2026-001.md",
+        "pointer_ok": true
+      },
+      "REG-SGC-MEC-2026-001": {
+        "error": null,
+        "exists": true,
+        "path": "docs/06_registros/pilotos_multidisciplina/REG-SGC-MEC-2026-001.md",
+        "pointer_ok": true
+      }
+    }
+  },
+  "readiness": {
+    "baseline_ready": true,
+    "zero_drift_expected": true
+  }
+}

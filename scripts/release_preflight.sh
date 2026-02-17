@@ -52,7 +52,8 @@ fi
 run_step "Run unit tests" pytest -q agent_runtime/tests
 run_step "Rebuild control indexes" sgc-build-indexes --repo-root "${REPO_ROOT}"
 run_step "Rebuild control dashboard" sgc-build-dashboard --repo-root "${REPO_ROOT}"
-run_step "Anti-drift verification (docs/_control)" git diff --exit-code -- docs/_control/lmd.yml docs/_control/matriz_registros.yml docs/_control/dashboard_sgc.html
+run_step "Generate instrumentation snapshot" sgc-build-instrumentation --repo-root "${REPO_ROOT}"
+run_step "Anti-drift verification (docs/_control)" git diff --exit-code -- docs/_control/lmd.yml docs/_control/matriz_registros.yml docs/_control/dashboard_sgc.html docs/_control/instrumentacion_sgc.json
 
 echo
 echo "==> Strict baseline policy checks (0 BORRADOR, 0 hallazgos)"

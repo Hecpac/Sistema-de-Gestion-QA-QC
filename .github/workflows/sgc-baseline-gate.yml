@@ -33,9 +33,13 @@ jobs:
           sgc-build-indexes --repo-root "$GITHUB_WORKSPACE"
           sgc-build-dashboard --repo-root "$GITHUB_WORKSPACE"
 
+      - name: Generate instrumentation snapshot
+        run: |
+          sgc-build-instrumentation --repo-root "$GITHUB_WORKSPACE"
+
       - name: Verify generated artifacts are up to date
         run: |
-          git diff --exit-code -- docs/_control/lmd.yml docs/_control/matriz_registros.yml docs/_control/dashboard_sgc.html
+          git diff --exit-code -- docs/_control/lmd.yml docs/_control/matriz_registros.yml docs/_control/dashboard_sgc.html docs/_control/instrumentacion_sgc.json
 
       - name: Run strict baseline gate (0 hallazgos + 0 BORRADOR + 0 pendientes matriz)
         env:

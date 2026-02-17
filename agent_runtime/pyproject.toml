@@ -17,6 +17,7 @@ dependencies = [
 sgc-agent = "sgc_agents.cli:main"
 sgc-build-indexes = "sgc_agents.tools.build_indexes:main"
 sgc-build-dashboard = "sgc_agents.tools.build_dashboard:main"
+sgc-build-instrumentation = "sgc_agents.tools.build_instrumentation_snapshot:main"
 
 [tool.setuptools]
 package-dir = {"" = "."}

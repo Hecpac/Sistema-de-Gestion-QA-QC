@@ -38,6 +38,7 @@ jobs:
             docs/_control/matriz_registros.yml
             docs/_control/dashboard_sgc.html
             docs/_control/reporte_qa_compliance.md
+            docs/_control/instrumentacion_sgc.json
             docs/_control/logs/
 
       - name: Create issue on monitor failure
