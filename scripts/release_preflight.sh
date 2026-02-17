@@ -41,10 +41,9 @@ fi
 source "${VENV_DIR}/bin/activate"
 
 if [[ "${SKIP_INSTALL}" != "true" ]]; then
-  run_step "Install pinned dependencies" bash -lc '
+  run_step "Install pinned dependencies" bash -c '
     python -m pip install --upgrade pip
-    pip install -c ./agent_runtime/constraints-ci.txt -e ./agent_runtime
-    pip install -c ./agent_runtime/constraints-ci.txt pytest
+    pip install -c ./agent_runtime/constraints-ci.txt -e ./agent_runtime pytest
   '
 else
   echo "==> Skip dependency install (--skip-install)"
@@ -81,21 +80,22 @@ borradores = [
     if isinstance(d, dict) and str(d.get("estado", "")).strip() == "BORRADOR"
 ]
 
-checks = [
-    yaml.safe_load(auditar_invariantes_de_estado()) or {},
-    yaml.safe_load(auditar_claves_frontmatter_desconocidas()) or {},
-    yaml.safe_load(auditar_secciones_minimas()) or {},
-    yaml.safe_load(auditar_enlaces_markdown()) or {},
-    yaml.safe_load(auditar_catalogo_registros()) or {},
-    yaml.safe_load(resolver_grafo_documental()) or {},
-    yaml.safe_load(detectar_formatos_huerfanos()) or {},
-    yaml.safe_load(auditar_trazabilidad_registros()) or {},
-    yaml.safe_load(auditar_pendientes_matriz_registros()) or {},
+audit_functions = [
+    auditar_invariantes_de_estado,
+    auditar_claves_frontmatter_desconocidas,
+    auditar_secciones_minimas,
+    auditar_enlaces_markdown,
+    auditar_catalogo_registros,
+    resolver_grafo_documental,
+    detectar_formatos_huerfanos,
+    auditar_trazabilidad_registros,
+    auditar_pendientes_matriz_registros,
 ]
 
 hallazgos = 0
-for check in checks:
-    findings = check.get("hallazgos", [])
+for audit_fn in audit_functions:
+    result = yaml.safe_load(audit_fn()) or {}
+    findings = result.get("hallazgos", [])
     if isinstance(findings, list):
         hallazgos += len(findings)
 
