@@ -1,6 +1,6 @@
 # Reporte QA/Compliance (Neuro-Simbolico)
 
-- Fecha: 2026-02-14
+- Fecha: 2026-02-16
 - Hallazgos totales: 0
 
 ## 1. auditar_invariantes_de_estado
@@ -32,7 +32,7 @@ hallazgos: []
 ## 4. validar_trazabilidad (P1..P5)
 ```yaml
 skill: auditar_trazabilidad
-fecha: '2026-02-14'
+fecha: '2026-02-16'
 registros_auditados: 8
 fallidos: 0
 valido: true
