@@ -39,6 +39,9 @@ Preflight de release/producción (checklist automatizado):
 ./scripts/release_preflight.sh --skip-install
 ```
 
+Plan operativo para escalamiento multidisciplina:
+- `playbooks/SPRINT1_MULTIDISCIPLINA.md`
+
 Variables:
 - `OPENAI_API_KEY` (obligatoria)
 - `OPENAI_MODEL` (opcional, default `gpt-4.1-mini`)
