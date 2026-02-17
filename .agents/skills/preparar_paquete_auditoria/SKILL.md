@@ -1,6 +1,9 @@
 ---
 name: preparar_paquete_auditoria
-description: Activar cuando se pida armar un paquete de evidencia para auditoria (interna/externa): lista de documentos vigentes, registros clave, KPIs, auditorias, NC/CAPA; NO activar para tareas de redaccion sin necesidad de empaquetado.
+description: >
+  Activar cuando se pida armar un paquete de evidencia para auditoria (interna/externa):
+  lista de documentos vigentes, registros clave, KPIs, auditorias, NC/CAPA; NO activar
+  para tareas de redaccion sin necesidad de empaquetado.
 ---
 
 # Objetivo

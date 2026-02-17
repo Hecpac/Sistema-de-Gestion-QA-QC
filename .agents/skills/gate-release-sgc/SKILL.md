@@ -1,6 +1,8 @@
 ---
 name: gate-release-sgc
-description: Activar cuando se prepare un release/tag del SGC y se requiera un gate final: repo limpio, artefactos _control sincronizados, QA en cero, checklist baseline listo y creacion de tag anotado.
+description: >
+  Activar cuando se prepare un release/tag del SGC y se requiera un gate final: repo limpio,
+  artefactos _control sincronizados, QA en cero, checklist baseline listo y creacion de tag anotado.
 ---
 
 # Objetivo
