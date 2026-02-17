@@ -119,3 +119,18 @@ Este roadmap esta orientado a construir el SGC **por incrementos**, priorizando 
 
 **Criterio de salida**
 - El agente puede inferir ruta objetivo por proceso sin ambiguedad y sin rutas duplicadas para el mismo codigo.
+
+---
+
+## Fase 11 - Escalamiento multidisciplina (Civil / Mecanica / Electrica)
+**Objetivo**
+- Extender el SGC para operar en empresas con multiples disciplinas tecnicas sin romper el modelo Zero-Trust.
+
+**Entregables**
+- Taxonomia oficial por disciplina/subdisciplina.
+- Plantillas tecnicas por disciplina (ficha tecnica, ITP, checklist de liberacion).
+- Gobernanza de aprobaciones por disciplina (CODEOWNERS + criterios por criticidad).
+- Piloto real de 3 flujos (civil/mecanica/electrica) con evidencia completa en CI.
+
+**Criterio de salida**
+- Cada disciplina puede emitir, revisar y liberar documentos tecnicos con trazabilidad completa y gates QA en verde.

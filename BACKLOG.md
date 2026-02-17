@@ -40,3 +40,13 @@
 ## 4) Limpieza y consistencia
 - [x] Revisar codificacion y versionado (consistencia).
 - [x] Validar que cada procedimiento enumere registros asociados y esten en la matriz de registros.
+
+## 5) Sprint 1 multidisciplina (Civil / Mecanica / Electrica)
+- [ ] Publicar taxonomia oficial por disciplina y subdisciplina.
+- [ ] Definir campos tecnicos minimos de metadatos (`disciplina`, `subdisciplina`, `criticidad_tecnica`, `norma_aplicable`, `proyecto_referencia`).
+- [ ] Crear plantillas por disciplina:
+  - [ ] `templates/TEMPLATE_Ficha_Tecnica_Disciplina.md`
+  - [ ] `templates/TEMPLATE_ITP_Disciplina.md`
+  - [ ] `templates/TEMPLATE_Checklist_Liberacion_Disciplina.md`
+- [ ] Definir gobernanza de aprobaciones tecnicas por disciplina en `CODEOWNERS`.
+- [ ] Ejecutar 1 piloto real por disciplina y conservar evidencia (PR + run CI + REG-SGC-CDC).
