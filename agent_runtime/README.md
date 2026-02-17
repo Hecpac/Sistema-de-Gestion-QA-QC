@@ -14,6 +14,14 @@ source .venv/bin/activate
 pip install -e .
 ```
 
+## Dependencias deterministas (CI/monitor)
+Este repo incluye `agent_runtime/constraints-ci.txt` para reducir drift por dependencias mutables.
+
+En CI, el workflow instala el runtime usando constraints:
+```bash
+pip install -c ./agent_runtime/constraints-ci.txt -e ./agent_runtime
+```
+
 ## Uso rapido
 ```bash
 sgc-agent --task "Genera un borrador de PR-SGC-02 y valida control documental"

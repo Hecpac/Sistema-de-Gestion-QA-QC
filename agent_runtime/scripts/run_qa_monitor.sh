@@ -6,6 +6,7 @@ RUNTIME_DIR="$REPO_ROOT/agent_runtime"
 LOG_DIR="$REPO_ROOT/docs/_control/logs"
 HISTORY_FILE="$REPO_ROOT/docs/_control/qa_monitor_history.yml"
 LOG_FILE="$LOG_DIR/qa-monitor-$(date +%F).log"
+CONSTRAINTS_FILE="${CONSTRAINTS_FILE:-$RUNTIME_DIR/constraints-ci.txt}"
 
 mkdir -p "$LOG_DIR"
 
@@ -21,7 +22,11 @@ if [[ ! -d .venv ]]; then
 fi
 
 source .venv/bin/activate
-pip install --quiet -e .
+if [[ -f "$CONSTRAINTS_FILE" ]]; then
+  pip install --quiet -c "$CONSTRAINTS_FILE" -e .
+else
+  pip install --quiet -e .
+fi
 
 echo "[SGC-MONITOR] Rebuild de artefactos de control..."
 PYTHONPATH="$RUNTIME_DIR" python -m sgc_agents.tools.build_indexes --repo-root "$REPO_ROOT"
@@ -40,6 +45,10 @@ from pathlib import Path
 import yaml
 from sgc_agents.tools.compliance_tools import (
   auditar_invariantes_de_estado,
+  auditar_claves_frontmatter_desconocidas,
+  auditar_secciones_minimas,
+  auditar_enlaces_markdown,
+  auditar_catalogo_registros,
   resolver_grafo_documental,
   detectar_formatos_huerfanos,
   auditar_trazabilidad_registros,
@@ -49,6 +58,10 @@ from sgc_agents.tools.compliance_tools import (
 print(generar_reporte_qa_compliance())
 checks = [
   yaml.safe_load(auditar_invariantes_de_estado()) or {},
+  yaml.safe_load(auditar_claves_frontmatter_desconocidas()) or {},
+  yaml.safe_load(auditar_secciones_minimas()) or {},
+  yaml.safe_load(auditar_enlaces_markdown()) or {},
+  yaml.safe_load(auditar_catalogo_registros()) or {},
   yaml.safe_load(resolver_grafo_documental()) or {},
   yaml.safe_load(detectar_formatos_huerfanos()) or {},
   yaml.safe_load(auditar_trazabilidad_registros()) or {},

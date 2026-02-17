@@ -26,7 +26,7 @@ jobs:
         env:
           SGC_REPO_ROOT: ${{ github.workspace }}
         run: |
-          bash ./agent_runtime/scripts/run_qa_monitor.sh
+          CONSTRAINTS_FILE="./agent_runtime/constraints-ci.txt" bash ./agent_runtime/scripts/run_qa_monitor.sh
 
       - name: Upload monitor artifacts
         if: always()
