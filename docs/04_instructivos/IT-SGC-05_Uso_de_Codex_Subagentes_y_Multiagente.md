@@ -110,6 +110,7 @@ sgc-agent --mode multi --no-llm --task "Rebuild + QA"
 - REG-SGC-COM - Evidencia de comunicacion/distribucion (cuando aplique).
 
 ## 8. Control de cambios
+
 | Version | Fecha | Descripcion del cambio | Elaboro | Aprobo |
 |---|---:|---|---|---|
 | 1.0 | 2026-02-22 | Emision inicial (vigente) del instructivo para uso de subagentes y multiagente en Codex | Coordinacion de Calidad | Direccion General |
