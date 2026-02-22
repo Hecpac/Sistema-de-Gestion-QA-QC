@@ -1,12 +1,12 @@
 # Reporte QA/Compliance (Neuro-Simbolico)
 
-- Fecha: 2026-02-17
+- Fecha: 2026-02-21
 - Hallazgos totales: 0
 
 ## 1. auditar_invariantes_de_estado
 ```yaml
 skill: auditar_invariantes_de_estado
-documentos_vigentes: 32
+documentos_vigentes: 41
 valido: true
 hallazgos: []
 ```
@@ -14,7 +14,7 @@ hallazgos: []
 ## 2. auditar_claves_frontmatter_desconocidas
 ```yaml
 skill: auditar_claves_frontmatter_desconocidas
-documentos_vigentes: 32
+documentos_vigentes: 41
 valido: true
 hallazgos: []
 ```
@@ -22,7 +22,7 @@ hallazgos: []
 ## 3. auditar_secciones_minimas
 ```yaml
 skill: auditar_secciones_minimas
-documentos_vigentes: 32
+documentos_vigentes: 41
 valido: true
 hallazgos: []
 ```
@@ -30,7 +30,7 @@ hallazgos: []
 ## 4. auditar_enlaces_markdown
 ```yaml
 skill: auditar_enlaces_markdown
-documentos_vigentes: 32
+documentos_vigentes: 41
 valido: true
 hallazgos: []
 ```
@@ -65,8 +65,8 @@ hallazgos: []
 ## 8. validar_trazabilidad (P1..P5)
 ```yaml
 skill: auditar_trazabilidad
-fecha: '2026-02-17'
-registros_auditados: 8
+fecha: '2026-02-21'
+registros_auditados: 16
 fallidos: 0
 valido: true
 hallazgos: []

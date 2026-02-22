@@ -51,6 +51,14 @@ documentos:
   estado: VIGENTE
   fecha_vigencia: '2026-02-17'
   ubicacion: docs/_control/ESP-SGC-15_Resumen_Ejecutivo_del_Repositorio_SGC.md
+- codigo: ESP-SGC-16
+  titulo: 'Resumen Ejecutivo Fase 12: Inteligencia Agentica (SGC-AI)'
+  tipo: ESP
+  proceso: SGC / Transformacion Digital
+  version: '1.0'
+  estado: VIGENTE
+  fecha_vigencia: '2026-02-18'
+  ubicacion: docs/_control/ESP-SGC-16_Resumen_Ejecutivo_Fase_12_IA.md
 - codigo: FOR-SGC-01
   titulo: Solicitud de Creación / Cambio Documental
   tipo: FOR
@@ -203,6 +211,30 @@ documentos:
   estado: VIGENTE
   fecha_vigencia: '2026-02-17'
   ubicacion: docs/04_instructivos/IT-SGC-04_Instructivo_Verificacion_Electrica_Preenergizacion.md
+- codigo: IT-SGC-05
+  titulo: Instructivo de Generacion Automatica de ITPs (Spec-to-ITP)
+  tipo: IT
+  proceso: SGC / Transformacion Digital
+  version: '1.0'
+  estado: VIGENTE
+  fecha_vigencia: '2026-02-18'
+  ubicacion: docs/04_instructivos/IT-SGC-05_Generacion_Automatica_ITP.md
+- codigo: IT-SGC-06
+  titulo: Instructivo de Vigilancia de Riesgos con IA (Risk Watchdog)
+  tipo: IT
+  proceso: SGC / Riesgos
+  version: '1.0'
+  estado: VIGENTE
+  fecha_vigencia: '2026-02-18'
+  ubicacion: docs/04_instructivos/IT-SGC-06_Vigilancia_Riesgos_IA.md
+- codigo: IT-SGC-07
+  titulo: Instructivo de Consulta en Obra (SGC Copilot)
+  tipo: IT
+  proceso: SGC / Transformacion Digital
+  version: '1.0'
+  estado: VIGENTE
+  fecha_vigencia: '2026-02-18'
+  ubicacion: docs/04_instructivos/IT-SGC-07_Consulta_Obra_Copilot.md
 - codigo: PLAN-SGC-01
   titulo: Objetivos de Calidad y Seguimiento
   tipo: PLAN
