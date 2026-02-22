@@ -203,6 +203,15 @@ documentos:
   estado: VIGENTE
   fecha_vigencia: '2026-02-17'
   ubicacion: docs/04_instructivos/IT-SGC-04_Instructivo_Verificacion_Electrica_Preenergizacion.md
+- codigo: IT-SGC-05
+  titulo: 'Instructivo: Uso de Codex (Subagentes y Multiagente) en el Repositorio
+    SGC'
+  tipo: IT
+  proceso: SGC / Control Documental
+  version: '1.0'
+  estado: VIGENTE
+  fecha_vigencia: '2026-02-22'
+  ubicacion: docs/04_instructivos/IT-SGC-05_Uso_de_Codex_Subagentes_y_Multiagente.md
 - codigo: PLAN-SGC-01
   titulo: Objetivos de Calidad y Seguimiento
   tipo: PLAN
