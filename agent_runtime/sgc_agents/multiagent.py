@@ -1,0 +1,127 @@
+from __future__ import annotations
+
+import asyncio
+from dataclasses import dataclass
+from pathlib import Path
+from typing import Any
+
+from agents import Runner
+
+from .config import repo_root
+from .specialists import audit_agent, writer_agent
+from .tools.build_dashboard import build_dashboard
+from .tools.build_indexes import BuildIndexesSummary, build_indexes
+from .tools.compliance_tools import generar_reporte_qa_compliance
+
+
+@dataclass(frozen=True)
+class ComplianceArtifacts:
+    indexes: BuildIndexesSummary
+    qa_report_path: Path
+    dashboard_path: Path
+
+
+@dataclass(frozen=True)
+class MultiAgentResult:
+    compliance: ComplianceArtifacts
+    writer_output: str | None
+    auditor_output: str | None
+
+    def render_text(self) -> str:
+        parts: list[str] = []
+
+        parts.append("# Resultado multiagente (SGC)")
+        parts.append("")
+        parts.append("## Compliance (deterministico)")
+        parts.append(f"- Indices: {self.compliance.indexes.as_text()}")
+        parts.append(f"- QA report: {self.compliance.qa_report_path.as_posix()}")
+        parts.append(f"- Dashboard: {self.compliance.dashboard_path.as_posix()}")
+
+        if self.writer_output:
+            parts.append("")
+            parts.append("## Writer")
+            parts.append(self.writer_output.strip())
+
+        if self.auditor_output:
+            parts.append("")
+            parts.append("## Auditoria")
+            parts.append(self.auditor_output.strip())
+
+        return "\n".join(parts).rstrip() + "\n"
+
+
+def _run_compliance_pipeline() -> ComplianceArtifacts:
+    root = repo_root().resolve()
+    indexes = build_indexes(root)
+    generar_reporte_qa_compliance()
+    dashboard_path = build_dashboard(root)
+    return ComplianceArtifacts(
+        indexes=indexes,
+        qa_report_path=(root / "docs/_control/reporte_qa_compliance.md").resolve(),
+        dashboard_path=dashboard_path.resolve(),
+    )
+
+
+def _writer_prompt(task: str) -> str:
+    return (
+        "Tarea (usuario):\n"
+        f"{task.strip()}\n\n"
+        "Rol: redacta/propon cambios documentales y/o instrucciones operativas para el repo SGC.\n"
+        "Reglas:\n"
+        "- Respeta AGENTS.md y docs/AGENTS.md.\n"
+        "- No inventes datos organizacionales; usa TODO/<NOMBRE_EMPRESA>/<PUESTO>/<AREA>.\n"
+        "- No ejecutes herramientas que regeneren artefactos; no edites docs/_control.\n"
+        "Entrega:\n"
+        "- Propuesta concreta (archivos a crear/editar, con rutas sugeridas) y criterios de aceptacion.\n"
+    )
+
+
+def _audit_prompt(task: str) -> str:
+    return (
+        "Tarea (usuario):\n"
+        f"{task.strip()}\n\n"
+        "Rol: auditor interno ISO 9001.\n"
+        "Entrega:\n"
+        "- Riesgos de incumplimiento/deriva documental, evidencias requeridas y checklist de verificacion.\n"
+        "- Hallazgos potenciales (si aplica) y acciones sugeridas.\n"
+    )
+
+
+async def run_multiagent_task(
+    task: str,
+    *,
+    include_llm: bool = True,
+    max_turns: int = 10,
+) -> MultiAgentResult:
+    compliance_future = asyncio.to_thread(_run_compliance_pipeline)
+
+    writer_future: Any | None = None
+    auditor_future: Any | None = None
+    if include_llm:
+        writer_future = Runner.run(writer_agent(), _writer_prompt(task), max_turns=max_turns)
+        auditor_future = Runner.run(audit_agent(), _audit_prompt(task), max_turns=max_turns)
+
+    compliance = await compliance_future
+
+    writer_output: str | None = None
+    auditor_output: str | None = None
+    if include_llm and writer_future and auditor_future:
+        writer_result, auditor_result = await asyncio.gather(writer_future, auditor_future)
+        writer_output = getattr(writer_result, "final_output", None)
+        auditor_output = getattr(auditor_result, "final_output", None)
+
+    return MultiAgentResult(
+        compliance=compliance,
+        writer_output=writer_output,
+        auditor_output=auditor_output,
+    )
+
+
+def run_multiagent_task_sync(
+    task: str,
+    *,
+    include_llm: bool = True,
+    max_turns: int = 10,
+) -> MultiAgentResult:
+    return asyncio.run(run_multiagent_task(task, include_llm=include_llm, max_turns=max_turns))
+

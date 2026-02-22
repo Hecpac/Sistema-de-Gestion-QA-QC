@@ -93,6 +93,18 @@ multi_agent = true
 
 Si no esta disponible, aplicar los mismos principios de este instructivo en modo de un solo agente (sin paralelizacion).
 
+### 6.7 Integracion con el runtime `sgc-agent` (multiagente)
+Para tareas repetibles de control y verificacion, el runtime del repo soporta ejecucion multiagente (writer + auditoria) en paralelo al pipeline deterministico (indices + QA + dashboard):
+
+```bash
+sgc-agent --mode multi --task "Revisar consistencia del SGC y proponer mejoras"
+```
+
+Para ejecutar solo el pipeline deterministico (sin LLM):
+```bash
+sgc-agent --mode multi --no-llm --task "Rebuild + QA"
+```
+
 ## 7. Registros asociados
 - REG-SGC-CDC - Solicitud de Creacion/Cambio Documental (cuando aplique).
 - REG-SGC-COM - Evidencia de comunicacion/distribucion (cuando aplique).
