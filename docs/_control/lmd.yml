@@ -176,8 +176,8 @@ documentos:
   tipo: IT
   proceso: SGC / Control Documental
   version: '1.0'
-  estado: BORRADOR
-  fecha_vigencia: TBD
+  estado: VIGENTE
+  fecha_vigencia: '2026-02-22'
   ubicacion: docs/04_instructivos/IT-SGC-01_Configuracion_de_GitHub_para_Gobierno_del_SGC.md
 - codigo: IT-SGC-02
   titulo: 'Instructivo: Uso de Codex (Subagentes y Multiagente) en el Repositorio
@@ -185,8 +185,8 @@ documentos:
   tipo: IT
   proceso: SGC / Control Documental
   version: '1.0'
-  estado: BORRADOR
-  fecha_vigencia: TBD
+  estado: VIGENTE
+  fecha_vigencia: '2026-02-22'
   ubicacion: docs/04_instructivos/IT-SGC-02_Uso_de_Codex_Subagentes_y_Multiagente.md
 - codigo: PLAN-SGC-01
   titulo: Objetivos de Calidad y Seguimiento
@@ -281,6 +281,6 @@ documentos:
   tipo: PR
   proceso: SGC / Control Documental
   version: '1.0'
-  estado: BORRADOR
-  fecha_vigencia: TBD
+  estado: VIGENTE
+  fecha_vigencia: '2026-02-22'
   ubicacion: docs/03_procedimientos/PR-SGC-09_Control_de_Cambios_del_Runtime_y_Automatizaciones_QA.md

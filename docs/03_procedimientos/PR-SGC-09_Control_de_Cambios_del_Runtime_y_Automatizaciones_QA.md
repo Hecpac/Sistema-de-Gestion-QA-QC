@@ -3,8 +3,8 @@ codigo: "PR-SGC-09"
 titulo: "Control de Cambios del Runtime y Automatizaciones QA"
 tipo: "PR"
 version: "1.0"
-estado: "BORRADOR"
-fecha_emision: "2026-02-17"
+estado: "VIGENTE"
+fecha_emision: "2026-02-22"
 proceso: "SGC / Control Documental"
 elaboro: "Coordinacion de Calidad"
 reviso: "Gerencia de Operaciones"
@@ -135,4 +135,4 @@ Los archivos `AGENTS.md`, `docs/AGENTS.md` y `.agents/skills/**/SKILL.md` se con
 ## 8. Control de cambios
 | Version | Fecha | Descripcion del cambio | Elaboro | Aprobo |
 |---|---:|---|---|---|
-| 1.0 | 2026-02-17 | Emision inicial (borrador) del procedimiento de control de cambios del runtime y automatizaciones QA | Coordinacion de Calidad | Direccion General |
+| 1.0 | 2026-02-22 | Emision inicial (vigente) del procedimiento de control de cambios del runtime y automatizaciones QA | Coordinacion de Calidad | Direccion General |

@@ -3,8 +3,8 @@ codigo: "IT-SGC-01"
 titulo: "Instructivo: Configuracion de GitHub para Gobierno del SGC"
 tipo: "IT"
 version: "1.0"
-estado: "BORRADOR"
-fecha_emision: "2026-02-17"
+estado: "VIGENTE"
+fecha_emision: "2026-02-22"
 proceso: "SGC / Control Documental"
 elaboro: "Coordinacion de Calidad"
 reviso: "Gerencia de Operaciones"
@@ -91,4 +91,4 @@ Configurar Branch Protection para `main` con, como minimo:
 ## 8. Control de cambios
 | Version | Fecha | Descripcion del cambio | Elaboro | Aprobo |
 |---|---:|---|---|---|
-| 1.0 | 2026-02-17 | Emision inicial (borrador) del instructivo de gobierno GitHub para el SGC | Coordinacion de Calidad | Direccion General |
+| 1.0 | 2026-02-22 | Emision inicial (vigente) del instructivo de gobierno GitHub para el SGC | Coordinacion de Calidad | Direccion General |
