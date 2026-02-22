@@ -15,7 +15,7 @@ No usaremos "cajas negras" SaaS. Crearemos **Agentes Especialistas** dentro de `
 **Solución:** Agente `spec-parser` que ingesta texto técnico y estructura un borrador de ITP.
 - **Input:** Texto crudo o Markdown de la especificación.
 - **Proceso:** Extracción de "shalls" (requisitos mandatorios), tolerancias y frecuencias.
-- **Output:** Archivo `docs/04_instructivos/IT-SGC-XX_Borrado.md` siguiendo la plantilla oficial.
+- **Output:** Archivo generado bajo `docs/externos/phase12/` para revisión humana, antes de asignar código y promover a documento controlado.
 - **KPI:** Reducción del 80% en tiempo de redacción inicial.
 
 ### B. Radar de Riesgos Dinámico (Risk Watchdog)

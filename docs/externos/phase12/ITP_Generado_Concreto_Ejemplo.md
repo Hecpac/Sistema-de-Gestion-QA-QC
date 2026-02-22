@@ -1,4 +1,8 @@
-# IT-SGC-01 Cast-in-Place Concrete
+# ITP generado (ejemplo) - Concreto colado en sitio
+
+Este archivo es un **ejemplo de salida** del flujo Spec-to-ITP. No es un documento controlado del SGC (no forma parte de la LMD) y requiere revisión humana antes de transformar su contenido en un instructivo o formato controlado.
+
+# ITP - Cast-in-Place Concrete
 
 ## 1. Objective
 Define inspection criteria for cast-in-place concrete including formwork, reinforcement, concrete materials, mixture design, placement procedures, finishes, and curing to ensure compliance with Section 03300.

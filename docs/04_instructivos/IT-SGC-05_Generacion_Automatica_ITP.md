@@ -17,7 +17,7 @@ aprobo: "Direccion General"
 Estandarizar el uso de Agentes de IA (Spec-to-ITP) para la generacion acelerada de Planes de Inspeccion y Ensayo (ITP) a partir de especificaciones tecnicas, asegurando la consistencia y reduciendo el error humano en la transcripcion de tolerancias.
 
 ## 2. Alcance
-Aplica a todas las disciplinas tecnicas (Civil, Mecanica, Electrica) que requieran generar listas de verificacion (`IT-SGC-XX`) basadas en codigos, normas o especificaciones de proyecto.
+Aplica a todas las disciplinas tecnicas (Civil, Mecanica, Electrica) que requieran generar listas de verificacion (ITP) basadas en codigos, normas o especificaciones de proyecto.
 
 ## 3. Referencias
 - PR-SGC-01 Control de Documentos y Registros.
@@ -33,7 +33,7 @@ Aplica a todas las disciplinas tecnicas (Civil, Mecanica, Electrica) que requier
 - **Ingeniero de Calidad (Usuario):** Seleccionar la especificacion correcta y **validar** linea por linea el output del agente.
 - **Agente (Sistema):** Extraer criterios de aceptacion, tolerancias y frecuencias sin omitir requisitos mandatorios ("shall").
 
-## 6. Procedimiento
+## 6. Desarrollo / Metodologia
 
 ### 6.1 Preparacion del Input
 El usuario debe aislar el texto de la especificacion tecnica relevante.
@@ -43,11 +43,11 @@ El usuario debe aislar el texto de la especificacion tecnica relevante.
 ### 6.2 Ejecucion del Agente
 Ejecutar el script de generacion (via CLI o entorno OpenClaw):
 ```bash
-python scripts/demo_spec_parser.py <ruta_especificacion.txt>
+python scripts/demo_spec_parser.py ruta_especificacion.txt
 ```
 
 ### 6.3 Revision Humana Obligatoria (Human-in-the-loop)
-El agente generara un borrador en `docs/04_instructivos/IT-SGC-XX_Borrador.md`.
+El agente generara un borrador en una ubicacion de salida definida (por ejemplo, bajo `docs/externos/phase12/`).
 El Ingeniero de Calidad debe verificar:
 1.  **Integridad:** ¿Estan todos los puntos criticos?
 2.  **Precision:** ¿Las tolerancias numericas coinciden exactamente con la norma? (Ej. `± 6mm` vs `± 10mm`).
@@ -55,7 +55,7 @@ El Ingeniero de Calidad debe verificar:
 
 ### 6.4 Aprobacion y Publicacion
 Una vez validado:
-1.  Renombrar el archivo con el codigo definitivo (ej. `IT-SGC-25`).
+1.  Asignar un codigo definitivo conforme a `AGENTS.md` (ej. `IT-SGC-25`) y renombrar el archivo.
 2.  Actualizar el frontmatter a estado `VIGENTE`.
 3.  Ejecutar `sgc-build-indexes` para registrarlo en la LMD.
 
@@ -67,3 +67,12 @@ Una vez validado:
 
 ## 8. Anexos
 - N/A
+
+## 9. Registros asociados
+- REG-SGC-CDC - Solicitud de Creacion/Cambio Documental (cuando aplique).
+- REG-SGC-COM - Evidencia de comunicacion/distribucion (cuando aplique).
+
+## 10. Control de cambios
+| Version | Fecha | Descripcion del cambio | Elaboro | Aprobo |
+|---|---:|---|---|---|
+| 1.0 | 2026-02-18 | Emision inicial (vigente) del instructivo de generacion automatica de ITPs (Spec-to-ITP) | Lider SGC AI | Direccion General |

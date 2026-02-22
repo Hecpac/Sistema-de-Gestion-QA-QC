@@ -13,11 +13,35 @@ aprobo: "Direccion General"
 
 # ESP-SGC-16 Resumen Ejecutivo Fase 12: Inteligencia Agentica (SGC-AI)
 
-## 1. Resumen Gerencial
-En Febrero 2026, el Sistema de Gestion de Calidad (SGC) evoluciono de un repositorio documental estatico a un **Sistema Agentico Activo**. Se implementaron tres capacidades de Inteligencia Artificial (IA) gobernadas por instructivos formales, transformando la velocidad, resiliencia y accesibilidad del aseguramiento de calidad.
+## 1. Objetivo
+Resumir el alcance, resultados y controles de la Fase 12 del SGC (Inteligencia Agentica), asegurando trazabilidad documental y condiciones de gobernanza antes de su uso operativo.
 
-## 2. Alcance de la Implementacion
-La "Fase 12" del Roadmap Estrategico introdujo agentes de software que operan directamente sobre los archivos Markdown del repositorio, bajo supervision humana obligatoria (Human-in-the-Loop).
+## 2. Alcance
+Aplica al repositorio documental del SGC y a sus automatizaciones asociadas que operan sobre `docs/`, bajo supervision humana obligatoria (human-in-the-loop).
+
+## 3. Referencias
+- ROADMAP del SGC (documental).
+- PR-SGC-01 Control de Documentos y Registros.
+- PR-SGC-09 Control de Cambios del Runtime y Automatizaciones QA.
+- IT-SGC-05 Generacion Automatica de ITPs (Spec-to-ITP).
+- IT-SGC-06 Vigilancia de Riesgos con IA (Risk Watchdog).
+- IT-SGC-07 Consulta en Obra (SGC Copilot).
+
+## 4. Definiciones
+- Inteligencia agentica: automatizaciones que ejecutan tareas acotadas sobre el repositorio (por ejemplo, analisis, propuesta y verificacion), con evidencia y control.
+- Human-in-the-loop: supervision humana obligatoria antes de aprobar o incorporar resultados.
+
+## 5. Responsabilidades
+- Lider SGC AI: asegurar que las capacidades se ejecuten bajo controles y evidencia auditables.
+- Coordinacion de Calidad: validar coherencia documental, ejecucion de QA y aprobacion de documentos/control de cambios cuando aplique.
+- Direccion General: autorizar el uso operativo y baselines auditables cuando corresponda.
+
+## 6. Desarrollo / Metodologia
+### 6.1 Resumen gerencial
+En febrero de 2026, el SGC evoluciono de un repositorio documental estatico a un sistema con capacidades de automatizacion agentica, gobernadas por instructivos controlados y con verificacion deterministica de consistencia.
+
+### 6.2 Capacidades implementadas
+La Fase 12 introdujo agentes de software que operan sobre archivos Markdown del repositorio bajo supervision humana obligatoria.
 
 ### 2.1 Generador de Calidad (Spec-to-ITP)
 *   **Problema:** Tiempos excesivos en la lectura de normas (ACI/ASTM) y transcripcion de tolerancias.
@@ -48,5 +72,14 @@ Esta actualizacion posiciona al SGC por delante de soluciones comerciales tradic
 *   **vs. Jira/Qualio:** Integramos la IA en el ciclo de vida de Git, garantizando trazabilidad inmutable de cada decision agential.
 
 ## 5. Proximos Pasos
-*   Despliegue de CLI unificada (`sgc ai <comando>`) para facilitar uso.
+*   Despliegue de CLI unificada (`sgc ai COMANDO`) para facilitar uso.
 *   Extension de la taxonomia tecnica a mas disciplinas (Instrumentacion y Control).
+
+## 7. Registros asociados
+- REG-SGC-CDC - Solicitud de Creacion/Cambio Documental (cuando aplique).
+- REG-SGC-COM - Evidencia de comunicacion/distribucion (cuando aplique).
+
+## 8. Control de cambios
+| Version | Fecha | Descripcion del cambio | Elaboro | Aprobo |
+|---|---:|---|---|---|
+| 1.0 | 2026-02-18 | Emision inicial (vigente) del resumen ejecutivo de Fase 12: Inteligencia Agentica | Lider SGC AI | Direccion General |

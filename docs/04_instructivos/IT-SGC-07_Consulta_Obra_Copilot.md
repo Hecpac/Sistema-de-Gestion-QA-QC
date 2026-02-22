@@ -27,7 +27,12 @@ Aplica a consultas sobre tolerancias, procedimientos, formatos y criterios de ac
 - **SGC Copilot:** Herramienta de busqueda semantica y generacion de respuestas basada en la documentacion vigente.
 - **RAG (Retrieval-Augmented Generation):** Tecnica que combina busqueda de documentos relevantes con la capacidad de respuesta de un LLM.
 
-## 5. Procedimiento
+## 5. Responsabilidades
+- Usuario (campo): formular consultas concretas, validar contra el documento fuente y escalar discrepancias.
+- Coordinacion de Calidad: mantener la documentacion vigente y atender hallazgos por uso inadecuado o respuestas sin evidencia.
+- Administracion del repositorio SGC (si aplica): mantener el script operativo y asegurar controles de acceso.
+
+## 6. Desarrollo / Metodologia
 
 ### 5.1 Realizacion de Consulta
 El usuario (Ingeniero, Supervisor, Auditor) ejecuta el comando de consulta desde la terminal o interfaz de chat habilitada:
@@ -45,7 +50,7 @@ El sistema realiza los siguientes pasos (transparentes al usuario):
 ### 5.3 Interpretacion de la Respuesta
 El usuario recibe:
 - **Respuesta directa:** "La tolerancia es 4 pulgadas ± 1 pulgada."
-- **Cita documental:** "Fuente: IT-SGC-XX Seccion 4.7."
+- **Cita documental:** "Fuente: documento vigente - seccion aplicable."
 
 ### 5.4 Limitaciones
 - Si el documento no existe o no contiene la respuesta, el sistema dira: "Data not found".
@@ -53,3 +58,12 @@ El usuario recibe:
 
 ## 6. Mantenimiento
 El indice se actualiza automaticamente cada vez que se modifica un archivo Markdown en el repositorio, ya que el script lee en tiempo real.
+
+## 7. Registros asociados
+- REG-SGC-CDC - Solicitud de Creacion/Cambio Documental (cuando aplique).
+- REG-SGC-COM - Evidencia de comunicacion/distribucion (cuando aplique).
+
+## 8. Control de cambios
+| Version | Fecha | Descripcion del cambio | Elaboro | Aprobo |
+|---|---:|---|---|---|
+| 1.0 | 2026-02-18 | Emision inicial (vigente) del instructivo de consulta en obra (SGC Copilot) | Lider SGC AI | Direccion General |

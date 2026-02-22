@@ -1,24 +1,44 @@
 #!/usr/bin/env python3
-import sys
+from __future__ import annotations
+
+import argparse
 import os
 import subprocess
-import glob
+import sys
+from dataclasses import dataclass
+from pathlib import Path
+from typing import Iterable
 
-def load_docs(repo_root):
-    docs = []
-    # Recursively find markdown files in docs/
-    search_path = os.path.join(repo_root, "docs", "**", "*.md")
-    for filepath in glob.glob(search_path, recursive=True):
+DEFAULT_TIMEOUT_S = 90
+
+
+@dataclass(frozen=True)
+class LoadedDoc:
+    path: Path
+    name: str
+    content: str
+
+
+def repo_root() -> Path:
+    raw = os.getenv("SGC_REPO_ROOT", "")
+    if raw:
+        return Path(raw).resolve()
+    return Path(__file__).resolve().parents[1]
+
+
+def iter_markdown_files(docs_root: Path) -> Iterable[Path]:
+    yield from sorted(docs_root.rglob("*.md"))
+
+
+def load_docs(docs_root: Path) -> list[LoadedDoc]:
+    docs: list[LoadedDoc] = []
+    for filepath in iter_markdown_files(docs_root):
         try:
-            with open(filepath, 'r') as f:
-                content = f.read()
-                docs.append({
-                    "path": filepath,
-                    "content": content,
-                    "name": os.path.basename(filepath)
-                })
-        except Exception:
-            pass # Skip binary or unreadable
+            content = filepath.read_text(encoding="utf-8")
+        except (OSError, UnicodeDecodeError) as exc:
+            print(f"WARN: no se pudo leer {filepath}: {exc}", file=sys.stderr)
+            continue
+        docs.append(LoadedDoc(path=filepath, content=content, name=filepath.name))
     return docs
 
 def retrieve_relevant_docs(query, docs, top_k=3):
@@ -72,28 +92,43 @@ ANSWER (Concise, for field personnel):
         print("-" * 40)
 
         result = subprocess.run(
-            ["gemini", prompt],
+            ["gemini"],
+            input=prompt,
             capture_output=True,
             text=True,
-            check=True
+            check=True,
+            timeout=DEFAULT_TIMEOUT_S,
         )
         return result.stdout.strip()
+    except FileNotFoundError:
+        return "Error: 'gemini' CLI not found. Please install it."
+    except subprocess.TimeoutExpired:
+        return f"Error: gemini timeout after {DEFAULT_TIMEOUT_S}s."
     except Exception as e:
         return f"Error calling AI: {e}"
 
 def main():
-    if len(sys.argv) < 2:
-        print("Usage: python sgc_ask.py \"Your question here\"")
-        sys.exit(1)
-        
-    query = sys.argv[1]
-    repo_root = "projects/Sistema-de-Gestion-QA-QC"
-    
+    parser = argparse.ArgumentParser(description="Consulta SGC (keyword RAG + Gemini CLI)")
+    parser.add_argument("query", help="Pregunta en lenguaje natural")
+    parser.add_argument("--repo-root", default=os.getenv("SGC_REPO_ROOT", ""), help="Ruta raiz del repo SGC")
+    parser.add_argument("--docs-root", default="docs", help="Carpeta docs relativa al repo-root")
+    parser.add_argument("--top-k", type=int, default=3, help="Numero de documentos a usar como contexto")
+    args = parser.parse_args()
+
+    root = Path(args.repo_root).resolve() if args.repo_root else repo_root()
+    docs_root = (root / args.docs_root).resolve()
+    if not docs_root.exists():
+        print(f"ERROR: docs_root no existe: {docs_root}", file=sys.stderr)
+        sys.exit(2)
+
+    query = args.query
+
     # 1. Load
-    docs = load_docs(repo_root)
+    docs = load_docs(docs_root)
     
     # 2. Retrieve
-    relevant = retrieve_relevant_docs(query, docs)
+    raw_docs = [{"path": str(d.path), "content": d.content, "name": d.name} for d in docs]
+    relevant = retrieve_relevant_docs(query, raw_docs, top_k=args.top_k)
     
     if not relevant:
         print("❌ No relevant documents found via keywords.")

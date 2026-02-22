@@ -1,17 +1,15 @@
 ---
-codigo: "REG-SGC-RISK-2026-Q1"
-titulo: "Matriz de Riesgos - Q1 2026"
-tipo: "REG"
-version: "1.0"
-estado: "VIGENTE"
-fecha_emision: "2026-01-15"
-proceso: "SGC / Riesgos"
+formato_origen: "FOR-SGC-10"
+codigo_registro: "REG-SGC-RISK-2026-Q1"
+fecha_registro: "2026-01-15"
+ubicacion_fisica: "Repositorio SGC (docs/06_registros/riesgos/REG-SGC-RISK-2026-Q1.md)"
 ---
 
 # REG-SGC-RISK-2026-Q1
 
-| ID | Proceso | Riesgo | Probabilidad | Impacto | Nivel | Control Actual |
-|---|---|---|---|---|---|---|
-| R-001 | Compras | Retraso en entrega de acero por huelga de transporte | Media | Alto | Alto | Stock de seguridad 2 semanas |
-| R-002 | RRHH | Rotación de personal clave en obra | Baja | Alto | Medio | Plan de sucesión |
-| R-003 | Calidad | Pérdida de trazabilidad de certificados de calidad | Baja | Medio | Bajo | Digitalización en SharePoint |
+## 9. Formato de llenado
+| Proceso | Riesgo/Oportunidad | Probabilidad | Impacto | Nivel | Control actual |
+|---|---|---|---|---|---|
+| Compras | R-001 Retraso en entrega de acero por huelga de transporte | Media | Alto | Alto | Stock de seguridad 2 semanas |
+| RRHH | R-002 Rotacion de personal clave en obra | Baja | Alto | Medio | Plan de sucesion |
+| Calidad | R-003 Perdida de trazabilidad de certificados de calidad | Baja | Medio | Bajo | Digitalizacion en SharePoint |
