@@ -2,7 +2,7 @@ from __future__ import annotations
 
 import re
 from pathlib import Path
-from typing import Iterable
+from typing import Any, Iterable
 
 import yaml
 
@@ -205,3 +205,18 @@ def all_tools() -> Iterable:
         read_project_skill,
     ]
     return base + compliance_tools()
+
+
+def writer_tools() -> list[Any]:
+    """Toolset seguro para redaccion: lectura y validacion sin mutar artefactos generados."""
+    return [
+        list_controlled_docs,
+        read_document,
+        validate_frontmatter,
+        validate_doc_filename,
+        validate_required_sections,
+        list_missing_record_dirs,
+        validate_code_pattern,
+        list_available_project_skills,
+        read_project_skill,
+    ]
