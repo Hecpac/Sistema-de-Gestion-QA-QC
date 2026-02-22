@@ -1,7 +1,7 @@
 # Reporte QA/Compliance (Neuro-Simbolico)
 
 - Fecha: 2026-02-21
-- Hallazgos totales: 1
+- Hallazgos totales: 0
 
 ## 1. auditar_invariantes_de_estado
 ```yaml
@@ -23,13 +23,8 @@ hallazgos: []
 ```yaml
 skill: auditar_secciones_minimas
 documentos_vigentes: 35
-valido: false
-hallazgos:
-- codigo: IT-SGC-01
-  ruta: docs/04_instructivos/IT-SGC-01_Configuracion_de_GitHub_para_Gobierno_del_SGC.md
-  faltantes:
-  - responsabilidades
-  - desarrollo
+valido: true
+hallazgos: []
 ```
 
 ## 4. auditar_enlaces_markdown

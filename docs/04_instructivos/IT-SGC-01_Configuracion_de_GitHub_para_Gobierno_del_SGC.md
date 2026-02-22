@@ -25,7 +25,7 @@ Aplica al repositorio GitHub del SGC y a su operacion diaria:
 
 Excluye la redaccion/actualizacion de documentos controlados (ver PR-SGC-01) y el control de cambios del runtime/automatizaciones (ver PR-SGC-09).
 
-## 3. Responsables
+## 3. Responsabilidades
 - Administracion del repositorio SGC: configura GitHub (branch protection, permisos, CODEOWNERS) y mantiene operativos los workflows.
 - Coordinacion de Calidad: define criterios de aceptacion documental, revisa hallazgos y autoriza baselines para auditoria.
 - Direccion General: aprueba cambios mayores de gobierno del repositorio y autoriza baselines.
@@ -34,7 +34,8 @@ Excluye la redaccion/actualizacion de documentos controlados (ver PR-SGC-01) y e
 - Acceso de administracion al repositorio GitHub.
 - Navegador web (GitHub UI) o GitHub CLI (opcional).
 
-## 5. Instrucciones paso a paso
+## 5. Desarrollo / Metodologia
+Este instructivo se ejecuta mediante los pasos descritos a continuacion. La evidencia de implementacion (configuracion efectiva) debe quedar trazable en el repositorio y/o en la plataforma GitHub conforme a PR-SGC-01 y PR-SGC-09.
 
 ### 5.1 Reglas de acceso (permisos)
 1. Definir roles:
