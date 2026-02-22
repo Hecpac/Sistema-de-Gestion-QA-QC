@@ -34,14 +34,19 @@ def main() -> None:
     )
     args = parser.parse_args()
 
-    if args.mode in ("multi", "orchestrator") and not args.no_llm and not os.getenv("OPENAI_API_KEY"):
+    if args.no_llm and args.mode != "multi":
+        print("ERROR: --no-llm solo aplica en modo --mode multi.", file=sys.stderr)
+        sys.exit(2)
+
+    include_llm = not args.no_llm
+    if include_llm and not os.getenv("OPENAI_API_KEY"):
         print("ERROR: OPENAI_API_KEY no configurada (o usa --no-llm).", file=sys.stderr)
         sys.exit(2)
 
     if args.mode == "multi":
         result = run_multiagent_task_sync(
             args.task,
-            include_llm=not args.no_llm,
+            include_llm=include_llm,
             max_turns=args.max_turns,
         )
         print(result.render_text())

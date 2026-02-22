@@ -2,7 +2,7 @@ from __future__ import annotations
 
 import re
 from pathlib import Path
-from typing import Iterable
+from typing import Any, Iterable
 
 import yaml
 
@@ -207,7 +207,7 @@ def all_tools() -> Iterable:
     return base + compliance_tools()
 
 
-def writer_tools() -> Iterable:
+def writer_tools() -> list[Any]:
     """Toolset seguro para redaccion: lectura y validacion sin mutar artefactos generados."""
     return [
         list_controlled_docs,

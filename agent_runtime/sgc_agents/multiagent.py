@@ -93,6 +93,14 @@ async def run_multiagent_task(
     include_llm: bool = True,
     max_turns: int = 10,
 ) -> MultiAgentResult:
+    """Ejecuta una tarea con enfoque multiagente.
+
+    Corre en paralelo:
+    - Pipeline deterministico (rebuild indices + QA report + dashboard).
+    - Writer (propuesta/redaccion) y Auditoria (checklist/riesgos) si `include_llm=True`.
+
+    Devuelve siempre el resultado del pipeline deterministico aunque falle algun agente LLM.
+    """
     compliance_future = asyncio.to_thread(_run_compliance_pipeline)
 
     writer_future: Any | None = None
@@ -106,9 +114,21 @@ async def run_multiagent_task(
     writer_output: str | None = None
     auditor_output: str | None = None
     if include_llm and writer_future and auditor_future:
-        writer_result, auditor_result = await asyncio.gather(writer_future, auditor_future)
-        writer_output = getattr(writer_result, "final_output", None)
-        auditor_output = getattr(auditor_result, "final_output", None)
+        writer_result, auditor_result = await asyncio.gather(
+            writer_future,
+            auditor_future,
+            return_exceptions=True,
+        )
+
+        if isinstance(writer_result, Exception):
+            writer_output = f"ERROR: writer fallo: {writer_result}"
+        else:
+            writer_output = getattr(writer_result, "final_output", None)
+
+        if isinstance(auditor_result, Exception):
+            auditor_output = f"ERROR: auditoria fallo: {auditor_result}"
+        else:
+            auditor_output = getattr(auditor_result, "final_output", None)
 
     return MultiAgentResult(
         compliance=compliance,
@@ -123,5 +143,18 @@ def run_multiagent_task_sync(
     include_llm: bool = True,
     max_turns: int = 10,
 ) -> MultiAgentResult:
-    return asyncio.run(run_multiagent_task(task, include_llm=include_llm, max_turns=max_turns))
+    """Wrapper sincrono.
 
+    Nota: si ya existe un event loop corriendo (por ejemplo, Jupyter/async frameworks),
+    se debe llamar a `await run_multiagent_task(...)` directamente.
+    """
+    try:
+        asyncio.get_running_loop()
+    except RuntimeError:
+        return asyncio.run(
+            run_multiagent_task(task, include_llm=include_llm, max_turns=max_turns)
+        )
+    raise RuntimeError(
+        "No se puede usar run_multiagent_task_sync() con un event loop activo. "
+        "Usa: await run_multiagent_task(...)."
+    )
