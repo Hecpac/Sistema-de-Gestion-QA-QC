@@ -39,3 +39,14 @@ Para cambios medianos/grandes:
 - El documento queda completo y consistente con el resto del SGC.
 - No hay referencias rotas (codigos/formularios/registros).
 - Los indices generados reflejan el estado actual de `docs/`.
+
+## 4) Subagentes y multiagente (cuando convenga)
+Usa subagentes/multiagente para **paralelizar** tareas independientes (exploracion, redaccion, verificacion) y reducir tiempo total sin perder control.
+
+Reglas recomendadas:
+- Asigna a cada subagente un objetivo acotado y una "zona" (carpetas/archivos) para evitar conflictos.
+- Pide a subagentes **hallazgos + recomendaciones** y deja al agente principal la integracion y los parches finales.
+- Mantener la regla SSOT: no editar manualmente artefactos generados en `docs/_control/`.
+
+Referencia operativa (detallada):
+- `docs/04_instructivos/IT-SGC-05_Uso_de_Codex_Subagentes_y_Multiagente.md`
