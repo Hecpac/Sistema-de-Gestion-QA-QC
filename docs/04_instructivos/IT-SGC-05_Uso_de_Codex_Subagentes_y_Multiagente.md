@@ -3,7 +3,7 @@ codigo: "IT-SGC-05"
 titulo: "Instructivo: Uso de Codex (Subagentes y Multiagente) en el Repositorio SGC"
 tipo: "IT"
 version: "1.0"
-estado: "BORRADOR"
+estado: "VIGENTE"
 fecha_emision: "2026-02-22"
 proceso: "SGC / Control Documental"
 elaboro: "Coordinacion de Calidad"
@@ -22,7 +22,7 @@ Aplica a tareas ejecutadas con Codex en este repositorio, incluyendo:
 - Creacion o actualizacion de documentos controlados en `docs/`.
 - Regeneracion de indices (`sgc-build-indexes`) y verificacion de consistencia cuando aplique.
 
-Excluye el uso de Codex fuera del repositorio SGC o para decisiones organizacionales no definidas (usar `TODO:` / placeholders segun `AGENTS.md`).
+Excluye el uso de Codex fuera del repositorio SGC o para decisiones organizacionales no definidas (marcar pendientes de forma explicita y trazable, por ejemplo: "Pendiente: dato por definir", segun `AGENTS.md`).
 
 ## 3. Referencias
 - `AGENTS.md`
@@ -112,4 +112,4 @@ sgc-agent --mode multi --no-llm --task "Rebuild + QA"
 ## 8. Control de cambios
 | Version | Fecha | Descripcion del cambio | Elaboro | Aprobo |
 |---|---:|---|---|---|
-| 1.0 | 2026-02-22 | Emision inicial (borrador) del instructivo para uso de subagentes y multiagente en Codex | Coordinacion de Calidad | Direccion General |
+| 1.0 | 2026-02-22 | Emision inicial (vigente) del instructivo para uso de subagentes y multiagente en Codex | Coordinacion de Calidad | Direccion General |
