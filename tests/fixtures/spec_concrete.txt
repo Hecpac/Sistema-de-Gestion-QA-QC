@@ -1,0 +1,41 @@
+SECTION 03300 - CAST-IN-PLACE CONCRETE
+
+PART 1 - GENERAL
+1.1 SUMMARY
+A. Section includes cast-in-place concrete, including formwork, reinforcement, concrete materials, mixture design, placement procedures, and finishes.
+
+1.2 SUBMITTALS
+A. Product Data: For each type of product.
+B. Design Mixtures: For each concrete mixture.
+
+PART 2 - PRODUCTS
+2.1 CONCRETE MATERIALS
+A. Cementitious Materials:
+   1. Portland Cement: ASTM C 150, Type I or II.
+   2. Fly Ash: ASTM C 618, Class F or C.
+
+2.2 CONCRETE MIXTURES
+A. Prepare design mixtures for each type and strength of concrete, proportioned on the basis of laboratory trial mixture or field test data, or both, according to ACI 301.
+B. Compressive Strength (28 Days): 4000 psi (27.6 MPa).
+C. Slump Limit: 4 inches (100 mm), plus or minus 1 inch (25 mm).
+D. Air Content: 5.5 percent, plus or minus 1.5 percent at point of delivery for 1-1/2-inch (38-mm) nominal maximum aggregate size.
+
+PART 3 - EXECUTION
+3.1 FORMWORK
+A. Design, erect, shore, brace, and maintain formwork according to ACI 301.
+
+3.2 STEEL REINFORCEMENT
+A. General: Comply with CRSI's "Manual of Standard Practice" for placing reinforcement.
+B. Clean reinforcement of loose rust and mill scale, earth, ice, and other foreign materials that would reduce bond to concrete.
+
+3.3 CONCRETE PLACEMENT
+A. Before placing concrete, verify that installation of formwork, reinforcement, and embedded items is complete and that required inspections have been performed.
+B. Deposit concrete continuously in one layer or in horizontal layers of such thickness that no new concrete will be placed on concrete that has hardened enough to cause seams or planes of weakness.
+C. Consolidate placed concrete with mechanical vibrating equipment according to ACI 301.
+
+3.4 FINISHING FORMED SURFACES
+A. Rough-Formed Finish: As-cast concrete texture imparted by form-facing material with tie holes and defects repaired and fins and other rough projections exceeding 1/4 inch (6 mm) in height rubbed down or chipped off.
+
+3.5 CONCRETE PROTECTING AND CURING
+A. General: Protect freshly placed concrete from premature drying and excessive cold or hot temperatures. Comply with ACI 306.1 for cold-weather protection and ACI 305.1 for hot-weather protection.
+B. Evaporation Retarder: Apply evaporation retarder to unformed concrete surfaces if hot, dry, or windy conditions cause moisture loss approaching 0.2 lb/sq. ft. x h (1 kg/sq. m x h).

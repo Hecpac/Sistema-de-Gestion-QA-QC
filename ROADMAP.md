@@ -134,3 +134,20 @@ Este roadmap esta orientado a construir el SGC **por incrementos**, priorizando 
 
 **Criterio de salida**
 - Cada disciplina puede emitir, revisar y liberar documentos tecnicos con trazabilidad completa y gates QA en verde.
+
+---
+
+## Fase 12 - Inteligencia Agentica (SGC-AI)
+**Objetivo**
+- Dotar al SGC de capacidades proactivas: generacion tecnica automatica, vigilancia de riesgos y consulta en lenguaje natural.
+- Ver detalle en: `playbooks/PHASE12_AGENTIC_INTELLIGENCE.md`.
+
+**Entregables**
+- **Spec-to-ITP:** Agente generador de instructivos a partir de especificaciones tecnicas.
+- **Risk Watchdog:** Agente que actualiza la Matriz de Riesgos basado en No Conformidades reales.
+- **SGC Copilot:** CLI para consultas de campo sobre la documentacion vigente (RAG).
+
+**Criterio de salida**
+- Se puede generar un ITP borrador desde un texto tecnico.
+- El cierre de una NC dispara una revision de riesgos.
+- Se puede consultar una tolerancia tecnica desde la linea de comandos.

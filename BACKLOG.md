@@ -50,3 +50,9 @@
   - [ ] `templates/TEMPLATE_Checklist_Liberacion_Disciplina.md`
 - [ ] Definir gobernanza de aprobaciones tecnicas por disciplina en `CODEOWNERS`.
 - [ ] Ejecutar 1 piloto real por disciplina y conservar evidencia (PR + run CI + REG-SGC-CDC).
+
+## 6) Fase 12: Inteligencia Agentica
+- [ ] Disenar arquitectura de agentes especialistas en `agent_runtime/`.
+- [ ] Prototipo Spec-to-ITP: script de ingestion de texto tecnico -> Markdown estructurado.
+- [ ] Prototipo Risk Watchdog: script de analisis de NC cerradas -> sugerencia de cambios en Matriz de Riesgos.
+- [ ] Prototipo SGC Copilot: indexado vectorial de `docs/` y CLI de consulta.
