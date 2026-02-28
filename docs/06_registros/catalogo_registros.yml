@@ -187,6 +187,18 @@ registros:
   disposicion_final: Archivo digital historico y eliminacion controlada al vencer retencion
   acceso: Calidad / Duenos de Proceso
   proteccion: Control de acceso + respaldos
+- nombre: Reporte tecnico de campo por cliente
+  codigo: REG-SGC-RPT-CAM
+  codigo_formato: FOR-SGC-16
+  proceso: SGC / Operacion
+  responsable: Gerencia de Operaciones
+  medio: Digital
+  ubicacion: docs/06_registros/reportes_campo_cliente/
+  ubicacion_externa_url: s3://sgc-registros/catalogo/REG-SGC-RPT-CAM.json
+  retencion: 5 anos
+  disposicion_final: Archivo digital historico y eliminacion controlada al vencer retencion
+  acceso: Calidad / Operaciones / Cliente (segun contrato)
+  proteccion: Control de acceso + respaldos
 - nombre: Seguimiento de acciones de auditoria
   codigo: REG-SGC-SEG-AUD
   codigo_formato: FOR-SGC-07

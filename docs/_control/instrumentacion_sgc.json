@@ -39,19 +39,19 @@
   },
   "baseline": {
     "documents_borrador": 0,
-    "documents_total": 37,
-    "documents_vigente": 37,
+    "documents_total": 38,
+    "documents_vigente": 38,
     "hallazgos_total": 0,
     "records_total": 16
   },
   "distribution": {
     "by_estado": {
-      "VIGENTE": 37
+      "VIGENTE": 38
     },
     "by_proceso": {
       "SGC": 4,
       "SGC / Auditoria": 5,
-      "SGC / Control Documental": 4,
+      "SGC / Control Documental": 5,
       "SGC / Desempeno": 2,
       "SGC / Direccion": 3,
       "SGC / Disciplina Civil": 1,
@@ -69,7 +69,7 @@
     "by_tipo": {
       "ESP": 6,
       "FOR": 15,
-      "IT": 4,
+      "IT": 5,
       "PLAN": 2,
       "POL": 1,
       "PR": 9
