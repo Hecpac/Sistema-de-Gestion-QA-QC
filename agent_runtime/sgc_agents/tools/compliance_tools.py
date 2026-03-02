@@ -14,8 +14,10 @@ except Exception:  # pragma: no cover
     def function_tool(fn):
         return fn
 
+from urllib.parse import urlparse
+
 from ..config import repo_root
-from ..schemas import RecordFrontmatter
+from ..schemas import EXTERNAL_LOCATION_SCHEMES, RecordFrontmatter
 from .build_indexes import (
     RECORD_FORMAT_HINTS,
     discover_controlled_documents,
@@ -189,6 +191,83 @@ def _contains_required_headings(markdown: str, required_prefixes: list[str]) -> 
     return missing
 
 
+def _validate_pointer_schema(meta: dict[str, Any]) -> list[str]:
+    """Validate that external/physical pointers have correct schema/format.
+
+    Returns a list of P5 findings (empty if valid).
+    """
+    findings: list[str] = []
+    ext_url = str(meta.get("ubicacion_externa_url", "") or "").strip()
+    phys = str(meta.get("ubicacion_fisica", "") or "").strip()
+
+    if ext_url:
+        parsed = urlparse(ext_url)
+        if not parsed.scheme:
+            findings.append(
+                f"[P5] ubicacion_externa_url '{ext_url}' no tiene esquema URI."
+            )
+        elif parsed.scheme not in EXTERNAL_LOCATION_SCHEMES:
+            findings.append(
+                f"[P5] ubicacion_externa_url usa esquema '{parsed.scheme}' "
+                f"no permitido. Esquemas validos: {sorted(EXTERNAL_LOCATION_SCHEMES)}."
+            )
+        elif parsed.scheme in {"http", "https"} and not parsed.netloc:
+            findings.append(
+                f"[P5] ubicacion_externa_url '{ext_url}' no incluye host valido."
+            )
+        elif parsed.scheme in {"s3", "gs"} and not parsed.netloc:
+            findings.append(
+                f"[P5] ubicacion_externa_url '{ext_url}' no incluye bucket valido."
+            )
+
+    if phys and not ext_url:
+        upper = phys.upper()
+        if upper in {"TBD", "TODO", "N/A", "NA"} or "<DEFINIR>" in upper:
+            findings.append(
+                "[P5] ubicacion_fisica es un valor pendiente/placeholder."
+            )
+        elif len(phys) < 4:
+            findings.append(
+                "[P5] ubicacion_fisica demasiado corta para ser descriptiva."
+            )
+
+    return findings
+
+
+def _validate_header_isomorphism(
+    format_content: str,
+    record_content: str,
+) -> list[str]:
+    """Check that fillable headers from the format H(F) appear in the record H(R).
+
+    Only meaningful for inline records (no ``ubicacion_externa_url``).
+    Returns a list of P5 findings (empty if valid).
+    """
+    format_headers = _extract_fillable_headers(format_content)
+    if not format_headers:
+        return []
+
+    record_headers = _extract_headers(record_content)
+    record_normalized = {_normalize_heading(h) for h in record_headers}
+
+    missing: list[str] = []
+    for fh in sorted(format_headers):
+        fh_norm = _normalize_heading(fh)
+        found = any(
+            rh == fh_norm or rh.startswith(fh_norm)
+            for rh in record_normalized
+        )
+        if not found:
+            missing.append(fh)
+
+    if missing:
+        return [
+            f"[P5] Isomorfismo estructural: el registro no contiene "
+            f"{len(missing)} header(s) del formato: {missing}."
+        ]
+    return []
+
+
 def _validate_traceability_for_path(record_path: Path) -> dict[str, Any]:
     findings: list[str] = []
     axioms: dict[str, bool] = {
@@ -254,12 +333,36 @@ def _validate_traceability_for_path(record_path: Path) -> dict[str, Any]:
             f"[P4] El formato '{origin}' no esta habilitado en la Matriz de Registros."
         )
 
-    if parsed_meta and (parsed_meta.ubicacion_externa_url or parsed_meta.ubicacion_fisica):
-        axioms["P5_isomorfismo_estructural"] = True
-    else:
+    # ── P5: Isomorfismo estructural ────────────────────────────────
+    # P5a: pointer existence
+    raw_ext = str((meta or {}).get("ubicacion_externa_url", "") or "").strip()
+    raw_phys = str((meta or {}).get("ubicacion_fisica", "") or "").strip()
+    has_pointer = bool(
+        (parsed_meta and (parsed_meta.ubicacion_externa_url or parsed_meta.ubicacion_fisica))
+        or raw_ext
+        or raw_phys
+    )
+
+    if not has_pointer:
         findings.append(
             "[P5] El registro no declara ubicacion_externa_url ni ubicacion_fisica."
         )
+    else:
+        # P5b: pointer schema validation
+        p5_schema = _validate_pointer_schema(meta or {})
+        findings.extend(p5_schema)
+
+        # P5c: structural header isomorphism (only for inline records)
+        if not raw_ext and format_doc:
+            p5_iso = _validate_header_isomorphism(
+                format_doc.content, content
+            )
+            findings.extend(p5_iso)
+
+    # P5 passes only when pointer exists AND no P5 findings were added
+    p5_findings = [f for f in findings if "[P5]" in f]
+    if not p5_findings:
+        axioms["P5_isomorfismo_estructural"] = True
 
     valid = len(findings) == 0
     return {
