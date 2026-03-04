@@ -1,0 +1,23 @@
+---
+formato_origen: "FOR-SGC-11"
+codigo_registro: "REG-SGC-RISK-PLAN-2026-001"
+fecha_registro: "2026-03-03"
+ubicacion_externa_url: "s3://sgc-registros/docs/06_registros/riesgos/planes_tratamiento/REG-SGC-RISK-PLAN-2026-001.json"
+---
+
+# REG-SGC-RISK-PLAN-2026-001 (Wrapper de metadatos)
+
+## 1. Naturaleza del registro
+Este archivo actua como indice de metadatos del registro oficial.
+El contenido transaccional vive fuera del repositorio documental SGC.
+
+## 2. Referencia transaccional
+- formato_origen: `FOR-SGC-11`
+- codigo_registro: `REG-SGC-RISK-PLAN-2026-001`
+- fecha_registro: `2026-03-03`
+- ubicacion_externa_url: `s3://sgc-registros/docs/06_registros/riesgos/planes_tratamiento/REG-SGC-RISK-PLAN-2026-001.json`
+
+## 3. Criterios de control
+- El registro original se gestiona en el sistema externo declarado.
+- Este wrapper solo mantiene trazabilidad documental para auditoria.
+- Cualquier actualizacion operativa debe conservar el mismo codigo_registro.

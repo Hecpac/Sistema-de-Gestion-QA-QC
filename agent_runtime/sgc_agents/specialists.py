@@ -3,7 +3,7 @@ from __future__ import annotations
 from agents import Agent
 
 from .config import model_name
-from .tools.document_tools import all_tools
+from .tools.document_tools import all_tools, writer_tools
 
 
 def writer_agent() -> Agent:
@@ -16,7 +16,7 @@ def writer_agent() -> Agent:
             "siguiendo AGENTS.md y estructura minima. "
             "No inventes datos organizacionales; usa placeholders TODO y <NOMBRE_EMPRESA>/<PUESTO>/<AREA>."
         ),
-        tools=list(all_tools()),
+        tools=list(writer_tools()),
     )
 
 

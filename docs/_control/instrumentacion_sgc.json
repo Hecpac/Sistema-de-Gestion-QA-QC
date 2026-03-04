@@ -39,40 +39,40 @@
   },
   "baseline": {
     "documents_borrador": 0,
-    "documents_total": 37,
-    "documents_vigente": 37,
+    "documents_total": 42,
+    "documents_vigente": 42,
     "hallazgos_total": 0,
-    "records_total": 16
+    "records_total": 20
   },
   "distribution": {
     "by_estado": {
-      "VIGENTE": 37
+      "VIGENTE": 42
     },
     "by_proceso": {
       "SGC": 4,
       "SGC / Auditoria": 5,
-      "SGC / Control Documental": 4,
+      "SGC / Control Documental": 5,
       "SGC / Desempeno": 2,
       "SGC / Direccion": 3,
       "SGC / Disciplina Civil": 1,
       "SGC / Disciplina Electrica": 1,
       "SGC / Disciplina Mecanica": 1,
       "SGC / Mejora": 3,
-      "SGC / Operacion": 1,
+      "SGC / Operacion": 3,
       "SGC / Planeacion": 1,
       "SGC / Proveedores": 2,
       "SGC / Riesgos": 3,
       "SGC / Soporte": 1,
       "SGC / Talento": 4,
-      "SGC / Transformacion Digital": 1
+      "SGC / Transformacion Digital": 3
     },
     "by_tipo": {
-      "ESP": 6,
-      "FOR": 15,
-      "IT": 4,
+      "ESP": 8,
+      "FOR": 16,
+      "IT": 5,
       "PLAN": 2,
       "POL": 1,
-      "PR": 9
+      "PR": 10
     }
   },
   "multidisciplina": {

@@ -43,6 +43,7 @@ Aplica a actividades civiles ejecutadas en proyectos de infraestructura, edifica
 ## 7. Registros asociados
 - REG-SGC-RISK - Matriz de riesgos y oportunidades actualizada para el frente civil.
 - REG-SGC-COM - Evidencia de comunicacion de liberacion del frente inspeccionado.
+- REG-SGC-CIV - Registro piloto de liberacion civil por frente inspeccionado.
 
 ## 8. Control de cambios
 | Version | Fecha | Descripcion del cambio | Elaboro | Aprobo |

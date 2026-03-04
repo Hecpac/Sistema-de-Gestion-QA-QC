@@ -27,6 +27,21 @@ pip install -c ./agent_runtime/constraints-ci.txt -e ./agent_runtime
 sgc-agent --task "Genera un borrador de PR-SGC-02 y valida control documental"
 ```
 
+### Modo multiagente (recomendado)
+Ejecuta en paralelo:
+- Pipeline deterministico (rebuild indices + QA report + dashboard).
+- Agente writer (propuesta/redaccion).
+- Agente auditoria (checklist y riesgos).
+
+```bash
+sgc-agent --mode multi --task "Valida trazabilidad documental y sugiere mejoras"
+```
+
+Modo deterministico sin LLM (sin `OPENAI_API_KEY`):
+```bash
+sgc-agent --mode multi --no-llm --task "Rebuild + QA"
+```
+
 ## Rebuild de indices y dashboard
 ```bash
 sgc-build-indexes

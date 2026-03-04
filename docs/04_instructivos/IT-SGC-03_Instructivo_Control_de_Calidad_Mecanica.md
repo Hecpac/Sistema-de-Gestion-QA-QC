@@ -43,6 +43,7 @@ Aplica a montaje de equipos, alineacion, torqueado, pruebas funcionales y cierre
 ## 7. Registros asociados
 - REG-SGC-NC - Registro de no conformidad asociado a desviaciones mecanicas.
 - REG-SGC-CAPA - Plan y registro CAPA para cierre de causas raiz.
+- REG-SGC-MEC - Registro piloto de control y liberacion mecanica por sistema.
 
 ## 8. Control de cambios
 | Version | Fecha | Descripcion del cambio | Elaboro | Aprobo |
