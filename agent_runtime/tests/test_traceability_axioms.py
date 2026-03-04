@@ -94,6 +94,16 @@ def _write_matrix(repo: Path, include_mapping: bool = True) -> None:
     )
 
 
+def _write_catalog(repo: Path, codes: list[str]) -> None:
+    catalog_path = repo / "docs/06_registros/catalogo_registros.yml"
+    payload = {"registros": [{"codigo": code, "nombre": code} for code in codes]}
+    catalog_path.parent.mkdir(parents=True, exist_ok=True)
+    catalog_path.write_text(
+        yaml.safe_dump(payload, sort_keys=False, allow_unicode=True),
+        encoding="utf-8",
+    )
+
+
 def _setup_repo(tmp_path: Path, monkeypatch) -> Path:
     monkeypatch.setenv("SGC_REPO_ROOT", str(tmp_path))
     _write_matrix(tmp_path, include_mapping=True)
@@ -160,6 +170,80 @@ def test_p4_fails_when_format_is_not_in_matrix(tmp_path, monkeypatch) -> None:
     assert result["axiomas"]["P3_vigencia_legal"] is True
     assert result["axiomas"]["P4_sincronizacion_ssot"] is False
     assert any("[P4]" in item for item in result["hallazgos"])
+
+
+def test_p4_fails_when_codigo_registro_is_missing(tmp_path, monkeypatch) -> None:
+    repo = _setup_repo(tmp_path, monkeypatch)
+
+    _write(repo / "docs/05_formatos/FOR-SGC-02_Registro.md", _format_doc())
+    record_path = repo / "docs/06_registros/no_conformidades/REG-SGC-NC-2026-001.md"
+    record = """---
+formato_origen: "FOR-SGC-02"
+fecha_registro: "2026-02-09"
+ubicacion_externa_url: "s3://sgc-registros/tests/REG-SGC-NC-2026-001.json"
+---
+
+# REG-SGC-NC-2026-001 (Wrapper de metadatos)
+"""
+    _write(record_path, record)
+
+    result = _validate_traceability_for_path(record_path)
+
+    assert result["valido"] is False
+    assert result["axiomas"]["P4_sincronizacion_ssot"] is False
+    assert any("no declara codigo_registro" in item for item in result["hallazgos"])
+
+
+def test_p4_fails_when_codigo_registro_not_in_ssot(tmp_path, monkeypatch) -> None:
+    repo = _setup_repo(tmp_path, monkeypatch)
+
+    _write(repo / "docs/05_formatos/FOR-SGC-02_Registro.md", _format_doc())
+    record_path = repo / "docs/06_registros/no_conformidades/REG-SGC-CIV-2026-001.md"
+    record = """---
+formato_origen: "FOR-SGC-02"
+codigo_registro: "REG-SGC-CIV-2026-001"
+fecha_registro: "2026-02-09"
+ubicacion_externa_url: "s3://sgc-registros/tests/REG-SGC-CIV-2026-001.json"
+---
+
+# REG-SGC-CIV-2026-001 (Wrapper de metadatos)
+"""
+    _write(record_path, record)
+
+    result = _validate_traceability_for_path(record_path)
+
+    assert result["valido"] is False
+    assert result["axiomas"]["P4_sincronizacion_ssot"] is False
+    assert any("no existe en SSOT" in item for item in result["hallazgos"])
+
+
+def test_p4_fails_when_catalog_exists_without_record_family(tmp_path, monkeypatch) -> None:
+    repo = _setup_repo(tmp_path, monkeypatch)
+    _write_catalog(repo, codes=["REG-SGC-OTRO"])
+
+    _write(repo / "docs/05_formatos/FOR-SGC-02_Registro.md", _format_doc())
+    record_path = repo / "docs/06_registros/no_conformidades/REG-SGC-NC-2026-001.md"
+    _write(record_path, _record_doc("FOR-SGC-02"))
+
+    result = _validate_traceability_for_path(record_path)
+
+    assert result["valido"] is False
+    assert result["axiomas"]["P4_sincronizacion_ssot"] is False
+    assert any("no existe en catalogo_registros.yml" in item for item in result["hallazgos"])
+
+
+def test_all_axioms_pass_when_codigo_registro_is_in_matrix_and_catalog(tmp_path, monkeypatch) -> None:
+    repo = _setup_repo(tmp_path, monkeypatch)
+    _write_catalog(repo, codes=["REG-SGC-NC"])
+
+    _write(repo / "docs/05_formatos/FOR-SGC-02_Registro.md", _format_doc())
+    record_path = repo / "docs/06_registros/no_conformidades/REG-SGC-NC-2026-001.md"
+    _write(record_path, _record_doc("FOR-SGC-02"))
+
+    result = _validate_traceability_for_path(record_path)
+
+    assert result["valido"] is True
+    assert all(result["axiomas"].values())
 
 
 def test_p5_fails_when_wrapper_has_no_external_or_physical_pointer(tmp_path, monkeypatch) -> None:

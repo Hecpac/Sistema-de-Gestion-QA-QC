@@ -63,9 +63,9 @@ documentos:
   titulo: Contrato API OpenAPI para App de Campo y Dashboard
   tipo: ESP
   proceso: SGC / Transformacion Digital
-  version: '1.0'
-  estado: BORRADOR
-  fecha_vigencia: TBD
+  version: '1.1'
+  estado: VIGENTE
+  fecha_vigencia: '2026-03-03'
   ubicacion: docs/_control/ESP-SGC-17_Contrato_API_OpenAPI_App_de_Campo_y_Dashboard.md
 - codigo: FOR-SGC-01
   titulo: Solicitud de Creación / Cambio Documental
@@ -336,7 +336,7 @@ documentos:
   titulo: Gestion de Datos de Campo y Generacion de Reportes por Cliente
   tipo: PR
   proceso: SGC / Operacion
-  version: '1.0'
-  estado: BORRADOR
-  fecha_vigencia: TBD
+  version: '1.1'
+  estado: VIGENTE
+  fecha_vigencia: '2026-03-03'
   ubicacion: docs/03_procedimientos/PR-SGC-10_Gestion_de_Datos_de_Campo_y_Generacion_de_Reportes_por_Cliente.md

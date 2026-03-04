@@ -2,9 +2,9 @@
 codigo: "ESP-SGC-17"
 titulo: "Contrato API OpenAPI para App de Campo y Dashboard"
 tipo: "ESP"
-version: "1.0"
-estado: "BORRADOR"
-fecha_emision: "2026-02-28"
+version: "1.1"
+estado: "VIGENTE"
+fecha_emision: "2026-03-03"
 proceso: "SGC / Transformacion Digital"
 elaboro: "Coordinacion de Calidad"
 reviso: "Gerencia de Operaciones"
@@ -409,4 +409,5 @@ components:
 ## 8. Control de cambios
 | Version | Fecha | Descripcion del cambio | Elaboro | Reviso | Aprobo |
 |---|---:|---|---|---|---|
+| 1.1 | 2026-03-03 | Promocion a VIGENTE del contrato API OpenAPI tras validacion de cobertura funcional, seguridad y trazabilidad documental | Coordinacion de Calidad | Gerencia de Operaciones | Direccion General |
 | 1.0 | 2026-02-28 | Emision inicial en BORRADOR del contrato API OpenAPI para app de campo y dashboard | Coordinacion de Calidad | Gerencia de Operaciones | Direccion General |

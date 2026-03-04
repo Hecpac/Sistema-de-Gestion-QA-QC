@@ -2,9 +2,9 @@
 codigo: "PR-SGC-10"
 titulo: "Gestion de Datos de Campo y Generacion de Reportes por Cliente"
 tipo: "PR"
-version: "1.0"
-estado: "BORRADOR"
-fecha_emision: "2026-02-28"
+version: "1.1"
+estado: "VIGENTE"
+fecha_emision: "2026-03-03"
 proceso: "SGC / Operacion"
 elaboro: "Coordinacion de Calidad"
 reviso: "Gerencia de Operaciones"
@@ -120,4 +120,5 @@ Cuando un cliente solicite cambio de formato o contenido:
 ## 8. Control de cambios
 | Version | Fecha | Descripcion del cambio | Elaboro | Aprobo |
 |---|---:|---|---|---|
+| 1.1 | 2026-03-03 | Promocion a VIGENTE del procedimiento tras validacion de trazabilidad, referencias y criterios operativos de emision de reportes por cliente | Coordinacion de Calidad | Direccion General |
 | 1.0 | 2026-02-28 | Emision inicial en BORRADOR del procedimiento para captura de datos/fotos de campo y generacion de reportes adaptables por cliente | Coordinacion de Calidad | Direccion General |

@@ -43,6 +43,7 @@ Aplica a tableros, circuitos, cableado de potencia y control, pruebas de continu
 ## 7. Registros asociados
 - REG-SGC-KPI - Registro de cumplimiento de indicadores de preenergizacion.
 - REG-SGC-CDC - Registro de control documental del paquete tecnico aprobado.
+- REG-SGC-ELE - Registro piloto de verificacion electrica y preenergizacion.
 
 ## 8. Control de cambios
 | Version | Fecha | Descripcion del cambio | Elaboro | Aprobo |

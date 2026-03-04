@@ -138,6 +138,33 @@ def _matrix_format_codes() -> set[str]:
     return format_codes
 
 
+def _matrix_record_codes() -> set[str]:
+    record_codes: set[str] = set()
+    for item in _matrix_items():
+        code = str(item.get("codigo", "")).strip()
+        if code:
+            record_codes.add(code)
+    return record_codes
+
+
+def _resolve_record_family_code(
+    record_code: str,
+    canonical_codes: set[str],
+) -> str | None:
+    normalized = str(record_code or "").strip()
+    if not normalized or not canonical_codes:
+        return None
+
+    matches = [
+        code
+        for code in canonical_codes
+        if normalized == code or normalized.startswith(f"{code}-")
+    ]
+    if not matches:
+        return None
+    return max(matches, key=len)
+
+
 
 def _extract_headers(markdown: str) -> set[str]:
     return {header.strip().lower() for header in HEADING_RE.findall(markdown)}
@@ -283,14 +310,21 @@ def _validate_traceability_for_path(record_path: Path) -> dict[str, Any]:
 
     parsed_meta: RecordFrontmatter | None = None
     raw_origin = ""
+    raw_record_code = ""
     if isinstance(meta, dict):
         raw_origin = str(meta.get("formato_origen", "")).strip()
+        raw_record_code = str(meta.get("codigo_registro", "")).strip()
         try:
             parsed_meta = RecordFrontmatter.model_validate(meta)
         except Exception:
             parsed_meta = None
 
     origin = parsed_meta.formato_origen if parsed_meta else raw_origin
+    record_code = (
+        parsed_meta.codigo_registro
+        if parsed_meta and parsed_meta.codigo_registro
+        else raw_record_code
+    )
     if not origin:
         findings.append(
             "[P1] El registro wrapper es invalido o no declara formato_origen."
@@ -326,12 +360,43 @@ def _validate_traceability_for_path(record_path: Path) -> dict[str, Any]:
             f"El formato '{origin}' esta en estado '{format_doc.frontmatter.estado}'."
         )
 
-    if origin in _matrix_format_codes():
-        axioms["P4_sincronizacion_ssot"] = True
-    else:
-        findings.append(
+    p4_findings: list[str] = []
+    if origin not in _matrix_format_codes():
+        p4_findings.append(
             f"[P4] El formato '{origin}' no esta habilitado en la Matriz de Registros."
         )
+
+    if not record_code:
+        p4_findings.append(
+            "[P4] El registro no declara codigo_registro; no se puede validar sincronizacion SSOT."
+        )
+    else:
+        matrix_codes = _matrix_record_codes()
+        catalog_codes = set(_catalog_by_code().keys())
+        canonical_codes = matrix_codes | catalog_codes
+
+        resolved_family_code = _resolve_record_family_code(record_code, canonical_codes)
+        if not resolved_family_code:
+            p4_findings.append(
+                f"[P4] El codigo_registro '{record_code}' no existe en SSOT "
+                "(matriz_registros.yml / catalogo_registros.yml)."
+            )
+        else:
+            if matrix_codes and resolved_family_code not in matrix_codes:
+                p4_findings.append(
+                    f"[P4] El codigo_registro '{record_code}' mapea a '{resolved_family_code}', "
+                    "pero no existe en matriz_registros.yml."
+                )
+            if catalog_codes and resolved_family_code not in catalog_codes:
+                p4_findings.append(
+                    f"[P4] El codigo_registro '{record_code}' mapea a '{resolved_family_code}', "
+                    "pero no existe en catalogo_registros.yml."
+                )
+
+    if p4_findings:
+        findings.extend(p4_findings)
+    else:
+        axioms["P4_sincronizacion_ssot"] = True
 
     # ── P5: Isomorfismo estructural ────────────────────────────────
     # P5a: pointer existence

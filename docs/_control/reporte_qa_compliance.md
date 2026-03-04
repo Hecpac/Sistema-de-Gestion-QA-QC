@@ -1,12 +1,12 @@
 # Reporte QA/Compliance (Neuro-Simbolico)
 
-- Fecha: 2026-02-27
+- Fecha: 2026-03-03
 - Hallazgos totales: 0
 
 ## 1. auditar_invariantes_de_estado
 ```yaml
 skill: auditar_invariantes_de_estado
-documentos_vigentes: 38
+documentos_vigentes: 42
 valido: true
 hallazgos: []
 ```
@@ -14,7 +14,7 @@ hallazgos: []
 ## 2. auditar_claves_frontmatter_desconocidas
 ```yaml
 skill: auditar_claves_frontmatter_desconocidas
-documentos_vigentes: 38
+documentos_vigentes: 42
 valido: true
 hallazgos: []
 ```
@@ -22,7 +22,7 @@ hallazgos: []
 ## 3. auditar_secciones_minimas
 ```yaml
 skill: auditar_secciones_minimas
-documentos_vigentes: 38
+documentos_vigentes: 42
 valido: true
 hallazgos: []
 ```
@@ -30,7 +30,7 @@ hallazgos: []
 ## 4. auditar_enlaces_markdown
 ```yaml
 skill: auditar_enlaces_markdown
-documentos_vigentes: 38
+documentos_vigentes: 42
 valido: true
 hallazgos: []
 ```
@@ -38,8 +38,8 @@ hallazgos: []
 ## 5. auditar_catalogo_registros
 ```yaml
 skill: auditar_catalogo_registros
-registros_en_matriz: 16
-catalogo_total: 16
+registros_en_matriz: 20
+catalogo_total: 20
 valido: true
 hallazgos: []
 ```
@@ -47,7 +47,7 @@ hallazgos: []
 ## 6. resolver_grafo_documental
 ```yaml
 skill: resolver_grafo_documental
-aristas: 18
+aristas: 20
 enlaces_rotos: 0
 valido: true
 hallazgos: []
@@ -56,7 +56,7 @@ hallazgos: []
 ## 7. detectar_formatos_huerfanos
 ```yaml
 skill: detectar_formatos_huerfanos
-formatos_total: 15
+formatos_total: 16
 huerfanos: 0
 valido: true
 hallazgos: []
@@ -65,8 +65,8 @@ hallazgos: []
 ## 8. validar_trazabilidad (P1..P5)
 ```yaml
 skill: auditar_trazabilidad
-fecha: '2026-02-27'
-registros_auditados: 14
+fecha: '2026-03-03'
+registros_auditados: 23
 fallidos: 0
 valido: true
 hallazgos: []

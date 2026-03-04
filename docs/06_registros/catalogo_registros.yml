@@ -55,6 +55,18 @@ registros:
   disposicion_final: Archivo digital historico y eliminacion controlada al vencer retencion
   acceso: Calidad / Auditores
   proteccion: Control de acceso + respaldos
+- nombre: Registro piloto de liberacion civil por frente inspeccionado
+  codigo: REG-SGC-CIV
+  codigo_formato: FOR-SGC-10
+  proceso: SGC / Disciplina Civil
+  responsable: Gerencia de Operaciones
+  medio: Digital
+  ubicacion: docs/06_registros/pilotos_multidisciplina/civil/
+  ubicacion_externa_url: s3://sgc-registros/catalogo/REG-SGC-CIV.json
+  retencion: 5 anos
+  disposicion_final: Archivo digital historico y eliminacion controlada al vencer retencion
+  acceso: Calidad / Operaciones / Cliente (segun contrato)
+  proteccion: Control de acceso + respaldos
 - nombre: Matriz de competencias
   codigo: REG-SGC-COMP
   codigo_formato: FOR-SGC-13
@@ -67,6 +79,18 @@ registros:
   disposicion_final: Archivo digital historico y eliminacion controlada al vencer retencion
   acceso: Calidad / Talento
   proteccion: Control de acceso + respaldos
+- nombre: Registro piloto de verificacion electrica y preenergizacion
+  codigo: REG-SGC-ELE
+  codigo_formato: FOR-SGC-08
+  proceso: SGC / Disciplina Electrica
+  responsable: Gerencia de Operaciones
+  medio: Digital
+  ubicacion: docs/06_registros/pilotos_multidisciplina/electrica/
+  ubicacion_externa_url: s3://sgc-registros/catalogo/REG-SGC-ELE.json
+  retencion: 5 anos
+  disposicion_final: Archivo digital historico y eliminacion controlada al vencer retencion
+  acceso: Calidad / Operaciones / Cliente (segun contrato)
+  proteccion: Control de acceso + respaldos
 - nombre: Evaluacion de eficacia de capacitacion
   codigo: REG-SGC-EFI-CAP
   codigo_formato: FOR-SGC-15
@@ -78,6 +102,18 @@ registros:
   retencion: 3 anos
   disposicion_final: Archivo digital historico y eliminacion controlada al vencer retencion
   acceso: Calidad / Talento
+  proteccion: Control de acceso + respaldos
+- nombre: Registro piloto de control y liberacion mecanica por sistema
+  codigo: REG-SGC-MEC
+  codigo_formato: FOR-SGC-03
+  proceso: SGC / Disciplina Mecanica
+  responsable: Gerencia de Operaciones
+  medio: Digital
+  ubicacion: docs/06_registros/pilotos_multidisciplina/mecanica/
+  ubicacion_externa_url: s3://sgc-registros/catalogo/REG-SGC-MEC.json
+  retencion: 5 anos
+  disposicion_final: Archivo digital historico y eliminacion controlada al vencer retencion
+  acceso: Calidad / Operaciones / Cliente (segun contrato)
   proteccion: Control de acceso + respaldos
 - nombre: Informe de auditoria
   codigo: REG-SGC-INF-AUD
