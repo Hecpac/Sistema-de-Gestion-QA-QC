@@ -10,45 +10,39 @@ from typing import Any
 
 import yaml
 
-from ..config import repo_root
+from ..config import (
+    repo_root,
+    lmd_path,
+    matrix_path,
+    qa_report_path,
+    qa_history_path,
+    dashboard_path,
+)
+from ..utils import read, write, is_pending_value
 
-
-LMD_PATH = Path("docs/_control/lmd.yml")
-MATRIX_PATH = Path("docs/_control/matriz_registros.yml")
-QA_REPORT_PATH = Path("docs/_control/reporte_qa_compliance.md")
-QA_HISTORY_PATH = Path("docs/_control/qa_monitor_history.yml")
-DASHBOARD_PATH = Path("docs/_control/dashboard_sgc.html")
+# Use functions to get paths dynamically
+LMD_PATH = lmd_path()
+MATRIX_PATH = matrix_path()
+QA_REPORT_PATH = qa_report_path()
+QA_HISTORY_PATH = qa_history_path()
+DASHBOARD_PATH = dashboard_path()
 
 QA_SECTION_RE = re.compile(r"##\s+\d+\.\s+([^\n]+)\n```yaml\n(.*?)\n```", re.DOTALL)
 QA_DATE_RE = re.compile(r"-\s+Fecha:\s+([^\n]+)")
 QA_TOTAL_RE = re.compile(r"-\s+Hallazgos totales:\s+([0-9]+)")
 
 
-def _read_text(path: Path) -> str:
-    return path.read_text(encoding="utf-8")
-
-
-def _write_text(path: Path, content: str) -> None:
-    path.parent.mkdir(parents=True, exist_ok=True)
-    path.write_text(content, encoding="utf-8")
-
+# _read_text and _write_text are now imported from utils as read and write
 
 def _load_yaml(path: Path) -> dict[str, Any]:
     if not path.exists():
         return {}
-    parsed = yaml.safe_load(_read_text(path)) or {}
+    parsed = yaml.safe_load(read(path)) or {}
     return parsed if isinstance(parsed, dict) else {}
 
 
 def _esc(value: Any) -> str:
     return html.escape(str(value))
-
-
-def _is_pending(value: Any) -> bool:
-    text = str(value or "").strip().upper()
-    if not text:
-        return True
-    return "TODO" in text or "TBD" in text or "<DEFINIR>" in text
 
 
 def _parse_qa_report(path: Path) -> dict[str, Any]:
@@ -60,7 +54,7 @@ def _parse_qa_report(path: Path) -> dict[str, Any]:
             "raw": "",
         }
 
-    content = _read_text(path)
+    content = read(path)
     date_match = QA_DATE_RE.search(content)
     total_match = QA_TOTAL_RE.search(content)
 
@@ -135,10 +129,10 @@ def _metric_cards(
     pending_matrix = 0
     for row in matrix_rows:
         if (
-            _is_pending(row.get("responsable"))
-            or _is_pending(row.get("retencion"))
-            or _is_pending(row.get("disposicion_final"))
-            or _is_pending(row.get("acceso"))
+            is_pending_value(row.get("responsable"))
+            or is_pending_value(row.get("retencion"))
+            or is_pending_value(row.get("disposicion_final"))
+            or is_pending_value(row.get("acceso"))
         ):
             pending_matrix += 1
 
@@ -288,10 +282,10 @@ def _render_records_table(matrix_rows: list[dict[str, Any]]) -> str:
     rows: list[str] = []
     for row in matrix_rows:
         pending = (
-            _is_pending(row.get("responsable"))
-            or _is_pending(row.get("retencion"))
-            or _is_pending(row.get("disposicion_final"))
-            or _is_pending(row.get("acceso"))
+            is_pending_value(row.get("responsable"))
+            or is_pending_value(row.get("retencion"))
+            or is_pending_value(row.get("disposicion_final"))
+            or is_pending_value(row.get("acceso"))
         )
         rows.append(
             """
@@ -631,7 +625,7 @@ def build_dashboard(root: Path | None = None, output: Path | None = None) -> Pat
     }
 
     html_content = render_dashboard_html(dashboard_data)
-    _write_text(output_path, html_content)
+    write(output_path, html_content)
     return output_path
 
 

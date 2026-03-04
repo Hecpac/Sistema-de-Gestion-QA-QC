@@ -10,7 +10,7 @@ import yaml
 
 try:
     from agents import function_tool
-except Exception:  # pragma: no cover
+except (ImportError, ModuleNotFoundError):  # pragma: no cover
     def function_tool(fn):
         return fn
 
@@ -18,6 +18,7 @@ from pydantic import ValidationError
 
 from ..config import repo_root
 from ..schemas import DOC_CODE_PATTERN, DocumentFrontmatter
+from ..utils import read, write, assert_within_repo
 from .build_indexes import (
     build_indexes,
     discover_controlled_documents,
@@ -55,14 +56,7 @@ TIPO_TEMPLATE_MAP: dict[str, str] = {
 # ---------------------------------------------------------------------------
 
 
-def _read(path: Path) -> str:
-    return path.read_text(encoding="utf-8")
-
-
-def _write(path: Path, content: str) -> None:
-    """Escribe contenido UTF-8 creando directorios padres si no existen."""
-    path.parent.mkdir(parents=True, exist_ok=True)
-    path.write_text(content, encoding="utf-8")
+# _read and _write are now imported from utils module
 
 
 def _sanitize_filename(titulo: str) -> str:
@@ -96,12 +90,7 @@ def _check_no_duplicate_codigo(root: Path, codigo: str) -> None:
             )
 
 
-def _assert_within_repo(abs_path: Path, root: Path) -> None:
-    """Verifica que la ruta resuelta este dentro del repositorio."""
-    resolved = abs_path.resolve()
-    resolved_root = root.resolve()
-    if resolved_root not in resolved.parents and resolved != resolved_root:
-        raise ValueError("Ruta fuera del repositorio.")
+# _assert_within_repo is now imported from utils module as assert_within_repo
 
 
 def _render_document(frontmatter: dict[str, Any], body: str) -> str:
@@ -146,7 +135,7 @@ def _append_audit_event(root: Path, event: dict[str, Any]) -> None:
     content = _AUDIT_HEADER + yaml.safe_dump(
         data, sort_keys=False, allow_unicode=True, default_flow_style=False
     )
-    _write(log_path, content)
+    write(log_path, content)
 
 
 @function_tool
@@ -156,7 +145,7 @@ def list_controlled_docs() -> str:
     if not lmd.exists():
         return "No existe docs/_control/lmd.yml"
 
-    data = yaml.safe_load(_read(lmd)) or {}
+    data = yaml.safe_load(read(lmd)) or {}
     docs = data.get("documentos", [])
     if not docs:
         return "Sin documentos en LMD."
@@ -178,7 +167,7 @@ def read_document(path: str) -> str:
         raise ValueError("Ruta fuera del repositorio.")
     if not abs_path.exists():
         raise FileNotFoundError(f"No existe: {path}")
-    return _read(abs_path)
+    return read(abs_path)
 
 
 @function_tool
@@ -219,7 +208,7 @@ def _validate_required_sections_impl(path: str) -> str:
         raise ValueError("Ruta fuera del repositorio.")
     if not abs_path.exists():
         raise FileNotFoundError(f"No existe: {path}")
-    content = _read(abs_path).lower()
+    content = read(abs_path).lower()
     required = [
         "objetivo",
         "alcance",
@@ -250,7 +239,7 @@ def list_missing_record_dirs() -> str:
     if not m_path.exists():
         return "No existe docs/_control/matriz_registros.yml"
 
-    data = yaml.safe_load(_read(m_path)) or {}
+    data = yaml.safe_load(read(m_path)) or {}
     registros = data.get("registros", [])
     missing: list[str] = []
     for reg in registros:
@@ -274,7 +263,7 @@ def validate_code_pattern(codigo: str) -> str:
 
 
 def _skill_description(skill_file: Path) -> str:
-    content = _read(skill_file)
+    content = read(skill_file)
     if not content.startswith("---\n"):
         return "(sin descripcion)"
 
@@ -313,7 +302,7 @@ def read_project_skill(skill_name: str) -> str:
     skill_file = repo_root() / ".agents/skills" / normalized / "SKILL.md"
     if not skill_file.exists():
         raise FileNotFoundError(f"No existe skill: {skill_name}")
-    return _read(skill_file)
+    return read(skill_file)
 
 
 # ---------------------------------------------------------------------------
@@ -368,7 +357,7 @@ def _create_document_impl(
 
     # 4. Security: assert within repo
     try:
-        _assert_within_repo(target, root)
+        assert_within_repo(target, root)
     except ValueError as exc:
         return f"ERROR: {exc}"
 
@@ -378,7 +367,7 @@ def _create_document_impl(
 
     # 6. Render and write
     content = _render_document(fm_data, content_body)
-    _write(target, content)
+    write(target, content)
 
     # 6b. Audit trail
     try:
@@ -394,13 +383,13 @@ def _create_document_impl(
             "reviso": reviso,
             "aprobo": aprobo,
         })
-    except Exception:
+    except (OSError, IOError, ValueError):
         pass  # audit log failure must not block document creation
 
     # 7. Rebuild indexes
     try:
         summary = build_indexes(root)
-    except Exception as exc:
+    except (OSError, ValueError, RuntimeError) as exc:
         return (
             f"ADVERTENCIA: documento creado en {target.relative_to(root)} "
             f"pero fallo la reconstruccion de indices: {exc}"
@@ -432,7 +421,7 @@ def _update_document_impl(
 
     # 1. Security check
     try:
-        _assert_within_repo(abs_path, root)
+        assert_within_repo(abs_path, root)
     except ValueError as exc:
         return f"ERROR: {exc}"
 
@@ -440,7 +429,7 @@ def _update_document_impl(
         return f"ERROR: no existe: {path}"
 
     # 2. Read existing content
-    existing_content = _read(abs_path)
+    existing_content = read(abs_path)
     existing_fm, existing_body = split_frontmatter_and_body(existing_content)
 
     if existing_fm is None:
@@ -481,7 +470,7 @@ def _update_document_impl(
 
     # 7. Render and write
     content = _render_document(updated_fm, new_body)
-    _write(abs_path, content)
+    write(abs_path, content)
 
     # 7b. Audit trail
     try:
@@ -496,13 +485,13 @@ def _update_document_impl(
             "version_nueva": str(updated_fm.get("version", "")),
             "campos_modificados": campos_mod,
         })
-    except Exception:
+    except (OSError, IOError, ValueError):
         pass
 
     # 8. Rebuild indexes
     try:
         summary = build_indexes(root)
-    except Exception as exc:
+    except (OSError, ValueError, RuntimeError) as exc:
         return (
             f"ADVERTENCIA: documento actualizado en {path} "
             f"pero fallo la reconstruccion de indices: {exc}"
@@ -538,7 +527,7 @@ def _create_document_from_template_impl(
         return f"ERROR: plantilla no encontrada: {template_file_name}"
 
     # 2. Read template
-    template_content = _read(template_path)
+    template_content = read(template_path)
     _, template_body = split_frontmatter_and_body(template_content)
 
     # 3. Build frontmatter
@@ -574,7 +563,7 @@ def _create_document_from_template_impl(
 
     # 6. Security
     try:
-        _assert_within_repo(target, root)
+        assert_within_repo(target, root)
     except ValueError as exc:
         return f"ERROR: {exc}"
 
@@ -590,12 +579,12 @@ def _create_document_from_template_impl(
 
     # 8. Render and write
     content = _render_document(fm_data, body)
-    _write(target, content)
+    write(target, content)
 
     # 9. Rebuild indexes
     try:
         summary = build_indexes(root)
-    except Exception as exc:
+    except (OSError, ValueError, RuntimeError) as exc:
         return (
             f"ADVERTENCIA: documento creado en {target.relative_to(root)} "
             f"pero fallo la reconstruccion de indices: {exc}"
@@ -628,14 +617,14 @@ def _promote_document_impl(path: str) -> str:
     abs_path = (root / path).resolve()
 
     try:
-        _assert_within_repo(abs_path, root)
+        assert_within_repo(abs_path, root)
     except ValueError as exc:
         return f"ERROR: {exc}"
 
     if not abs_path.exists():
         return f"ERROR: no existe: {path}"
 
-    content = _read(abs_path)
+    content = read(abs_path)
     existing_fm, body = split_frontmatter_and_body(content)
 
     if existing_fm is None:
@@ -682,7 +671,7 @@ def _promote_document_impl(path: str) -> str:
         return f"ERROR: frontmatter invalido al promover: {exc}"
 
     new_content = _render_document(updated_fm, body)
-    _write(abs_path, new_content)
+    write(abs_path, new_content)
 
     # Audit trail
     try:
@@ -694,12 +683,12 @@ def _promote_document_impl(path: str) -> str:
             "de": "BORRADOR",
             "a": "VIGENTE",
         })
-    except Exception:
+    except (OSError, IOError, ValueError):
         pass
 
     try:
         summary = build_indexes(root)
-    except Exception as exc:
+    except (OSError, ValueError, RuntimeError) as exc:
         return (
             f"ADVERTENCIA: documento promovido a VIGENTE en {path} "
             f"pero fallo la reconstruccion de indices: {exc}"
@@ -718,14 +707,14 @@ def _obsolete_document_impl(path: str, motivo: str = "") -> str:
     abs_path = (root / path).resolve()
 
     try:
-        _assert_within_repo(abs_path, root)
+        assert_within_repo(abs_path, root)
     except ValueError as exc:
         return f"ERROR: {exc}"
 
     if not abs_path.exists():
         return f"ERROR: no existe: {path}"
 
-    content = _read(abs_path)
+    content = read(abs_path)
     existing_fm, body = split_frontmatter_and_body(content)
 
     if existing_fm is None:
@@ -749,7 +738,7 @@ def _obsolete_document_impl(path: str, motivo: str = "") -> str:
         body = body.rstrip("\n") + f"\n\n---\n**OBSOLETO** ({today}): {motivo}\n"
 
     new_content = _render_document(updated_fm, body)
-    _write(abs_path, new_content)
+    write(abs_path, new_content)
 
     # Audit trail
     try:
@@ -760,12 +749,12 @@ def _obsolete_document_impl(path: str, motivo: str = "") -> str:
             "version": str(updated_fm.get("version", "")),
             "motivo": motivo or "(sin motivo)",
         })
-    except Exception:
+    except (OSError, IOError, ValueError):
         pass
 
     try:
         summary = build_indexes(root)
-    except Exception as exc:
+    except (OSError, ValueError, RuntimeError) as exc:
         return (
             f"ADVERTENCIA: documento obsolescido en {path} "
             f"pero fallo la reconstruccion de indices: {exc}"

@@ -10,14 +10,17 @@ import yaml
 
 try:
     from agents import function_tool
-except Exception:  # pragma: no cover
+except (ImportError, ModuleNotFoundError):  # pragma: no cover
     def function_tool(fn):
         return fn
 
 from urllib.parse import urlparse
 
-from ..config import repo_root
+from pydantic import ValidationError
+
+from ..config import repo_root, matrix_path, qa_report_path
 from ..schemas import EXTERNAL_LOCATION_SCHEMES, RecordFrontmatter
+from ..utils import read, is_pending_value
 from .build_indexes import (
     RECORD_FORMAT_HINTS,
     discover_controlled_documents,
@@ -56,8 +59,7 @@ ALLOWED_RECORD_FRONTMATTER_KEYS = {
 }
 
 
-def _read(path: Path) -> str:
-    return path.read_text(encoding="utf-8")
+# _read is now imported from utils module
 
 
 def _dump(data: dict[str, Any]) -> str:
@@ -90,10 +92,10 @@ def _extract_for_codes(content: str) -> set[str]:
 
 
 def _matrix_items() -> list[dict[str, Any]]:
-    matrix = repo_root() / "docs/_control/matriz_registros.yml"
+    matrix = matrix_path()
     if not matrix.exists():
         return []
-    data = yaml.safe_load(_read(matrix)) or {}
+    data = yaml.safe_load(read(matrix)) or {}
     items = data.get("registros", [])
     return [item for item in items if isinstance(item, dict)]
 
@@ -102,7 +104,7 @@ def _catalog_items() -> list[dict[str, Any]]:
     catalog = repo_root() / "docs/06_registros/catalogo_registros.yml"
     if not catalog.exists():
         return []
-    data = yaml.safe_load(_read(catalog)) or {}
+    data = yaml.safe_load(read(catalog)) or {}
     items = data.get("registros", [])
     return [item for item in items if isinstance(item, dict)]
 
@@ -116,11 +118,7 @@ def _catalog_by_code() -> dict[str, dict[str, Any]]:
     return by_code
 
 
-def _is_pending_value(value: Any) -> bool:
-    text = str(value or "").strip().upper()
-    if not text:
-        return True
-    return "TODO" in text or "TBD" in text or "<DEFINIR>" in text
+# _is_pending_value is now imported from utils module as is_pending_value
 
 
 def _matrix_format_codes() -> set[str]:
@@ -305,7 +303,7 @@ def _validate_traceability_for_path(record_path: Path) -> dict[str, Any]:
         "P5_isomorfismo_estructural": False,
     }
 
-    content = _read(record_path)
+    content = read(record_path)
     meta, _ = _split_body(content)
 
     parsed_meta: RecordFrontmatter | None = None
@@ -316,7 +314,7 @@ def _validate_traceability_for_path(record_path: Path) -> dict[str, Any]:
         raw_record_code = str(meta.get("codigo_registro", "")).strip()
         try:
             parsed_meta = RecordFrontmatter.model_validate(meta)
-        except Exception:
+        except ValidationError:
             parsed_meta = None
 
     origin = parsed_meta.formato_origen if parsed_meta else raw_origin
@@ -643,10 +641,10 @@ def auditar_pendientes_matriz_registros() -> str:
         codigo = str(row.get("codigo", "")).strip() or "?"
         pending_fields: list[str] = []
         for key in ("responsable", "retencion", "disposicion_final", "acceso", "ubicacion"):
-            if _is_pending_value(row.get(key)):
+            if is_pending_value(row.get(key)):
                 pending_fields.append(key)
 
-        if _is_pending_value(row.get("ubicacion_externa_url")) and _is_pending_value(
+        if is_pending_value(row.get("ubicacion_externa_url")) and is_pending_value(
             row.get("ubicacion_fisica")
         ):
             pending_fields.append("ubicacion_externa_url|ubicacion_fisica")
@@ -713,10 +711,10 @@ def auditar_catalogo_registros() -> str:
             "acceso",
             "proteccion",
         ):
-            if _is_pending_value(row.get(key)):
+            if is_pending_value(row.get(key)):
                 pending_fields.append(key)
 
-        if _is_pending_value(row.get("ubicacion_externa_url")) and _is_pending_value(
+        if is_pending_value(row.get("ubicacion_externa_url")) and is_pending_value(
             row.get("ubicacion_fisica")
         ):
             pending_fields.append("ubicacion_externa_url|ubicacion_fisica")
@@ -833,9 +831,11 @@ def auditar_trazabilidad_registros(subcarpeta: str = "") -> str:
 
 
 def generar_reporte_qa_compliance(
-    salida: str = "docs/_control/reporte_qa_compliance.md",
+    salida: str | None = None,
 ) -> str:
     """Ejecuta pipeline QA y genera reporte consolidado en Markdown."""
+    if salida is None:
+        salida = str(qa_report_path())
     inv = yaml.safe_load(auditar_invariantes_de_estado())
     unknown_frontmatter = yaml.safe_load(auditar_claves_frontmatter_desconocidas())
     min_sections = yaml.safe_load(auditar_secciones_minimas())

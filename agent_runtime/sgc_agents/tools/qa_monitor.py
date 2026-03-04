@@ -16,6 +16,7 @@ from typing import Any
 
 import yaml
 
+from ..config import qa_history_path
 from .compliance_tools import (
     auditar_catalogo_registros,
     auditar_claves_frontmatter_desconocidas,
@@ -157,7 +158,7 @@ def main(argv: list[str] | None = None) -> int:
     parser.add_argument(
         "--history-file",
         default=os.getenv(
-            "HISTORY_FILE", "docs/_control/qa_monitor_history.yml"
+            "HISTORY_FILE", str(qa_history_path())
         ),
         help="Ruta del archivo de historial",
     )

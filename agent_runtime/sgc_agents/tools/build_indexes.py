@@ -11,6 +11,7 @@ from pydantic import ValidationError
 
 from ..config import repo_root
 from ..schemas import DocumentFrontmatter, LmdEntry, MatrixRecordEntry
+from ..utils import read, write, is_pending_value
 
 
 FRONTMATTER_RE = re.compile(r"\A(?:\ufeff)?\s*---\s*\n(.*?)\n---\s*", re.DOTALL)
@@ -130,19 +131,13 @@ def split_frontmatter_and_body(content: str) -> tuple[dict[str, Any] | None, str
     return payload, body
 
 
-def _read(path: Path) -> str:
-    return path.read_text(encoding="utf-8")
-
-
-def _write(path: Path, content: str) -> None:
-    path.parent.mkdir(parents=True, exist_ok=True)
-    path.write_text(content, encoding="utf-8")
+# _read and _write are now imported from utils module
 
 
 def _load_yaml(path: Path) -> dict[str, Any]:
     if not path.exists():
         return {}
-    data = yaml.safe_load(_read(path)) or {}
+    data = yaml.safe_load(read(path)) or {}
     return data if isinstance(data, dict) else {}
 
 
@@ -153,7 +148,7 @@ def _dump_yaml_with_header(path: Path, header: str, payload: dict[str, Any]) -> 
         allow_unicode=True,
         default_flow_style=False,
     )
-    _write(path, rendered)
+    write(path, rendered)
 
 
 def _is_controlled_doc(path: Path, content: str) -> bool:
@@ -177,7 +172,7 @@ def discover_controlled_documents(root: Path) -> list[ControlledDocument]:
         if rel_path.startswith("docs/06_registros/"):
             continue
 
-        content = _read(abs_path)
+        content = read(abs_path)
         if not _is_controlled_doc(abs_path, content):
             continue
 
@@ -356,11 +351,7 @@ def _default_record_location(code: str) -> str:
         return "docs/06_registros/competencia/"
     return "docs/06_registros/"
 
-def _is_pending_policy_value(value: Any) -> bool:
-    text = str(value or "").strip().upper()
-    if not text:
-        return True
-    return "TODO" in text or "TBD" in text or "<DEFINIR>" in text
+# _is_pending_policy_value is now imported from utils module as is_pending_value
 
 
 def _enforce_retention_policy_for_vigente(code: str, payload: dict[str, Any], referenced_by_vigente: bool) -> None:
@@ -369,7 +360,7 @@ def _enforce_retention_policy_for_vigente(code: str, payload: dict[str, Any], re
 
     pending_fields: list[str] = []
     for key in ("retencion", "disposicion_final"):
-        if _is_pending_policy_value(payload.get(key)):
+        if is_pending_value(payload.get(key)):
             pending_fields.append(key)
 
     if pending_fields:

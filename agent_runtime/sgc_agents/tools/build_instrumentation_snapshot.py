@@ -10,6 +10,7 @@ import yaml
 
 from ..config import repo_root
 from ..schemas import RecordFrontmatter
+from ..utils import read
 from .build_indexes import split_frontmatter_and_body
 from .compliance_tools import (
     auditar_catalogo_registros,
@@ -37,14 +38,12 @@ REQUIRED_DISCIPLINE_RECORDS = [
 ]
 
 
-def _read_text(path: Path) -> str:
-    return path.read_text(encoding="utf-8")
-
+# _read_text is now imported from utils as read
 
 def _load_yaml(path: Path) -> dict[str, Any]:
     if not path.exists():
         return {}
-    payload = yaml.safe_load(_read_text(path)) or {}
+    payload = yaml.safe_load(read(path)) or {}
     return payload if isinstance(payload, dict) else {}
 
 

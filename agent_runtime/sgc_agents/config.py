@@ -6,6 +6,14 @@ from pathlib import Path
 
 DEFAULT_MODEL = "gpt-4.1-mini"
 
+# Control directory paths
+CONTROL_DIR = "docs/_control"
+LMD_PATH = f"{CONTROL_DIR}/lmd.yml"
+MATRIX_PATH = f"{CONTROL_DIR}/matriz_registros.yml"
+QA_REPORT_PATH = f"{CONTROL_DIR}/reporte_qa_compliance.md"
+QA_HISTORY_PATH = f"{CONTROL_DIR}/qa_monitor_history.yml"
+DASHBOARD_PATH = f"{CONTROL_DIR}/dashboard_sgc.html"
+
 
 def repo_root() -> Path:
     raw = os.getenv("SGC_REPO_ROOT", "")
@@ -17,3 +25,33 @@ def repo_root() -> Path:
 
 def model_name() -> str:
     return os.getenv("OPENAI_MODEL", DEFAULT_MODEL)
+
+
+def control_dir_path() -> Path:
+    """Returns absolute path to control directory."""
+    return repo_root() / CONTROL_DIR
+
+
+def lmd_path() -> Path:
+    """Returns absolute path to lmd.yml."""
+    return repo_root() / LMD_PATH
+
+
+def matrix_path() -> Path:
+    """Returns absolute path to matriz_registros.yml."""
+    return repo_root() / MATRIX_PATH
+
+
+def qa_report_path() -> Path:
+    """Returns absolute path to reporte_qa_compliance.md."""
+    return repo_root() / QA_REPORT_PATH
+
+
+def qa_history_path() -> Path:
+    """Returns absolute path to qa_monitor_history.yml."""
+    return repo_root() / QA_HISTORY_PATH
+
+
+def dashboard_path() -> Path:
+    """Returns absolute path to dashboard_sgc.html."""
+    return repo_root() / DASHBOARD_PATH
