@@ -93,7 +93,7 @@ def _record_status_for_code(root: Path, code: str) -> dict[str, Any]:
             "error": "registro_no_encontrado",
         }
 
-    content = _read_text(matched)
+    content = read(matched)
     frontmatter, _ = split_frontmatter_and_body(content)
     if not isinstance(frontmatter, dict):
         return {

@@ -10,22 +10,15 @@ from typing import Any
 
 import yaml
 
-from ..config import (
-    repo_root,
-    lmd_path,
-    matrix_path,
-    qa_report_path,
-    qa_history_path,
-    dashboard_path,
-)
+from ..config import repo_root
 from ..utils import read, write, is_pending_value
 
-# Use functions to get paths dynamically
-LMD_PATH = lmd_path()
-MATRIX_PATH = matrix_path()
-QA_REPORT_PATH = qa_report_path()
-QA_HISTORY_PATH = qa_history_path()
-DASHBOARD_PATH = dashboard_path()
+# Relative control artifact paths (resolved against --repo-root at runtime)
+LMD_REL_PATH = Path("docs/_control/lmd.yml")
+MATRIX_REL_PATH = Path("docs/_control/matriz_registros.yml")
+QA_REPORT_REL_PATH = Path("docs/_control/reporte_qa_compliance.md")
+QA_HISTORY_REL_PATH = Path("docs/_control/qa_monitor_history.yml")
+DASHBOARD_REL_PATH = Path("docs/_control/dashboard_sgc.html")
 
 QA_SECTION_RE = re.compile(r"##\s+\d+\.\s+([^\n]+)\n```yaml\n(.*?)\n```", re.DOTALL)
 QA_DATE_RE = re.compile(r"-\s+Fecha:\s+([^\n]+)")
@@ -604,12 +597,12 @@ def render_dashboard_html(data: dict[str, Any]) -> str:
 
 def build_dashboard(root: Path | None = None, output: Path | None = None) -> Path:
     resolved_root = root.resolve() if root else repo_root().resolve()
-    output_path = output or (resolved_root / DASHBOARD_PATH)
+    output_path = output or (resolved_root / DASHBOARD_REL_PATH)
 
-    lmd = _load_yaml(resolved_root / LMD_PATH)
-    matrix = _load_yaml(resolved_root / MATRIX_PATH)
-    qa = _parse_qa_report(resolved_root / QA_REPORT_PATH)
-    qa_history = _parse_qa_history(resolved_root / QA_HISTORY_PATH)
+    lmd = _load_yaml(resolved_root / LMD_REL_PATH)
+    matrix = _load_yaml(resolved_root / MATRIX_REL_PATH)
+    qa = _parse_qa_report(resolved_root / QA_REPORT_REL_PATH)
+    qa_history = _parse_qa_history(resolved_root / QA_HISTORY_REL_PATH)
 
     docs = lmd.get("documentos", [])
     matrix_rows = matrix.get("registros", [])
