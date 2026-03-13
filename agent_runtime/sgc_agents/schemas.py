@@ -22,6 +22,18 @@ EXTERNAL_LOCATION_SCHEMES = {
 }
 
 
+def _check_doc_code(value: str) -> str:
+    if not DOC_CODE_PATTERN.match(value):
+        raise ValueError("codigo debe cumplir patron [TIPO]-[AREA]-[NNN]")
+    return value
+
+
+def _check_doc_version(value: str) -> str:
+    if not DOC_VERSION_PATTERN.match(value):
+        raise ValueError("version debe cumplir patron mayor.menor (ej: 1.0)")
+    return value
+
+
 class DocumentFrontmatter(BaseModel):
     model_config = ConfigDict(extra="forbid", str_strip_whitespace=True)
 
@@ -39,16 +51,12 @@ class DocumentFrontmatter(BaseModel):
     @field_validator("codigo")
     @classmethod
     def validate_codigo(cls, value: str) -> str:
-        if not DOC_CODE_PATTERN.match(value):
-            raise ValueError("codigo debe cumplir patron [TIPO]-[AREA]-[NNN]")
-        return value
+        return _check_doc_code(value)
 
     @field_validator("version")
     @classmethod
     def validate_version(cls, value: str) -> str:
-        if not DOC_VERSION_PATTERN.match(value):
-            raise ValueError("version debe cumplir patron mayor.menor (ej: 1.0)")
-        return value
+        return _check_doc_version(value)
 
     @field_validator("fecha_emision")
     @classmethod
@@ -159,16 +167,12 @@ class LmdEntry(BaseModel):
     @field_validator("codigo")
     @classmethod
     def validate_codigo(cls, value: str) -> str:
-        if not DOC_CODE_PATTERN.match(value):
-            raise ValueError("codigo invalido para LMD")
-        return value
+        return _check_doc_code(value)
 
     @field_validator("version")
     @classmethod
     def validate_version(cls, value: str) -> str:
-        if not DOC_VERSION_PATTERN.match(value):
-            raise ValueError("version invalida para LMD")
-        return value
+        return _check_doc_version(value)
 
 
 class MatrixRecordEntry(BaseModel):

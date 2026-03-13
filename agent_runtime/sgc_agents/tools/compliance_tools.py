@@ -10,12 +10,17 @@ import yaml
 
 try:
     from agents import function_tool
-except Exception:  # pragma: no cover
+except (ImportError, ModuleNotFoundError):  # pragma: no cover
     def function_tool(fn):
         return fn
 
-from ..config import repo_root
-from ..schemas import RecordFrontmatter
+from urllib.parse import urlparse
+
+from pydantic import ValidationError
+
+from ..config import repo_root, matrix_path, qa_report_path
+from ..schemas import EXTERNAL_LOCATION_SCHEMES, RecordFrontmatter
+from ..utils import read, is_pending_value
 from .build_indexes import (
     RECORD_FORMAT_HINTS,
     discover_controlled_documents,
@@ -54,8 +59,7 @@ ALLOWED_RECORD_FRONTMATTER_KEYS = {
 }
 
 
-def _read(path: Path) -> str:
-    return path.read_text(encoding="utf-8")
+# _read is now imported from utils module
 
 
 def _dump(data: dict[str, Any]) -> str:
@@ -88,10 +92,10 @@ def _extract_for_codes(content: str) -> set[str]:
 
 
 def _matrix_items() -> list[dict[str, Any]]:
-    matrix = repo_root() / "docs/_control/matriz_registros.yml"
+    matrix = matrix_path()
     if not matrix.exists():
         return []
-    data = yaml.safe_load(_read(matrix)) or {}
+    data = yaml.safe_load(read(matrix)) or {}
     items = data.get("registros", [])
     return [item for item in items if isinstance(item, dict)]
 
@@ -100,7 +104,7 @@ def _catalog_items() -> list[dict[str, Any]]:
     catalog = repo_root() / "docs/06_registros/catalogo_registros.yml"
     if not catalog.exists():
         return []
-    data = yaml.safe_load(_read(catalog)) or {}
+    data = yaml.safe_load(read(catalog)) or {}
     items = data.get("registros", [])
     return [item for item in items if isinstance(item, dict)]
 
@@ -114,11 +118,7 @@ def _catalog_by_code() -> dict[str, dict[str, Any]]:
     return by_code
 
 
-def _is_pending_value(value: Any) -> bool:
-    text = str(value or "").strip().upper()
-    if not text:
-        return True
-    return "TODO" in text or "TBD" in text or "<DEFINIR>" in text
+# _is_pending_value is now imported from utils module as is_pending_value
 
 
 def _matrix_format_codes() -> set[str]:
@@ -134,6 +134,33 @@ def _matrix_format_codes() -> set[str]:
         if hinted:
             format_codes.add(hinted)
     return format_codes
+
+
+def _matrix_record_codes() -> set[str]:
+    record_codes: set[str] = set()
+    for item in _matrix_items():
+        code = str(item.get("codigo", "")).strip()
+        if code:
+            record_codes.add(code)
+    return record_codes
+
+
+def _resolve_record_family_code(
+    record_code: str,
+    canonical_codes: set[str],
+) -> str | None:
+    normalized = str(record_code or "").strip()
+    if not normalized or not canonical_codes:
+        return None
+
+    matches = [
+        code
+        for code in canonical_codes
+        if normalized == code or normalized.startswith(f"{code}-")
+    ]
+    if not matches:
+        return None
+    return max(matches, key=len)
 
 
 
@@ -189,8 +216,196 @@ def _contains_required_headings(markdown: str, required_prefixes: list[str]) -> 
     return missing
 
 
-def _validate_traceability_for_path(record_path: Path) -> dict[str, Any]:
+def _validate_pointer_schema(meta: dict[str, Any]) -> list[str]:
+    """Validate that external/physical pointers have correct schema/format.
+
+    Returns a list of P5 findings (empty if valid).
+    """
     findings: list[str] = []
+    ext_url = str(meta.get("ubicacion_externa_url", "") or "").strip()
+    phys = str(meta.get("ubicacion_fisica", "") or "").strip()
+
+    if ext_url:
+        parsed = urlparse(ext_url)
+        if not parsed.scheme:
+            findings.append(
+                f"[P5] ubicacion_externa_url '{ext_url}' no tiene esquema URI."
+            )
+        elif parsed.scheme not in EXTERNAL_LOCATION_SCHEMES:
+            findings.append(
+                f"[P5] ubicacion_externa_url usa esquema '{parsed.scheme}' "
+                f"no permitido. Esquemas validos: {sorted(EXTERNAL_LOCATION_SCHEMES)}."
+            )
+        elif parsed.scheme in {"http", "https"} and not parsed.netloc:
+            findings.append(
+                f"[P5] ubicacion_externa_url '{ext_url}' no incluye host valido."
+            )
+        elif parsed.scheme in {"s3", "gs"} and not parsed.netloc:
+            findings.append(
+                f"[P5] ubicacion_externa_url '{ext_url}' no incluye bucket valido."
+            )
+
+    if phys and not ext_url:
+        upper = phys.upper()
+        if upper in {"TBD", "TODO", "N/A", "NA"} or "<DEFINIR>" in upper:
+            findings.append(
+                "[P5] ubicacion_fisica es un valor pendiente/placeholder."
+            )
+        elif len(phys) < 4:
+            findings.append(
+                "[P5] ubicacion_fisica demasiado corta para ser descriptiva."
+            )
+
+    return findings
+
+
+def _validate_header_isomorphism(
+    format_content: str,
+    record_content: str,
+) -> list[str]:
+    """Check that fillable headers from the format H(F) appear in the record H(R).
+
+    Only meaningful for inline records (no ``ubicacion_externa_url``).
+    Returns a list of P5 findings (empty if valid).
+    """
+    format_headers = _extract_fillable_headers(format_content)
+    if not format_headers:
+        return []
+
+    record_headers = _extract_headers(record_content)
+    record_normalized = {_normalize_heading(h) for h in record_headers}
+
+    missing: list[str] = []
+    for fh in sorted(format_headers):
+        fh_norm = _normalize_heading(fh)
+        found = any(
+            rh == fh_norm or rh.startswith(fh_norm)
+            for rh in record_normalized
+        )
+        if not found:
+            missing.append(fh)
+
+    if missing:
+        return [
+            f"[P5] Isomorfismo estructural: el registro no contiene "
+            f"{len(missing)} header(s) del formato: {missing}."
+        ]
+    return []
+
+
+def _validate_p1_procedencia(
+    meta: dict[str, Any] | None,
+) -> tuple[bool, list[str], str, str, RecordFrontmatter | None]:
+    """P1: Validate record declares formato_origen (procedencia)."""
+    parsed_meta: RecordFrontmatter | None = None
+    raw_origin = ""
+    raw_record_code = ""
+    if isinstance(meta, dict):
+        raw_origin = str(meta.get("formato_origen", "")).strip()
+        raw_record_code = str(meta.get("codigo_registro", "")).strip()
+        try:
+            parsed_meta = RecordFrontmatter.model_validate(meta)
+        except ValidationError:
+            parsed_meta = None
+
+    origin = parsed_meta.formato_origen if parsed_meta else raw_origin
+    record_code = (
+        parsed_meta.codigo_registro
+        if parsed_meta and parsed_meta.codigo_registro
+        else raw_record_code
+    )
+    if not origin:
+        return False, ["[P1] El registro wrapper es invalido o no declara formato_origen."], "", "", None
+    return True, [], origin, record_code, parsed_meta
+
+
+def _validate_p2_existencia_canonica(origin: str) -> tuple[bool, list[str], Any]:
+    """P2: Validate formato_origen exists physically in docs/."""
+    format_doc = _format_docs_by_code().get(origin)
+    if not format_doc:
+        return False, [f"[P2] El formato declarado '{origin}' no existe fisicamente en docs/."], None
+    return True, [], format_doc
+
+
+def _validate_p3_vigencia_legal(origin: str, format_doc: Any) -> tuple[bool, list[str]]:
+    """P3: Validate format document is in VIGENTE state."""
+    if format_doc.frontmatter.estado == "VIGENTE":
+        return True, []
+    return False, [
+        "[P3] Uso de plantilla ilegal. "
+        f"El formato '{origin}' esta en estado '{format_doc.frontmatter.estado}'."
+    ]
+
+
+def _validate_p4_sincronizacion_ssot(origin: str, record_code: str) -> tuple[bool, list[str]]:
+    """P4: Validate record is synchronized with SSOT (matriz + catalogo)."""
+    p4_findings: list[str] = []
+    if origin not in _matrix_format_codes():
+        p4_findings.append(
+            f"[P4] El formato '{origin}' no esta habilitado en la Matriz de Registros."
+        )
+
+    if not record_code:
+        p4_findings.append(
+            "[P4] El registro no declara codigo_registro; no se puede validar sincronizacion SSOT."
+        )
+    else:
+        matrix_codes = _matrix_record_codes()
+        catalog_codes = set(_catalog_by_code().keys())
+        canonical_codes = matrix_codes | catalog_codes
+
+        resolved_family_code = _resolve_record_family_code(record_code, canonical_codes)
+        if not resolved_family_code:
+            p4_findings.append(
+                f"[P4] El codigo_registro '{record_code}' no existe en SSOT "
+                "(matriz_registros.yml / catalogo_registros.yml)."
+            )
+        else:
+            if matrix_codes and resolved_family_code not in matrix_codes:
+                p4_findings.append(
+                    f"[P4] El codigo_registro '{record_code}' mapea a '{resolved_family_code}', "
+                    "pero no existe en matriz_registros.yml."
+                )
+            if catalog_codes and resolved_family_code not in catalog_codes:
+                p4_findings.append(
+                    f"[P4] El codigo_registro '{record_code}' mapea a '{resolved_family_code}', "
+                    "pero no existe en catalogo_registros.yml."
+                )
+
+    return len(p4_findings) == 0, p4_findings
+
+
+def _validate_p5_isomorfismo(
+    meta: dict[str, Any] | None,
+    parsed_meta: RecordFrontmatter | None,
+    format_doc: Any,
+    content: str,
+) -> tuple[bool, list[str]]:
+    """P5: Validate structural isomorphism (pointer + schema + headers)."""
+    findings: list[str] = []
+    raw_ext = str((meta or {}).get("ubicacion_externa_url", "") or "").strip()
+    raw_phys = str((meta or {}).get("ubicacion_fisica", "") or "").strip()
+    has_pointer = bool(
+        (parsed_meta and (parsed_meta.ubicacion_externa_url or parsed_meta.ubicacion_fisica))
+        or raw_ext
+        or raw_phys
+    )
+
+    if not has_pointer:
+        findings.append(
+            "[P5] El registro no declara ubicacion_externa_url ni ubicacion_fisica."
+        )
+    else:
+        p5_schema = _validate_pointer_schema(meta or {})
+        findings.extend(p5_schema)
+        if not raw_ext and format_doc:
+            p5_iso = _validate_header_isomorphism(format_doc.content, content)
+            findings.extend(p5_iso)
+
+    return len(findings) == 0, findings
+
+
+def _validate_traceability_for_path(record_path: Path) -> dict[str, Any]:
     axioms: dict[str, bool] = {
         "P1_procedencia": False,
         "P2_existencia_canonica": False,
@@ -199,74 +414,55 @@ def _validate_traceability_for_path(record_path: Path) -> dict[str, Any]:
         "P5_isomorfismo_estructural": False,
     }
 
-    content = _read(record_path)
+    content = read(record_path)
     meta, _ = _split_body(content)
+    all_findings: list[str] = []
 
-    parsed_meta: RecordFrontmatter | None = None
-    raw_origin = ""
-    if isinstance(meta, dict):
-        raw_origin = str(meta.get("formato_origen", "")).strip()
-        try:
-            parsed_meta = RecordFrontmatter.model_validate(meta)
-        except Exception:
-            parsed_meta = None
-
-    origin = parsed_meta.formato_origen if parsed_meta else raw_origin
-    if not origin:
-        findings.append(
-            "[P1] El registro wrapper es invalido o no declara formato_origen."
-        )
+    # P1
+    ok, findings, origin, record_code, parsed_meta = _validate_p1_procedencia(meta)
+    all_findings.extend(findings)
+    if not ok:
         return {
             "registro": record_path.as_posix(),
             "valido": False,
             "axiomas": axioms,
-            "hallazgos": findings,
+            "hallazgos": all_findings,
         }
-
     axioms["P1_procedencia"] = True
 
-    format_doc = _format_docs_by_code().get(origin)
-    if not format_doc:
-        findings.append(
-            f"[P2] El formato declarado '{origin}' no existe fisicamente en docs/."
-        )
+    # P2
+    ok, findings, format_doc = _validate_p2_existencia_canonica(origin)
+    all_findings.extend(findings)
+    if not ok:
         return {
             "registro": record_path.as_posix(),
             "valido": False,
             "axiomas": axioms,
-            "hallazgos": findings,
+            "hallazgos": all_findings,
         }
-
     axioms["P2_existencia_canonica"] = True
 
-    if format_doc.frontmatter.estado == "VIGENTE":
-        axioms["P3_vigencia_legal"] = True
-    else:
-        findings.append(
-            "[P3] Uso de plantilla ilegal. "
-            f"El formato '{origin}' esta en estado '{format_doc.frontmatter.estado}'."
-        )
+    # P3
+    ok, findings = _validate_p3_vigencia_legal(origin, format_doc)
+    all_findings.extend(findings)
+    axioms["P3_vigencia_legal"] = ok
 
-    if origin in _matrix_format_codes():
-        axioms["P4_sincronizacion_ssot"] = True
-    else:
-        findings.append(
-            f"[P4] El formato '{origin}' no esta habilitado en la Matriz de Registros."
-        )
+    # P4
+    ok, findings = _validate_p4_sincronizacion_ssot(origin, record_code)
+    all_findings.extend(findings)
+    axioms["P4_sincronizacion_ssot"] = ok
 
-    if parsed_meta and (parsed_meta.ubicacion_externa_url or parsed_meta.ubicacion_fisica):
-        axioms["P5_isomorfismo_estructural"] = True
-    else:
-        findings.append(
-            "[P5] El registro no declara ubicacion_externa_url ni ubicacion_fisica."
-        )
+    # P5
+    ok, findings = _validate_p5_isomorfismo(meta, parsed_meta, format_doc, content)
+    all_findings.extend(findings)
+    axioms["P5_isomorfismo_estructural"] = ok
 
-    valid = len(findings) == 0
+    valid = len(all_findings) == 0
     return {
         "registro": record_path.as_posix(),
         "valido": valid,
         "axiomas": axioms,
-        "hallazgos": findings if findings else ["Trazabilidad perfecta."],
+        "hallazgos": all_findings if all_findings else ["Trazabilidad perfecta."],
     }
 
 
@@ -287,111 +483,75 @@ def _iter_record_files(relative_subfolder: str = "") -> list[Path]:
     return files
 
 
-def auditar_invariantes_de_estado() -> str:
-    """Valida invariantes en documentos VIGENTE: sin TODO/placeholders/TBD."""
+def _run_vigente_audit(
+    skill: str,
+    checker: Any,
+) -> str:
+    """Run *checker(doc)* on each VIGENTE document and return standardised YAML."""
     findings: list[dict[str, Any]] = []
     vigentes = 0
-
     for doc in _controlled_docs():
         if doc.frontmatter.estado != "VIGENTE":
             continue
-
         vigentes += 1
-        errors: list[str] = []
-        if TODO_RE.search(doc.content):
-            errors.append("Contiene TODO")
-        if PLACEHOLDER_RE.search(doc.content):
-            errors.append("Contiene placeholders tipo <...>")
-        if "TBD" in doc.content:
-            errors.append("Contiene valor TBD")
-
-        if errors:
-            findings.append(
-                {
-                    "codigo": doc.frontmatter.codigo,
-                    "ruta": doc.relative_path,
-                    "hallazgos": errors,
-                }
-            )
-
-    payload = {
-        "skill": "auditar_invariantes_de_estado",
+        result = checker(doc)
+        if result:
+            findings.append(result)
+    return _dump({
+        "skill": skill,
         "documentos_vigentes": vigentes,
         "valido": len(findings) == 0,
         "hallazgos": findings,
-    }
-    return _dump(payload)
+    })
+
+
+def _check_invariantes(doc: Any) -> dict[str, Any] | None:
+    errors: list[str] = []
+    if TODO_RE.search(doc.content):
+        errors.append("Contiene TODO")
+    if PLACEHOLDER_RE.search(doc.content):
+        errors.append("Contiene placeholders tipo <...>")
+    if "TBD" in doc.content:
+        errors.append("Contiene valor TBD")
+    if errors:
+        return {"codigo": doc.frontmatter.codigo, "ruta": doc.relative_path, "hallazgos": errors}
+    return None
+
+
+def auditar_invariantes_de_estado() -> str:
+    """Valida invariantes en documentos VIGENTE: sin TODO/placeholders/TBD."""
+    return _run_vigente_audit("auditar_invariantes_de_estado", _check_invariantes)
+
+
+def _check_claves_frontmatter(doc: Any) -> dict[str, Any] | None:
+    raw = extract_frontmatter(doc.content) or {}
+    if not isinstance(raw, dict):
+        return None
+    extra = sorted({str(k).strip() for k in raw.keys()} - ALLOWED_DOC_FRONTMATTER_KEYS)
+    if extra:
+        return {"codigo": doc.frontmatter.codigo, "ruta": doc.relative_path, "claves_desconocidas": extra}
+    return None
 
 
 def auditar_claves_frontmatter_desconocidas() -> str:
     """Detecta claves no reconocidas en frontmatter de documentos VIGENTE."""
-    findings: list[dict[str, Any]] = []
-    vigentes = 0
+    return _run_vigente_audit("auditar_claves_frontmatter_desconocidas", _check_claves_frontmatter)
 
-    for doc in _controlled_docs():
-        if doc.frontmatter.estado != "VIGENTE":
-            continue
-        vigentes += 1
 
-        raw = extract_frontmatter(doc.content) or {}
-        if not isinstance(raw, dict):
-            continue
-
-        extra = sorted({str(k).strip() for k in raw.keys()} - ALLOWED_DOC_FRONTMATTER_KEYS)
-        if extra:
-            findings.append(
-                {
-                    "codigo": doc.frontmatter.codigo,
-                    "ruta": doc.relative_path,
-                    "claves_desconocidas": extra,
-                }
-            )
-
-    payload = {
-        "skill": "auditar_claves_frontmatter_desconocidas",
-        "documentos_vigentes": vigentes,
-        "valido": len(findings) == 0,
-        "hallazgos": findings,
-    }
-    return _dump(payload)
+def _check_secciones_minimas(doc: Any) -> dict[str, Any] | None:
+    required_prefixes = [
+        "objetivo", "alcance", "responsabilidades",
+        "desarrollo", "registros asociados", "control de cambios",
+    ]
+    missing = _contains_required_headings(doc.content, required_prefixes)
+    if missing:
+        return {"codigo": doc.frontmatter.codigo, "ruta": doc.relative_path, "faltantes": missing}
+    return None
 
 
 def auditar_secciones_minimas() -> str:
     """Valida secciones mínimas requeridas en documentos VIGENTE."""
-    findings: list[dict[str, Any]] = []
-    vigentes = 0
-
-    required_prefixes = [
-        "objetivo",
-        "alcance",
-        "responsabilidades",
-        "desarrollo",
-        "registros asociados",
-        "control de cambios",
-    ]
-
-    for doc in _controlled_docs():
-        if doc.frontmatter.estado != "VIGENTE":
-            continue
-        vigentes += 1
-
-        missing = _contains_required_headings(doc.content, required_prefixes)
-        if missing:
-            findings.append(
-                {
-                    "codigo": doc.frontmatter.codigo,
-                    "ruta": doc.relative_path,
-                    "faltantes": missing,
-                }
-            )
-
-    payload = {
-        "skill": "auditar_secciones_minimas",
-        "documentos_vigentes": vigentes,
-        "valido": len(findings) == 0,
-        "hallazgos": findings,
-    }
-    return _dump(payload)
+    return _run_vigente_audit("auditar_secciones_minimas", _check_secciones_minimas)
 
 
 def auditar_enlaces_markdown() -> str:
@@ -475,10 +635,10 @@ def auditar_pendientes_matriz_registros() -> str:
         codigo = str(row.get("codigo", "")).strip() or "?"
         pending_fields: list[str] = []
         for key in ("responsable", "retencion", "disposicion_final", "acceso", "ubicacion"):
-            if _is_pending_value(row.get(key)):
+            if is_pending_value(row.get(key)):
                 pending_fields.append(key)
 
-        if _is_pending_value(row.get("ubicacion_externa_url")) and _is_pending_value(
+        if is_pending_value(row.get("ubicacion_externa_url")) and is_pending_value(
             row.get("ubicacion_fisica")
         ):
             pending_fields.append("ubicacion_externa_url|ubicacion_fisica")
@@ -545,10 +705,10 @@ def auditar_catalogo_registros() -> str:
             "acceso",
             "proteccion",
         ):
-            if _is_pending_value(row.get(key)):
+            if is_pending_value(row.get(key)):
                 pending_fields.append(key)
 
-        if _is_pending_value(row.get("ubicacion_externa_url")) and _is_pending_value(
+        if is_pending_value(row.get("ubicacion_externa_url")) and is_pending_value(
             row.get("ubicacion_fisica")
         ):
             pending_fields.append("ubicacion_externa_url|ubicacion_fisica")
@@ -665,9 +825,11 @@ def auditar_trazabilidad_registros(subcarpeta: str = "") -> str:
 
 
 def generar_reporte_qa_compliance(
-    salida: str = "docs/_control/reporte_qa_compliance.md",
+    salida: str | None = None,
 ) -> str:
     """Ejecuta pipeline QA y genera reporte consolidado en Markdown."""
+    if salida is None:
+        salida = str(qa_report_path())
     inv = yaml.safe_load(auditar_invariantes_de_estado())
     unknown_frontmatter = yaml.safe_load(auditar_claves_frontmatter_desconocidas())
     min_sections = yaml.safe_load(auditar_secciones_minimas())

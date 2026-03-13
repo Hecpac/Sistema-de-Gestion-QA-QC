@@ -51,6 +51,22 @@ documentos:
   estado: VIGENTE
   fecha_vigencia: '2026-02-17'
   ubicacion: docs/_control/ESP-SGC-15_Resumen_Ejecutivo_del_Repositorio_SGC.md
+- codigo: ESP-SGC-16
+  titulo: Arquitectura de App de Campo y Dashboard por Disciplina y Proyecto
+  tipo: ESP
+  proceso: SGC / Transformacion Digital
+  version: '1.0'
+  estado: VIGENTE
+  fecha_vigencia: '2026-02-28'
+  ubicacion: docs/_control/ESP-SGC-16_Arquitectura_de_App_de_Campo_y_Dashboard_por_Disciplina_y_Proyecto.md
+- codigo: ESP-SGC-17
+  titulo: Contrato API OpenAPI para App de Campo y Dashboard
+  tipo: ESP
+  proceso: SGC / Transformacion Digital
+  version: '1.1'
+  estado: VIGENTE
+  fecha_vigencia: '2026-03-03'
+  ubicacion: docs/_control/ESP-SGC-17_Contrato_API_OpenAPI_App_de_Campo_y_Dashboard.md
 - codigo: FOR-SGC-01
   titulo: Solicitud de Creación / Cambio Documental
   tipo: FOR
@@ -171,6 +187,14 @@ documentos:
   estado: VIGENTE
   fecha_vigencia: '2026-02-15'
   ubicacion: docs/10_competencia_formacion/FOR-SGC-15_Evaluacion_de_Eficacia_de_Capacitacion.md
+- codigo: FOR-SGC-16
+  titulo: Registro Integrado de Datos de Campo y Reporte por Cliente
+  tipo: FOR
+  proceso: SGC / Operacion
+  version: '1.0'
+  estado: VIGENTE
+  fecha_vigencia: '2026-02-28'
+  ubicacion: docs/05_formatos/FOR-SGC-16_Registro_Integrado_de_Datos_de_Campo_y_Reporte_por_Cliente.md
 - codigo: IT-SGC-01
   titulo: 'Instructivo: Configuracion de GitHub para Gobierno del SGC'
   tipo: IT
@@ -203,6 +227,15 @@ documentos:
   estado: VIGENTE
   fecha_vigencia: '2026-02-17'
   ubicacion: docs/04_instructivos/IT-SGC-04_Instructivo_Verificacion_Electrica_Preenergizacion.md
+- codigo: IT-SGC-05
+  titulo: 'Instructivo: Uso de Codex (Subagentes y Multiagente) en el Repositorio
+    SGC'
+  tipo: IT
+  proceso: SGC / Control Documental
+  version: '1.0'
+  estado: VIGENTE
+  fecha_vigencia: '2026-02-22'
+  ubicacion: docs/04_instructivos/IT-SGC-05_Uso_de_Codex_Subagentes_y_Multiagente.md
 - codigo: PLAN-SGC-01
   titulo: Objetivos de Calidad y Seguimiento
   tipo: PLAN
@@ -299,3 +332,11 @@ documentos:
   estado: VIGENTE
   fecha_vigencia: '2026-02-17'
   ubicacion: docs/03_procedimientos/PR-SGC-09_Control_de_Cambios_del_Runtime_y_Automatizaciones_QA.md
+- codigo: PR-SGC-10
+  titulo: Gestion de Datos de Campo y Generacion de Reportes por Cliente
+  tipo: PR
+  proceso: SGC / Operacion
+  version: '1.1'
+  estado: VIGENTE
+  fecha_vigencia: '2026-03-03'
+  ubicacion: docs/03_procedimientos/PR-SGC-10_Gestion_de_Datos_de_Campo_y_Generacion_de_Reportes_por_Cliente.md

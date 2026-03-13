@@ -2,12 +2,15 @@
 
 Este roadmap esta orientado a construir el SGC **por incrementos**, priorizando primero lo que sostiene al resto (control documental) y lo que genera evidencia solida (NC/CAPA, auditorias, KPI).
 
-## Estado de implementacion (2026-02-14)
+## Estado de implementacion (2026-03-13)
 - Fases 0 a 8: documentos base creados en estado `BORRADOR` version `1.0+`.
 - Fase 9 (opcional): `PLAN-SGC-02_Digitalizacion_del_SGC.md` creado en `BORRADOR`.
 - Control documental sincronizado por generacion determinista:
   - `docs/_control/lmd.yml`
   - `docs/_control/matriz_registros.yml`
+- Agent runtime: 200 tests passing, paths centralizados, trazabilidad P1-P5 refactorizada.
+- CI: 4 workflows GitHub Actions operativos (QA gate, baseline gate, weekly monitor, watchdog).
+- Deuda tecnica P0-P2 resuelta: conftest, cobertura core, paths, silent failures, template extraction, dedup validators/helpers.
 
 ## Fase 0 - Gobierno del SGC (base)
 **Entregables**

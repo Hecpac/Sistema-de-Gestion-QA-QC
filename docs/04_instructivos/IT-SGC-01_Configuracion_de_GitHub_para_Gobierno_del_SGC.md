@@ -34,7 +34,8 @@ Excluye la redaccion/actualizacion de documentos controlados (ver PR-SGC-01) y e
 - Acceso de administracion al repositorio GitHub.
 - Navegador web (GitHub UI) o GitHub CLI (opcional).
 
-## 5. Desarrollo / Instrucciones paso a paso
+## 5. Desarrollo / Metodologia
+Este instructivo se ejecuta mediante los pasos descritos a continuacion. La evidencia de implementacion (configuracion efectiva) debe quedar trazable en el repositorio y/o en la plataforma GitHub conforme a PR-SGC-01 y PR-SGC-09.
 
 ### 5.1 Reglas de acceso (permisos)
 1. Definir roles:

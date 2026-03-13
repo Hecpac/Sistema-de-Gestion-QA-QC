@@ -8,8 +8,9 @@ from typing import Any
 
 import yaml
 
-from ..config import repo_root
+from ..config import LMD_PATH, MATRIX_PATH, SNAPSHOT_PATH as SNAPSHOT_REL, repo_root
 from ..schemas import RecordFrontmatter
+from ..utils import read
 from .build_indexes import split_frontmatter_and_body
 from .compliance_tools import (
     auditar_catalogo_registros,
@@ -24,7 +25,7 @@ from .compliance_tools import (
 )
 
 
-SNAPSHOT_PATH = Path("docs/_control/instrumentacion_sgc.json")
+SNAPSHOT_PATH = Path(SNAPSHOT_REL)
 REQUIRED_DISCIPLINE_DOCS = [
     "IT-SGC-02",
     "IT-SGC-03",
@@ -37,14 +38,12 @@ REQUIRED_DISCIPLINE_RECORDS = [
 ]
 
 
-def _read_text(path: Path) -> str:
-    return path.read_text(encoding="utf-8")
-
+# _read_text is now imported from utils as read
 
 def _load_yaml(path: Path) -> dict[str, Any]:
     if not path.exists():
         return {}
-    payload = yaml.safe_load(_read_text(path)) or {}
+    payload = yaml.safe_load(read(path)) or {}
     return payload if isinstance(payload, dict) else {}
 
 
@@ -94,7 +93,7 @@ def _record_status_for_code(root: Path, code: str) -> dict[str, Any]:
             "error": "registro_no_encontrado",
         }
 
-    content = _read_text(matched)
+    content = read(matched)
     frontmatter, _ = split_frontmatter_and_body(content)
     if not isinstance(frontmatter, dict):
         return {
@@ -125,8 +124,8 @@ def _record_status_for_code(root: Path, code: str) -> dict[str, Any]:
 def build_instrumentation_snapshot(root: Path | None = None, output: Path | None = None) -> Path:
     resolved_root = root.resolve() if root else repo_root().resolve()
 
-    lmd = _load_yaml(resolved_root / "docs/_control/lmd.yml")
-    matrix = _load_yaml(resolved_root / "docs/_control/matriz_registros.yml")
+    lmd = _load_yaml(resolved_root / LMD_PATH)
+    matrix = _load_yaml(resolved_root / MATRIX_PATH)
 
     docs = lmd.get("documentos", []) if isinstance(lmd, dict) else []
     docs = docs if isinstance(docs, list) else []
