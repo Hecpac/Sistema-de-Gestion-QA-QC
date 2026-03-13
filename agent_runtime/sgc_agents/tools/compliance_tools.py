@@ -293,19 +293,10 @@ def _validate_header_isomorphism(
     return []
 
 
-def _validate_traceability_for_path(record_path: Path) -> dict[str, Any]:
-    findings: list[str] = []
-    axioms: dict[str, bool] = {
-        "P1_procedencia": False,
-        "P2_existencia_canonica": False,
-        "P3_vigencia_legal": False,
-        "P4_sincronizacion_ssot": False,
-        "P5_isomorfismo_estructural": False,
-    }
-
-    content = read(record_path)
-    meta, _ = _split_body(content)
-
+def _validate_p1_procedencia(
+    meta: dict[str, Any] | None,
+) -> tuple[bool, list[str], str, str, RecordFrontmatter | None]:
+    """P1: Validate record declares formato_origen (procedencia)."""
     parsed_meta: RecordFrontmatter | None = None
     raw_origin = ""
     raw_record_code = ""
@@ -324,40 +315,30 @@ def _validate_traceability_for_path(record_path: Path) -> dict[str, Any]:
         else raw_record_code
     )
     if not origin:
-        findings.append(
-            "[P1] El registro wrapper es invalido o no declara formato_origen."
-        )
-        return {
-            "registro": record_path.as_posix(),
-            "valido": False,
-            "axiomas": axioms,
-            "hallazgos": findings,
-        }
+        return False, ["[P1] El registro wrapper es invalido o no declara formato_origen."], "", "", None
+    return True, [], origin, record_code, parsed_meta
 
-    axioms["P1_procedencia"] = True
 
+def _validate_p2_existencia_canonica(origin: str) -> tuple[bool, list[str], Any]:
+    """P2: Validate formato_origen exists physically in docs/."""
     format_doc = _format_docs_by_code().get(origin)
     if not format_doc:
-        findings.append(
-            f"[P2] El formato declarado '{origin}' no existe fisicamente en docs/."
-        )
-        return {
-            "registro": record_path.as_posix(),
-            "valido": False,
-            "axiomas": axioms,
-            "hallazgos": findings,
-        }
+        return False, [f"[P2] El formato declarado '{origin}' no existe fisicamente en docs/."], None
+    return True, [], format_doc
 
-    axioms["P2_existencia_canonica"] = True
 
+def _validate_p3_vigencia_legal(origin: str, format_doc: Any) -> tuple[bool, list[str]]:
+    """P3: Validate format document is in VIGENTE state."""
     if format_doc.frontmatter.estado == "VIGENTE":
-        axioms["P3_vigencia_legal"] = True
-    else:
-        findings.append(
-            "[P3] Uso de plantilla ilegal. "
-            f"El formato '{origin}' esta en estado '{format_doc.frontmatter.estado}'."
-        )
+        return True, []
+    return False, [
+        "[P3] Uso de plantilla ilegal. "
+        f"El formato '{origin}' esta en estado '{format_doc.frontmatter.estado}'."
+    ]
 
+
+def _validate_p4_sincronizacion_ssot(origin: str, record_code: str) -> tuple[bool, list[str]]:
+    """P4: Validate record is synchronized with SSOT (matriz + catalogo)."""
     p4_findings: list[str] = []
     if origin not in _matrix_format_codes():
         p4_findings.append(
@@ -391,13 +372,17 @@ def _validate_traceability_for_path(record_path: Path) -> dict[str, Any]:
                     "pero no existe en catalogo_registros.yml."
                 )
 
-    if p4_findings:
-        findings.extend(p4_findings)
-    else:
-        axioms["P4_sincronizacion_ssot"] = True
+    return len(p4_findings) == 0, p4_findings
 
-    # ── P5: Isomorfismo estructural ────────────────────────────────
-    # P5a: pointer existence
+
+def _validate_p5_isomorfismo(
+    meta: dict[str, Any] | None,
+    parsed_meta: RecordFrontmatter | None,
+    format_doc: Any,
+    content: str,
+) -> tuple[bool, list[str]]:
+    """P5: Validate structural isomorphism (pointer + schema + headers)."""
+    findings: list[str] = []
     raw_ext = str((meta or {}).get("ubicacion_externa_url", "") or "").strip()
     raw_phys = str((meta or {}).get("ubicacion_fisica", "") or "").strip()
     has_pointer = bool(
@@ -411,28 +396,73 @@ def _validate_traceability_for_path(record_path: Path) -> dict[str, Any]:
             "[P5] El registro no declara ubicacion_externa_url ni ubicacion_fisica."
         )
     else:
-        # P5b: pointer schema validation
         p5_schema = _validate_pointer_schema(meta or {})
         findings.extend(p5_schema)
-
-        # P5c: structural header isomorphism (only for inline records)
         if not raw_ext and format_doc:
-            p5_iso = _validate_header_isomorphism(
-                format_doc.content, content
-            )
+            p5_iso = _validate_header_isomorphism(format_doc.content, content)
             findings.extend(p5_iso)
 
-    # P5 passes only when pointer exists AND no P5 findings were added
-    p5_findings = [f for f in findings if "[P5]" in f]
-    if not p5_findings:
-        axioms["P5_isomorfismo_estructural"] = True
+    return len(findings) == 0, findings
 
-    valid = len(findings) == 0
+
+def _validate_traceability_for_path(record_path: Path) -> dict[str, Any]:
+    axioms: dict[str, bool] = {
+        "P1_procedencia": False,
+        "P2_existencia_canonica": False,
+        "P3_vigencia_legal": False,
+        "P4_sincronizacion_ssot": False,
+        "P5_isomorfismo_estructural": False,
+    }
+
+    content = read(record_path)
+    meta, _ = _split_body(content)
+    all_findings: list[str] = []
+
+    # P1
+    ok, findings, origin, record_code, parsed_meta = _validate_p1_procedencia(meta)
+    all_findings.extend(findings)
+    if not ok:
+        return {
+            "registro": record_path.as_posix(),
+            "valido": False,
+            "axiomas": axioms,
+            "hallazgos": all_findings,
+        }
+    axioms["P1_procedencia"] = True
+
+    # P2
+    ok, findings, format_doc = _validate_p2_existencia_canonica(origin)
+    all_findings.extend(findings)
+    if not ok:
+        return {
+            "registro": record_path.as_posix(),
+            "valido": False,
+            "axiomas": axioms,
+            "hallazgos": all_findings,
+        }
+    axioms["P2_existencia_canonica"] = True
+
+    # P3
+    ok, findings = _validate_p3_vigencia_legal(origin, format_doc)
+    all_findings.extend(findings)
+    axioms["P3_vigencia_legal"] = ok
+
+    # P4
+    ok, findings = _validate_p4_sincronizacion_ssot(origin, record_code)
+    all_findings.extend(findings)
+    axioms["P4_sincronizacion_ssot"] = ok
+
+    # P5
+    ok, findings = _validate_p5_isomorfismo(meta, parsed_meta, format_doc, content)
+    all_findings.extend(findings)
+    axioms["P5_isomorfismo_estructural"] = ok
+
+    valid = len(all_findings) == 0
     return {
         "registro": record_path.as_posix(),
         "valido": valid,
         "axiomas": axioms,
-        "hallazgos": findings if findings else ["Trazabilidad perfecta."],
+        "hallazgos": all_findings if all_findings else ["Trazabilidad perfecta."],
     }
 
 

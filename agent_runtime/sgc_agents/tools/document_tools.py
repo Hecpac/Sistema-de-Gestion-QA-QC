@@ -1,5 +1,6 @@
 from __future__ import annotations
 
+import logging
 import re
 import unicodedata
 from datetime import date, datetime
@@ -7,6 +8,8 @@ from pathlib import Path
 from typing import Any, Iterable
 
 import yaml
+
+logger = logging.getLogger(__name__)
 
 try:
     from agents import function_tool
@@ -388,8 +391,8 @@ def _create_document_impl(
             "reviso": reviso,
             "aprobo": aprobo,
         })
-    except (OSError, IOError, ValueError):
-        pass  # audit log failure must not block document creation
+    except (OSError, IOError, ValueError) as exc:
+        logger.warning("Audit log failed for document creation: %s", exc)
 
     # 7. Rebuild indexes
     try:
@@ -464,8 +467,8 @@ def _update_document_impl(
     if content_body and not version:
         try:
             updated_fm["version"] = _bump_minor_version(str(updated_fm.get("version", "1.0")))
-        except (ValueError, KeyError):
-            pass
+        except (ValueError, KeyError) as exc:
+            logger.warning("Auto version bump failed: %s", exc)
 
     # 6. Validate merged frontmatter
     try:
@@ -490,8 +493,8 @@ def _update_document_impl(
             "version_nueva": str(updated_fm.get("version", "")),
             "campos_modificados": campos_mod,
         })
-    except (OSError, IOError, ValueError):
-        pass
+    except (OSError, IOError, ValueError) as exc:
+        logger.warning("Audit log failed for document update: %s", exc)
 
     # 8. Rebuild indexes
     try:
@@ -688,8 +691,8 @@ def _promote_document_impl(path: str) -> str:
             "de": "BORRADOR",
             "a": "VIGENTE",
         })
-    except (OSError, IOError, ValueError):
-        pass
+    except (OSError, IOError, ValueError) as exc:
+        logger.warning("Audit log failed for document promotion: %s", exc)
 
     try:
         summary = build_indexes(root)
@@ -754,8 +757,8 @@ def _obsolete_document_impl(path: str, motivo: str = "") -> str:
             "version": str(updated_fm.get("version", "")),
             "motivo": motivo or "(sin motivo)",
         })
-    except (OSError, IOError, ValueError):
-        pass
+    except (OSError, IOError, ValueError) as exc:
+        logger.warning("Audit log failed for document obsolescence: %s", exc)
 
     try:
         summary = build_indexes(root)
