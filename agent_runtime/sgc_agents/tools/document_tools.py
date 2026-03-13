@@ -16,7 +16,12 @@ except (ImportError, ModuleNotFoundError):  # pragma: no cover
 
 from pydantic import ValidationError
 
-from ..config import repo_root
+from ..config import (
+    AUDIT_LOG_PATH,
+    lmd_path as _lmd_path,
+    matrix_path as _matrix_path,
+    repo_root,
+)
 from ..schemas import DOC_CODE_PATTERN, DocumentFrontmatter
 from ..utils import read, write, assert_within_repo
 from .build_indexes import (
@@ -113,7 +118,7 @@ def _bump_minor_version(version: str) -> str:
     return f"{major}.{minor + 1}"
 
 
-AUDIT_LOG_REL = "docs/_control/audit_changelog.yml"
+AUDIT_LOG_REL = AUDIT_LOG_PATH
 _AUDIT_HEADER = (
     "# Audit changelog — generado automaticamente\n"
     "# Fuente: sgc_agents/tools/document_tools.py\n"
@@ -141,7 +146,7 @@ def _append_audit_event(root: Path, event: dict[str, Any]) -> None:
 @function_tool
 def list_controlled_docs() -> str:
     """Lista documentos controlados existentes en la LMD autogenerada."""
-    lmd = repo_root() / "docs/_control/lmd.yml"
+    lmd = _lmd_path()
     if not lmd.exists():
         return "No existe docs/_control/lmd.yml"
 
@@ -235,7 +240,7 @@ def validate_required_sections(path: str) -> str:
 @function_tool
 def list_missing_record_dirs() -> str:
     """Detecta ubicaciones de registros declaradas que no existen."""
-    m_path = repo_root() / "docs/_control/matriz_registros.yml"
+    m_path = _matrix_path()
     if not m_path.exists():
         return "No existe docs/_control/matriz_registros.yml"
 

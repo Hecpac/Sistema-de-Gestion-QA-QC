@@ -9,7 +9,7 @@ from typing import Any
 import yaml
 from pydantic import ValidationError
 
-from ..config import repo_root
+from ..config import CATALOG_PATH, LMD_PATH, MATRIX_PATH, repo_root
 from ..schemas import DocumentFrontmatter, LmdEntry, MatrixRecordEntry
 from ..utils import read, write, is_pending_value
 
@@ -206,7 +206,7 @@ def discover_controlled_documents(root: Path) -> list[ControlledDocument]:
 
 
 def _existing_lmd_by_code(root: Path) -> dict[str, dict[str, Any]]:
-    path = root / "docs/_control/lmd.yml"
+    path = root / LMD_PATH
     data = _load_yaml(path)
     items = data.get("documentos", [])
     if not isinstance(items, list):
@@ -223,7 +223,7 @@ def _existing_lmd_by_code(root: Path) -> dict[str, dict[str, Any]]:
 
 
 def _existing_matrix_by_code(root: Path) -> dict[str, dict[str, Any]]:
-    path = root / "docs/_control/matriz_registros.yml"
+    path = root / MATRIX_PATH
     data = _load_yaml(path)
     items = data.get("registros", [])
     if not isinstance(items, list):
@@ -240,7 +240,7 @@ def _existing_matrix_by_code(root: Path) -> dict[str, dict[str, Any]]:
 
 
 def _record_catalog_by_code(root: Path) -> dict[str, dict[str, Any]]:
-    path = root / "docs/06_registros/catalogo_registros.yml"
+    path = root / CATALOG_PATH
     data = _load_yaml(path)
     items = data.get("registros", [])
     if not isinstance(items, list):
@@ -450,8 +450,8 @@ def build_indexes(root: Path | None = None) -> BuildIndexesSummary:
         _record_catalog_by_code(resolved_root),
     )
 
-    lmd_path = resolved_root / "docs/_control/lmd.yml"
-    matrix_path = resolved_root / "docs/_control/matriz_registros.yml"
+    lmd_path = resolved_root / LMD_PATH
+    matrix_path = resolved_root / MATRIX_PATH
 
     _dump_yaml_with_header(lmd_path, LMD_HEADER, lmd_payload)
     _dump_yaml_with_header(matrix_path, MATRIX_HEADER, matrix_payload)

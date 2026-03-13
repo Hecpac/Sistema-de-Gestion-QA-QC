@@ -20,6 +20,11 @@ sgc-build-indexes = "sgc_agents.tools.build_indexes:main"
 sgc-build-dashboard = "sgc_agents.tools.build_dashboard:main"
 sgc-build-instrumentation = "sgc_agents.tools.build_instrumentation_snapshot:main"
 
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+asyncio_mode = "auto"
+markers = ["asyncio: mark test as async"]
+
 [tool.setuptools]
 package-dir = {"" = "."}
 

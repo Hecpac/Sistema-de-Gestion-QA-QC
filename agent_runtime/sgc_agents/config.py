@@ -13,6 +13,9 @@ MATRIX_PATH = f"{CONTROL_DIR}/matriz_registros.yml"
 QA_REPORT_PATH = f"{CONTROL_DIR}/reporte_qa_compliance.md"
 QA_HISTORY_PATH = f"{CONTROL_DIR}/qa_monitor_history.yml"
 DASHBOARD_PATH = f"{CONTROL_DIR}/dashboard_sgc.html"
+AUDIT_LOG_PATH = f"{CONTROL_DIR}/audit_changelog.yml"
+SNAPSHOT_PATH = f"{CONTROL_DIR}/instrumentacion_sgc.json"
+CATALOG_PATH = "docs/06_registros/catalogo_registros.yml"
 
 
 def repo_root() -> Path:
@@ -55,3 +58,18 @@ def qa_history_path() -> Path:
 def dashboard_path() -> Path:
     """Returns absolute path to dashboard_sgc.html."""
     return repo_root() / DASHBOARD_PATH
+
+
+def audit_log_path() -> Path:
+    """Returns absolute path to audit_changelog.yml."""
+    return repo_root() / AUDIT_LOG_PATH
+
+
+def snapshot_path() -> Path:
+    """Returns absolute path to instrumentacion_sgc.json."""
+    return repo_root() / SNAPSHOT_PATH
+
+
+def catalog_path() -> Path:
+    """Returns absolute path to catalogo_registros.yml."""
+    return repo_root() / CATALOG_PATH

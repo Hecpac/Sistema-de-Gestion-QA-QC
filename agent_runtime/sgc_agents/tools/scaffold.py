@@ -16,6 +16,8 @@ from typing import Any
 
 import yaml
 
+from ..config import LMD_PATH, MATRIX_PATH
+
 # ── Directory layout ───────────────────────────────────────────────────
 
 DOC_DIRS = [
@@ -228,8 +230,8 @@ def scaffold(
         ".env.example": _env_example(),
         "README.md": _readme(company_name),
         "AGENTS.md": _agents_md(company_name),
-        "docs/_control/lmd.yml": _empty_lmd(),
-        "docs/_control/matriz_registros.yml": _empty_matrix(),
+        LMD_PATH: _empty_lmd(),
+        MATRIX_PATH: _empty_matrix(),
     }
 
     for rel, content in files.items():

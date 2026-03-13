@@ -10,15 +10,22 @@ from typing import Any
 
 import yaml
 
-from ..config import repo_root
+from ..config import (
+    LMD_PATH,
+    MATRIX_PATH,
+    QA_REPORT_PATH,
+    QA_HISTORY_PATH,
+    DASHBOARD_PATH,
+    repo_root,
+)
 from ..utils import read, write, is_pending_value
 
 # Relative control artifact paths (resolved against --repo-root at runtime)
-LMD_REL_PATH = Path("docs/_control/lmd.yml")
-MATRIX_REL_PATH = Path("docs/_control/matriz_registros.yml")
-QA_REPORT_REL_PATH = Path("docs/_control/reporte_qa_compliance.md")
-QA_HISTORY_REL_PATH = Path("docs/_control/qa_monitor_history.yml")
-DASHBOARD_REL_PATH = Path("docs/_control/dashboard_sgc.html")
+LMD_REL_PATH = Path(LMD_PATH)
+MATRIX_REL_PATH = Path(MATRIX_PATH)
+QA_REPORT_REL_PATH = Path(QA_REPORT_PATH)
+QA_HISTORY_REL_PATH = Path(QA_HISTORY_PATH)
+DASHBOARD_REL_PATH = Path(DASHBOARD_PATH)
 
 QA_SECTION_RE = re.compile(r"##\s+\d+\.\s+([^\n]+)\n```yaml\n(.*?)\n```", re.DOTALL)
 QA_DATE_RE = re.compile(r"-\s+Fecha:\s+([^\n]+)")

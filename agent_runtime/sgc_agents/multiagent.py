@@ -7,13 +7,11 @@ from typing import Any
 
 from agents import Runner
 
-from .config import repo_root
+from .config import QA_REPORT_PATH, repo_root
 from .specialists import audit_agent, writer_agent
 from .tools.build_dashboard import build_dashboard
 from .tools.build_indexes import BuildIndexesSummary, build_indexes
 from .tools.compliance_tools import generar_reporte_qa_compliance
-
-_QA_REPORT_REL = "docs/_control/reporte_qa_compliance.md"
 
 _ERR_EVENT_LOOP_ACTIVE = (
     "No se puede usar run_multiagent_task_sync() con un event loop activo. "
@@ -61,7 +59,7 @@ def _run_compliance_pipeline() -> ComplianceArtifacts:
     dashboard_path = build_dashboard(root)
     return ComplianceArtifacts(
         indexes=indexes,
-        qa_report_path=(root / _QA_REPORT_REL).resolve(),
+        qa_report_path=(root / QA_REPORT_PATH).resolve(),
         dashboard_path=dashboard_path.resolve(),
     )
 
