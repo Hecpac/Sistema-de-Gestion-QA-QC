@@ -483,111 +483,75 @@ def _iter_record_files(relative_subfolder: str = "") -> list[Path]:
     return files
 
 
-def auditar_invariantes_de_estado() -> str:
-    """Valida invariantes en documentos VIGENTE: sin TODO/placeholders/TBD."""
+def _run_vigente_audit(
+    skill: str,
+    checker: Any,
+) -> str:
+    """Run *checker(doc)* on each VIGENTE document and return standardised YAML."""
     findings: list[dict[str, Any]] = []
     vigentes = 0
-
     for doc in _controlled_docs():
         if doc.frontmatter.estado != "VIGENTE":
             continue
-
         vigentes += 1
-        errors: list[str] = []
-        if TODO_RE.search(doc.content):
-            errors.append("Contiene TODO")
-        if PLACEHOLDER_RE.search(doc.content):
-            errors.append("Contiene placeholders tipo <...>")
-        if "TBD" in doc.content:
-            errors.append("Contiene valor TBD")
-
-        if errors:
-            findings.append(
-                {
-                    "codigo": doc.frontmatter.codigo,
-                    "ruta": doc.relative_path,
-                    "hallazgos": errors,
-                }
-            )
-
-    payload = {
-        "skill": "auditar_invariantes_de_estado",
+        result = checker(doc)
+        if result:
+            findings.append(result)
+    return _dump({
+        "skill": skill,
         "documentos_vigentes": vigentes,
         "valido": len(findings) == 0,
         "hallazgos": findings,
-    }
-    return _dump(payload)
+    })
+
+
+def _check_invariantes(doc: Any) -> dict[str, Any] | None:
+    errors: list[str] = []
+    if TODO_RE.search(doc.content):
+        errors.append("Contiene TODO")
+    if PLACEHOLDER_RE.search(doc.content):
+        errors.append("Contiene placeholders tipo <...>")
+    if "TBD" in doc.content:
+        errors.append("Contiene valor TBD")
+    if errors:
+        return {"codigo": doc.frontmatter.codigo, "ruta": doc.relative_path, "hallazgos": errors}
+    return None
+
+
+def auditar_invariantes_de_estado() -> str:
+    """Valida invariantes en documentos VIGENTE: sin TODO/placeholders/TBD."""
+    return _run_vigente_audit("auditar_invariantes_de_estado", _check_invariantes)
+
+
+def _check_claves_frontmatter(doc: Any) -> dict[str, Any] | None:
+    raw = extract_frontmatter(doc.content) or {}
+    if not isinstance(raw, dict):
+        return None
+    extra = sorted({str(k).strip() for k in raw.keys()} - ALLOWED_DOC_FRONTMATTER_KEYS)
+    if extra:
+        return {"codigo": doc.frontmatter.codigo, "ruta": doc.relative_path, "claves_desconocidas": extra}
+    return None
 
 
 def auditar_claves_frontmatter_desconocidas() -> str:
     """Detecta claves no reconocidas en frontmatter de documentos VIGENTE."""
-    findings: list[dict[str, Any]] = []
-    vigentes = 0
+    return _run_vigente_audit("auditar_claves_frontmatter_desconocidas", _check_claves_frontmatter)
 
-    for doc in _controlled_docs():
-        if doc.frontmatter.estado != "VIGENTE":
-            continue
-        vigentes += 1
 
-        raw = extract_frontmatter(doc.content) or {}
-        if not isinstance(raw, dict):
-            continue
-
-        extra = sorted({str(k).strip() for k in raw.keys()} - ALLOWED_DOC_FRONTMATTER_KEYS)
-        if extra:
-            findings.append(
-                {
-                    "codigo": doc.frontmatter.codigo,
-                    "ruta": doc.relative_path,
-                    "claves_desconocidas": extra,
-                }
-            )
-
-    payload = {
-        "skill": "auditar_claves_frontmatter_desconocidas",
-        "documentos_vigentes": vigentes,
-        "valido": len(findings) == 0,
-        "hallazgos": findings,
-    }
-    return _dump(payload)
+def _check_secciones_minimas(doc: Any) -> dict[str, Any] | None:
+    required_prefixes = [
+        "objetivo", "alcance", "responsabilidades",
+        "desarrollo", "registros asociados", "control de cambios",
+    ]
+    missing = _contains_required_headings(doc.content, required_prefixes)
+    if missing:
+        return {"codigo": doc.frontmatter.codigo, "ruta": doc.relative_path, "faltantes": missing}
+    return None
 
 
 def auditar_secciones_minimas() -> str:
     """Valida secciones mínimas requeridas en documentos VIGENTE."""
-    findings: list[dict[str, Any]] = []
-    vigentes = 0
-
-    required_prefixes = [
-        "objetivo",
-        "alcance",
-        "responsabilidades",
-        "desarrollo",
-        "registros asociados",
-        "control de cambios",
-    ]
-
-    for doc in _controlled_docs():
-        if doc.frontmatter.estado != "VIGENTE":
-            continue
-        vigentes += 1
-
-        missing = _contains_required_headings(doc.content, required_prefixes)
-        if missing:
-            findings.append(
-                {
-                    "codigo": doc.frontmatter.codigo,
-                    "ruta": doc.relative_path,
-                    "faltantes": missing,
-                }
-            )
-
-    payload = {
-        "skill": "auditar_secciones_minimas",
-        "documentos_vigentes": vigentes,
-        "valido": len(findings) == 0,
-        "hallazgos": findings,
-    }
-    return _dump(payload)
+    return _run_vigente_audit("auditar_secciones_minimas", _check_secciones_minimas)
 
 
 def auditar_enlaces_markdown() -> str:

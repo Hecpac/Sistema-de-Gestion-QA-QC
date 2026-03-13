@@ -205,10 +205,12 @@ def discover_controlled_documents(root: Path) -> list[ControlledDocument]:
     return sorted(discovered, key=lambda d: d.frontmatter.codigo)
 
 
-def _existing_lmd_by_code(root: Path) -> dict[str, dict[str, Any]]:
-    path = root / LMD_PATH
+def _yaml_items_by_code(
+    root: Path, rel_path: str, top_key: str, code_field: str = "codigo",
+) -> dict[str, dict[str, Any]]:
+    path = root / rel_path
     data = _load_yaml(path)
-    items = data.get("documentos", [])
+    items = data.get(top_key, [])
     if not isinstance(items, list):
         return {}
 
@@ -216,41 +218,7 @@ def _existing_lmd_by_code(root: Path) -> dict[str, dict[str, Any]]:
     for item in items:
         if not isinstance(item, dict):
             continue
-        code = str(item.get("codigo", "")).strip()
-        if code:
-            by_code[code] = item
-    return by_code
-
-
-def _existing_matrix_by_code(root: Path) -> dict[str, dict[str, Any]]:
-    path = root / MATRIX_PATH
-    data = _load_yaml(path)
-    items = data.get("registros", [])
-    if not isinstance(items, list):
-        return {}
-
-    by_code: dict[str, dict[str, Any]] = {}
-    for item in items:
-        if not isinstance(item, dict):
-            continue
-        code = str(item.get("codigo", "")).strip()
-        if code:
-            by_code[code] = item
-    return by_code
-
-
-def _record_catalog_by_code(root: Path) -> dict[str, dict[str, Any]]:
-    path = root / CATALOG_PATH
-    data = _load_yaml(path)
-    items = data.get("registros", [])
-    if not isinstance(items, list):
-        return {}
-
-    by_code: dict[str, dict[str, Any]] = {}
-    for item in items:
-        if not isinstance(item, dict):
-            continue
-        code = str(item.get("codigo", "")).strip()
+        code = str(item.get(code_field, "")).strip()
         if code:
             by_code[code] = item
     return by_code
@@ -443,11 +411,13 @@ def build_indexes(root: Path | None = None) -> BuildIndexesSummary:
 
     documents = discover_controlled_documents(resolved_root)
 
-    lmd_payload = build_lmd_payload(documents, _existing_lmd_by_code(resolved_root))
+    lmd_payload = build_lmd_payload(
+        documents, _yaml_items_by_code(resolved_root, LMD_PATH, "documentos"),
+    )
     matrix_payload = build_matrix_payload(
         documents,
-        _existing_matrix_by_code(resolved_root),
-        _record_catalog_by_code(resolved_root),
+        _yaml_items_by_code(resolved_root, MATRIX_PATH, "registros"),
+        _yaml_items_by_code(resolved_root, CATALOG_PATH, "registros"),
     )
 
     lmd_path = resolved_root / LMD_PATH

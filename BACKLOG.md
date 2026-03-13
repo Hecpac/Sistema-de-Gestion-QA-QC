@@ -40,6 +40,16 @@
 ## 4) Limpieza y consistencia
 - [x] Revisar codificacion y versionado (consistencia).
 - [x] Validar que cada procedimiento enumere registros asociados y esten en la matriz de registros.
+- [x] Centralizar paths hardcodeados en `config.py` (P0).
+- [x] Agregar `conftest.py` con fixtures compartidas y tests del core (P0).
+- [x] Configurar pytest en `pyproject.toml` (P0).
+- [x] Split de traceability validation en 5 funciones P1-P5 (P1).
+- [x] Extraer dashboard HTML a `templates/dashboard.html` (P1).
+- [x] Reemplazar `except: pass` silenciosos con `logger.warning()` (P1).
+- [x] Consolidar 3 funciones `_existing_*_by_code()` en helper generico (P2).
+- [x] Deduplicar validators `validate_codigo`/`validate_version` en schemas.py (P2).
+- [x] Extraer `_run_vigente_audit()` para funciones de auditoria repetitivas (P2).
+- [x] Actualizar README, ROADMAP, BACKLOG (P2).
 
 ## 5) Sprint 1 multidisciplina (Civil / Mecanica / Electrica)
 - [ ] Publicar taxonomia oficial por disciplina y subdisciplina.
